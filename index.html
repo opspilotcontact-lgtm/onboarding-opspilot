@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpsPilot · Manual de Onboarding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#faf7f2; --paper2:#f3eee6; --ink:#2b2620; --ink2:#5c544a; --ink3:#8a8072;
+    --earth:#8B7355; --earth2:#a68a68; --earthDark:#6d5a42; --earthPale:#efe8dc;
+    --line:#e5ddd0; --line2:#d6cbb8;
+    --green:#4a6b57; --greenPale:#e4ece7;
+    --warn:#a05c3b; --warnPale:#f2e4da;
+    --bad:#9c3d3d; --badPale:#f3e1e1;
+    --card:#ffffff;
+    --serif:"Cormorant Garamond",Georgia,serif;
+    --sans:"Jost","Segoe UI",-apple-system,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,Consolas,Menlo,monospace;
+    --shadow:0 2px 14px rgba(43,38,32,.07);
+    --shadow2:0 8px 30px rgba(43,38,32,.12);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+       font-weight:400;line-height:1.65;font-size:16px}
+  .wrap{max-width:1020px;margin:0 auto;padding:0 24px}
+
+  /* reveal on scroll */
+  .rv{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+  .rv.on{opacity:1;transform:none}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:60;background:rgba(250,247,242,.94);
+      backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .navin{max-width:1020px;margin:0 auto;padding:12px 24px;display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+  .navlogo{font-family:var(--serif);font-weight:700;font-size:19px;margin-right:14px;letter-spacing:.3px;white-space:nowrap}
+  .navlogo span{color:var(--earth)}
+  nav a{color:var(--ink2);text-decoration:none;font-size:12.5px;font-weight:500;
+        padding:5px 10px;border-radius:7px;white-space:nowrap;letter-spacing:.3px;transition:.2s}
+  nav a:hover{background:var(--earthPale);color:var(--earthDark)}
+
+  /* HERO */
+  header{padding:96px 0 70px;text-align:center;position:relative;overflow:hidden;
+         background:
+           radial-gradient(700px 340px at 18% 0%, rgba(139,115,85,.10), transparent 65%),
+           radial-gradient(700px 340px at 85% 10%, rgba(74,107,87,.08), transparent 65%),
+           linear-gradient(180deg,var(--paper2),var(--paper))}
+  .brand{font-family:var(--mono);font-size:12px;letter-spacing:4px;color:var(--earth);
+         text-transform:uppercase;margin-bottom:24px;font-weight:600}
+  h1{font-family:var(--serif);font-size:clamp(42px,7.5vw,72px);line-height:1.03;
+     margin:0 0 18px;font-weight:600;letter-spacing:-.5px}
+  h1 em{font-style:italic;color:var(--earth)}
+  .heroSub{font-size:18.5px;color:var(--ink2);max-width:640px;margin:0 auto;font-weight:300}
+  .heroTag{display:inline-block;margin-top:34px;font-family:var(--serif);font-style:italic;
+           font-size:22px;color:var(--earthDark);border-top:1px solid var(--line2);
+           border-bottom:1px solid var(--line2);padding:11px 30px}
+  .heroStats{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:40px}
+  .hstat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 22px;
+         box-shadow:var(--shadow);min-width:128px}
+  .hstat .n{font-family:var(--serif);font-size:29px;font-weight:700;color:var(--earthDark);line-height:1}
+  .hstat .l{font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--ink3);margin-top:5px;font-weight:500}
+
+  /* SECTIONS */
+  section{padding:70px 0;border-bottom:1px solid var(--line)}
+  .secnum{font-family:var(--mono);font-size:12px;color:var(--earth);letter-spacing:3px;margin-bottom:10px;font-weight:600}
+  h2{font-family:var(--serif);font-size:clamp(31px,4.6vw,44px);margin:0 0 14px;font-weight:600;line-height:1.1}
+  .sub{color:var(--ink2);max-width:720px;margin:0 0 32px;font-size:16.5px;font-weight:300}
+  .sub b{font-weight:600;color:var(--ink)}
+  h3{font-family:var(--serif);font-size:25px;margin:42px 0 16px;font-weight:600}
+
+  .grid{display:grid;gap:16px}
+  .g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+  .g3{grid-template-columns:repeat(auto-fit,minmax(232px,1fr))}
+  .g4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:22px 24px;
+        box-shadow:var(--shadow);transition:transform .25s ease,box-shadow .25s ease}
+  .card:hover{transform:translateY(-3px);box-shadow:var(--shadow2)}
+  .card h4{margin:0 0 8px;font-size:16px;font-weight:600;display:flex;gap:9px;align-items:center}
+  .card p{margin:0;font-size:14.3px;color:var(--ink2)}
+  .card p b{color:var(--ink)}
+  .topline{border-top:3px solid var(--earth)}
+  .topline-g{border-top:3px solid var(--green)}
+  .topline-w{border-top:3px solid var(--warn)}
+
+  .quote{background:var(--card);border-left:4px solid var(--earth);border-radius:0 13px 13px 0;
+         padding:26px 32px;margin:32px 0;box-shadow:var(--shadow)}
+  .quote p{font-family:var(--serif);font-size:23px;font-style:italic;margin:0;line-height:1.4}
+  .quote .who{font-size:12.5px;color:var(--ink3);margin-top:11px;letter-spacing:1.4px;text-transform:uppercase;font-weight:500}
+
+  .rule{background:linear-gradient(135deg,#8B7355,#6d5a42);color:#faf7f2;border-radius:16px;
+        padding:34px 38px;margin:36px 0;text-align:center;box-shadow:var(--shadow2)}
+  .rule .t{font-family:var(--mono);font-size:11px;letter-spacing:3px;opacity:.75;margin-bottom:11px}
+  .rule p{font-family:var(--serif);font-size:clamp(23px,3.6vw,32px);margin:0;font-style:italic;line-height:1.3}
+  .rule .why{font-size:14.3px;font-style:normal;opacity:.88;margin-top:13px;font-weight:300;max-width:640px;margin-left:auto;margin-right:auto}
+
+  /* STEPS */
+  .steps{counter-reset:st;display:grid;gap:12px;margin:6px 0}
+  .st{display:grid;grid-template-columns:48px 1fr;gap:16px;background:var(--card);
+      border:1px solid var(--line);border-radius:13px;padding:19px 22px;align-items:start;
+      box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s}
+  .st:hover{transform:translateX(4px);box-shadow:var(--shadow2)}
+  .st .n{counter-increment:st;width:36px;height:36px;border-radius:50%;background:var(--earth);
+         color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:15.5px}
+  .st .n::before{content:counter(st)}
+  .st h4{margin:0 0 4px;font-size:15.8px;font-weight:600}
+  .st p{margin:0;font-size:14.2px;color:var(--ink2)}
+  .st p b{color:var(--ink)}
+  .chip{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+        padding:2px 10px;border-radius:20px;margin-left:8px;vertical-align:2px}
+  .c-you{background:var(--earthPale);color:var(--earthDark)}
+  .c-dev{background:var(--greenPale);color:var(--green)}
+  .c-all{background:var(--warnPale);color:var(--warn)}
+
+  /* TABLE */
+  table{width:100%;border-collapse:collapse;background:var(--card);border-radius:13px;overflow:hidden;
+        border:1px solid var(--line);font-size:14.3px;box-shadow:var(--shadow)}
+  th{background:var(--paper2);text-align:left;padding:13px 17px;font-weight:600;font-size:12.5px;
+     letter-spacing:.8px;text-transform:uppercase;color:var(--ink2);border-bottom:1px solid var(--line2)}
+  td{padding:13px 17px;border-bottom:1px solid var(--line);color:var(--ink2);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td b{color:var(--ink)}
+  .tblwrap{overflow-x:auto;margin:8px 0;border-radius:13px}
+
+  /* CHECKS */
+  .checks{display:grid;gap:8px;margin:8px 0}
+  .ck{display:flex;gap:12px;align-items:start;background:var(--card);border:1px solid var(--line);
+      border-radius:10px;padding:12px 17px;font-size:14.3px;color:var(--ink2)}
+  .ck::before{content:"✓";color:var(--green);font-weight:700;font-size:15px;line-height:1.4}
+  .ck b{color:var(--ink)}
+
+  /* CHAT MOCK */
+  .chat{max-width:640px;margin:26px auto;background:var(--card);border:1px solid var(--line);
+        border-radius:18px;overflow:hidden;box-shadow:var(--shadow2)}
+  .chatbar{background:#2e2a24;color:#e8e2d6;padding:11px 18px;display:flex;align-items:center;gap:10px;
+           font-size:13px;font-weight:500;letter-spacing:.5px}
+  .chatdot{width:9px;height:9px;border-radius:50%;background:#7dc98f;box-shadow:0 0 8px #7dc98f}
+  .chatbody{padding:22px 20px;display:grid;gap:14px;background:linear-gradient(180deg,#fdfcf9,#faf7f2)}
+  .msg{max-width:86%;padding:12px 17px;border-radius:15px;font-size:14.2px;line-height:1.55}
+  .m-user{justify-self:end;background:var(--earth);color:#faf7f2;border-bottom-right-radius:4px}
+  .m-ia{justify-self:start;background:#fff;border:1px solid var(--line);border-bottom-left-radius:4px;color:var(--ink2)}
+  .m-ia b{color:var(--ink)}
+  .m-ia .tt{font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--earth);font-weight:600;margin-bottom:7px}
+  .taskline{display:flex;gap:9px;align-items:start;padding:7px 0;border-top:1px dashed var(--line)}
+  .taskline:first-of-type{border-top:none}
+  .pri{font-size:10px;font-weight:700;letter-spacing:.8px;padding:2px 8px;border-radius:12px;white-space:nowrap;margin-top:2px}
+  .p-alta{background:var(--badPale);color:var(--bad)}
+  .p-media{background:var(--warnPale);color:var(--warn)}
+  .p-baja{background:var(--greenPale);color:var(--green)}
+
+  /* BEFORE/AFTER TABS */
+  .ba{margin:26px 0}
+  .batabs{display:flex;gap:8px;margin-bottom:0}
+  .batab{flex:1;text-align:center;padding:13px 10px;border-radius:13px 13px 0 0;cursor:pointer;
+         font-weight:600;font-size:14px;border:1px solid var(--line);border-bottom:none;
+         background:var(--paper2);color:var(--ink3);transition:.2s;letter-spacing:.4px}
+  .batab.on-bad{background:var(--badPale);color:var(--bad);border-color:#e3c8c8}
+  .batab.on-good{background:var(--greenPale);color:var(--green);border-color:#c8d8cf}
+  .bapanel{display:none;border:1px solid var(--line);border-radius:0 0 13px 13px;background:var(--card);
+           padding:26px 28px;box-shadow:var(--shadow)}
+  .bapanel.show{display:block;animation:fadeIn .35s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .bapanel h5{font-family:var(--serif);font-size:21px;margin:0 0 12px;font-weight:600}
+  .bapanel ul{margin:0;padding-left:20px;font-size:14.3px;color:var(--ink2);display:grid;gap:7px}
+  .bapanel li b{color:var(--ink)}
+  .verdict{margin-top:18px;padding:13px 18px;border-radius:10px;font-size:14px;font-weight:500}
+  .v-bad{background:var(--badPale);color:var(--bad)}
+  .v-good{background:var(--greenPale);color:var(--green)}
+
+  /* PROMPT BOX */
+  .pbox{background:#2e2a24;color:#e8e2d6;border-radius:13px;padding:20px 24px;margin:14px 0;
+        font-family:var(--mono);font-size:13px;line-height:1.7;overflow-x:auto;box-shadow:var(--shadow)}
+  .pbox .lbl{color:#c9a97e;font-size:11px;letter-spacing:2px;text-transform:uppercase;
+             display:block;margin-bottom:9px;font-family:var(--sans);font-weight:600}
+  .pbox .hl{color:#a8c8b3}
+
+  /* SUPERPOWER CARDS */
+  .power{display:grid;grid-template-columns:52px 1fr;gap:16px;background:var(--card);
+         border:1px solid var(--line);border-radius:13px;padding:20px 22px;box-shadow:var(--shadow);
+         transition:transform .25s,box-shadow .25s;align-items:start}
+  .power:hover{transform:translateY(-3px);box-shadow:var(--shadow2)}
+  .power .ic{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+             font-size:21px;background:var(--earthPale)}
+  .power h4{margin:0 0 4px;font-size:15.5px;font-weight:600}
+  .power p{margin:0;font-size:13.8px;color:var(--ink2)}
+  .power p b{color:var(--ink)}
+  .pready{display:inline-block;font-size:10px;font-weight:700;letter-spacing:1px;padding:2px 9px;
+          border-radius:12px;background:var(--greenPale);color:var(--green);margin-left:7px;vertical-align:2px}
+  .psoon{display:inline-block;font-size:10px;font-weight:700;letter-spacing:1px;padding:2px 9px;
+         border-radius:12px;background:var(--warnPale);color:var(--warn);margin-left:7px;vertical-align:2px}
+
+  /* FIG */
+  .fig{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:28px 18px;margin:26px 0;box-shadow:var(--shadow)}
+  .figcap{text-align:center;font-size:12.5px;color:var(--ink3);margin-top:15px;font-style:italic}
+  .scroll{overflow-x:auto}
+  svg{display:block;max-width:100%;height:auto;margin:0 auto}
+
+  /* TIMELINE */
+  .tl{border-left:2px solid var(--line2);margin-left:10px;padding-left:28px;display:grid;gap:22px}
+  .tlit{position:relative}
+  .tlit::before{content:"";position:absolute;left:-36px;top:6px;width:13px;height:13px;
+                border-radius:50%;background:var(--earth);border:3px solid var(--paper)}
+  .tlit h4{margin:0 0 4px;font-size:15.8px;font-weight:600}
+  .tlit p{margin:0;font-size:14.2px;color:var(--ink2)}
+  .tlit p b{color:var(--ink)}
+
+  footer{padding:52px 0 74px;text-align:center;color:var(--ink3);font-size:13px}
+  footer .m{font-family:var(--serif);font-style:italic;font-size:21px;color:var(--earth);margin-bottom:9px}
+  @media(max-width:600px){
+    .st{grid-template-columns:38px 1fr;gap:11px}
+    .quote{padding:19px 21px}.quote p{font-size:18.5px}
+    .power{grid-template-columns:44px 1fr;gap:12px}
+  }
+</style>
+</head>
+<body>
+
+<nav><div class="navin">
+  <span class="navlogo">Ops<span>Pilot</span></span>
+  <a href="#quienes">Empresa</a>
+  <a href="#maquina">La máquina</a>
+  <a href="#metodo">Método</a>
+  <a href="#rol">El rol</a>
+  <a href="#pipeline">Pipeline</a>
+  <a href="#diaadia">Día a día</a>
+  <a href="#poderes">Superpoderes</a>
+  <a href="#kit">IA</a>
+  <a href="#ref">Referencia</a>
+  <a href="#arranque">Arranque</a>
+</div></nav>
+
+<header><div class="wrap">
+  <div class="brand">Manual de Onboarding · v1</div>
+  <h1>Bienvenida a <em>OpsPilot</em></h1>
+  <p class="heroSub">Todo lo que hay que saber para trabajar aquí: qué hacemos, cómo funciona la máquina, cuál es el método y qué se hace cada día.</p>
+  <div class="heroTag">Tú piensas, la IA construye.</div>
+  <div class="heroStats">
+    <div class="hstat"><div class="n">4.000&nbsp;€</div><div class="l">Último caso · 3 días</div></div>
+    <div class="hstat"><div class="n">8</div><div class="l">Proyectos vivos</div></div>
+    <div class="hstat"><div class="n">5<span style="font-size:18px">/8</span></div><div class="l">Pasos sin código</div></div>
+    <div class="hstat"><div class="n">1</div><div class="l">Lugar para todo</div></div>
+  </div>
+</div></header>
+
+<!-- ====== 01 EMPRESA ====== -->
+<section id="quienes"><div class="wrap">
+  <div class="rv"><div class="secnum">01 · LA EMPRESA</div>
+  <h2>Qué es OpsPilot</h2>
+  <p class="sub"><b>Optimización de empresas a través de software a medida.</b> No vendemos webs: detectamos lo que un negocio está dejando escapar y lo resolvemos con software hecho exactamente para él — webs, tiendas, apps, sistemas de gestión.</p></div>
+
+  <div class="grid g3 rv">
+    <div class="card topline"><h4>🔍 Detectamos</h4><p>Negocios con un hueco digital claro: activos en redes <b>sin web</b>, o con local físico <b>sin presencia online</b>. La oportunidad la vemos nosotros, antes de que ellos la pidan.</p></div>
+    <div class="card topline"><h4>🛠️ Construimos</h4><p>Con IA y desde plantilla: <b>nunca de cero, nunca a saltos</b>. Cada proyecto aprovecha lo aprendido en los anteriores.</p></div>
+    <div class="card topline"><h4>🔁 Nos quedamos</h4><p>El proyecto se entrega, la relación no termina: servicios activos, marketing, comisión por venta, ampliaciones. <b>El cliente crece, nosotros con él.</b></p></div>
+  </div>
+
+  <div class="quote rv">
+    <p>«Vendieron 4.000&nbsp;€ en los 3 primeros días con la tienda nueva.»</p>
+    <div class="who">ObraFácil · caso real · el cliente ni siquiera quería una web</div>
+  </div>
+
+  <h3 class="rv">Los principios de la casa</h3>
+  <div class="grid g2 rv">
+    <div class="card"><h4>1 · Todo pasa por NotionPilot</h4><p>Nuestra plataforma interna es el centro de datos de clientes, proyectos y trabajo diario. Es de uso 100% interno: <b>el cliente nunca entra ni la ve</b>.</p></div>
+    <div class="card"><h4>2 · Nos aplicamos la medicina</h4><p>OpsPilot es un proyecto más dentro de su propio sistema. <b>Nos auditamos y optimizamos igual que a cualquier cliente.</b></p></div>
+    <div class="card"><h4>3 · Se habla con la IA, no con menús</h4><p>La puerta de entrada al trabajo es una conversación: se le pregunta a la IA qué toca hoy, y responde según el rol de cada uno.</p></div>
+    <div class="card"><h4>4 · Todo se registra para aprender</h4><p>Cada acción queda guardada con su resultado y su porqué. Así el proyecto nº 10 nace sabiendo lo que enseñaron los 9 anteriores.</p></div>
+  </div>
+</div></section>
+
+<!-- ====== 02 MÁQUINA ====== -->
+<section id="maquina"><div class="wrap">
+  <div class="rv"><div class="secnum">02 · LA MÁQUINA</div>
+  <h2>Cómo funciona por dentro</h2>
+  <p class="sub">Tres piezas. Entenderlas lleva dos minutos y explica todo lo demás.</p></div>
+
+  <div class="fig rv"><div class="scroll">
+  <svg viewBox="0 0 880 380" width="880" role="img" aria-label="Las tres piezas de OpsPilot">
+    <defs>
+      <marker id="fa" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto">
+        <path d="M0,0 L7,3.2 L0,6.4 z" fill="#a68a68"/></marker>
+      <linearGradient id="npg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#8B7355" stop-opacity=".16"/><stop offset="1" stop-color="#8B7355" stop-opacity=".07"/>
+      </linearGradient>
+    </defs>
+    <g font-family="Jost,sans-serif">
+      <rect x="270" y="24" width="340" height="118" rx="18" fill="url(#npg)"/>
+      <rect x="270" y="24" width="340" height="118" rx="18" fill="none" stroke="#8B7355" stroke-width="1.7"/>
+      <text x="440" y="66" text-anchor="middle" font-size="25" font-weight="600" fill="#2b2620" font-family="'Cormorant Garamond',serif">NotionPilot</text>
+      <text x="440" y="90" text-anchor="middle" font-size="12.5" fill="#6d5a42">el centro de datos · clientes, proyectos, tareas</text>
+      <g font-size="10.5" fill="#8a8072" text-anchor="middle">
+        <rect x="292" y="102" width="70" height="22" rx="6" fill="#faf7f2" stroke="#e5ddd0"/><text x="327" y="117">leads</text>
+        <rect x="370" y="102" width="86" height="22" rx="6" fill="#faf7f2" stroke="#e5ddd0"/><text x="413" y="117">auditorías</text>
+        <rect x="464" y="102" width="62" height="22" rx="6" fill="#faf7f2" stroke="#e5ddd0"/><text x="495" y="117">tareas</text>
+        <rect x="534" y="102" width="54" height="22" rx="6" fill="#faf7f2" stroke="#e5ddd0"/><text x="561" y="117">docs</text>
+      </g>
+
+      <rect x="56" y="212" width="340" height="112" rx="18" fill="#4a6b57" opacity=".09"/>
+      <rect x="56" y="212" width="340" height="112" rx="18" fill="none" stroke="#4a6b57" stroke-width="1.7"/>
+      <text x="226" y="252" text-anchor="middle" font-size="21" font-weight="600" fill="#2b2620" font-family="'Cormorant Garamond',serif">El runner</text>
+      <text x="226" y="276" text-anchor="middle" font-size="12" fill="#4a6b57">la IA que vive dentro, siempre despierta</text>
+      <text x="226" y="297" text-anchor="middle" font-size="11.5" fill="#8a8072">revisa · ordena · arregla · avisa</text>
+
+      <rect x="484" y="212" width="340" height="112" rx="18" fill="#a05c3b" opacity=".09"/>
+      <rect x="484" y="212" width="340" height="112" rx="18" fill="none" stroke="#a05c3b" stroke-width="1.7"/>
+      <text x="654" y="252" text-anchor="middle" font-size="21" font-weight="600" fill="#2b2620" font-family="'Cormorant Garamond',serif">El equipo + Claude</text>
+      <text x="654" y="276" text-anchor="middle" font-size="12" fill="#a05c3b">las personas piensan, la IA ejecuta</text>
+      <text x="654" y="297" text-anchor="middle" font-size="11.5" fill="#8a8072">cada uno según su rol</text>
+
+      <g stroke="#a68a68" stroke-width="1.8" fill="none" marker-end="url(#fa)">
+        <path d="M336,146 L262,208"/><path d="M270,212 L344,150"/>
+        <path d="M544,146 L618,208"/><path d="M610,212 L536,150"/>
+      </g>
+      <text x="440" y="362" text-anchor="middle" font-size="13.5" fill="#8a8072" font-style="italic" font-family="'Cormorant Garamond',serif">Las personas y el runner leen y escriben en el mismo sitio: por eso nadie pierde el hilo.</text>
+    </g>
+  </svg>
+  </div></div>
+
+  <div class="grid g3 rv">
+    <div class="card"><h4>🗂️ NotionPilot</h4><p>Cada cliente es un <b>proyecto</b> con sus tareas, documentos, hitos, auditorías y enlaces. Además hay leads, contactos y empresas del lado comercial. Si algo no está aquí, para la empresa no existe.</p></div>
+    <div class="card"><h4>⚙️ El runner</h4><p>Una IA que corre sola en el servidor: repasa tareas, prepara planes, mantiene el orden y <b>avisa cuando algo necesita atención</b>. No es un compañero — es la voz de la propia plataforma.</p></div>
+    <div class="card"><h4>🤖 Claude</h4><p>La IA potente con la que se trabaja de tú a tú: redacta, analiza, programa, audita. <b>Solo es tan buena como las instrucciones que recibe</b> — de eso va el método.</p></div>
+  </div>
+
+  <div class="rule rv">
+    <div class="t">LA REGLA DE ORO</div>
+    <p>Si no está en NotionPilot, no existe.</p>
+    <div class="why">No es burocracia: cada cosa registrada hoy es lo que hace que mañana el sistema trabaje por nosotros. El trabajo manual de los primeros meses entrena a la máquina para multiplicar el de los siguientes.</div>
+  </div>
+</div></section>
+
+<!-- ====== 03 MÉTODO ====== -->
+<section id="metodo"><div class="wrap">
+  <div class="rv"><div class="secnum">03 · EL MÉTODO</div>
+  <h2>Pensar antes de construir</h2>
+  <p class="sub">El trabajo aquí <b>no es programar ni diseñar</b>: es entender a un cliente tan bien que se le puedan dar a la IA instrucciones que un profesional senior también entendería. Cinco fases, aplicables a todo — una web, una tienda, una app.</p></div>
+
+  <div class="steps rv">
+    <div class="st"><span class="n"></span><div>
+      <h4>Entender al cliente antes de tocar nada</h4>
+      <p>Tres preguntas: ¿cuál es su <b>problema real</b>? ¿<b>qué tiene que pasar</b> cuando alguien llegue a su web? ¿<b>qué limitaciones</b> hay? Sin estas respuestas, no se avanza.</p>
+    </div></div>
+    <div class="st"><span class="n"></span><div>
+      <h4>Auditar con datos, no con opiniones</h4>
+      <p>20 minutos: buscar en Google como buscaría su cliente, analizar su presencia y estudiar a los 3 primeros competidores. El hallazgo típico: <b>nadie está posicionado como especialista</b> — esa es la oportunidad.</p>
+    </div></div>
+    <div class="st"><span class="n"></span><div>
+      <h4>Del diagnóstico a la propuesta</h4>
+      <p>Cinco partes: diagnóstico · solución y porqué · entregables concretos · precio y plazo · qué necesitamos del cliente. <b>Si no se puede explicar en 30 segundos, falta pensarla.</b></p>
+    </div></div>
+    <div class="st"><span class="n"></span><div>
+      <h4>Hablarle bien a la IA</h4>
+      <p>Anatomía de una buena instrucción: <b>contexto + objetivo + restricciones + formato</b>. La instrucción buena contiene las decisiones ya tomadas; la IA solo ejecuta ese pensamiento.</p>
+    </div></div>
+    <div class="st"><span class="n"></span><div>
+      <h4>Entregar, medir y quedarse</h4>
+      <p>Checklist de entrega, seguimiento a la semana, a las dos y al mes con mini-informe. <b>Ahí un proyecto puntual se convierte en cliente recurrente.</b></p>
+    </div></div>
+  </div>
+
+  <h3 class="rv">El método en acción: el mismo negocio, dos resultados</h3>
+  <p class="sub rv" style="margin-bottom:16px">El caso de estudio del Curso Base — una masajista a domicilio en Córdoba. Misma IA, mismo negocio. La única diferencia: <b>el proceso que hay detrás</b>.</p>
+
+  <div class="ba rv">
+    <div class="batabs">
+      <div class="batab on-bad" id="tbBad" onclick="showBA('bad')">✗ &nbsp;Sin método</div>
+      <div class="batab" id="tbGood" onclick="showBA('good')">✓ &nbsp;Con el método OpsPilot</div>
+    </div>
+    <div class="bapanel show" id="paBad">
+      <h5>«Bienvenidos a nuestro centro»</h5>
+      <ul>
+        <li>Título genérico que <b>no dice qué es ni dónde está</b></li>
+        <li>Servicios sin precio, sin duración, sin beneficio</li>
+        <li>Botón de «Más información» que no lleva a nada concreto</li>
+        <li>Ni una palabra clave local: nadie la encontrará en Google</li>
+        <li>Sin testimonios, sin confianza, sin sistema de reserva</li>
+      </ul>
+      <div class="verdict v-bad">Resultado: una web que existe pero no trabaja. El visitante entra, duda y se va.</div>
+    </div>
+    <div class="bapanel" id="paGood">
+      <h5>«Masajes a domicilio en Córdoba»</h5>
+      <ul>
+        <li>Titular con <b>las palabras exactas que busca su cliente</b></li>
+        <li>Cada servicio con precio, duración, beneficio y su botón de reserva</li>
+        <li>Barra de confianza: valoraciones, sesiones realizadas, precio desde</li>
+        <li>Sección que responde la objeción («¿por qué a domicilio?»)</li>
+        <li>Testimonio real + llamada final con urgencia y desplazamiento incluido</li>
+      </ul>
+      <div class="verdict v-good">Resultado: la web convierte porque detrás están las 3 preguntas, la auditoría y la instrucción precisa.</div>
+    </div>
+  </div>
+
+  <p class="sub rv" style="margin-top:22px">📖 El método completo, con este caso de principio a fin, está en el <b>Curso Base OpsPilot</b> — lectura obligada de la primera semana: <span style="font-family:var(--mono);font-size:13.5px">opspilotcontact-lgtm.github.io/curso-opspilot</span></p>
+</div></section>
+
+<!-- ====== 04 ROL ====== -->
+<section id="rol"><div class="wrap">
+  <div class="rv"><div class="secnum">04 · EL ROL</div>
+  <h2>Redes, captación y clientes</h2>
+  <p class="sub">En OpsPilot, programar es <b>el medio de la cadena</b>. Este rol son <b>las dos puntas</b>: encontrar clientes arriba y hacerlos crecer abajo. Sin las puntas, el medio no tiene qué construir.</p></div>
+
+  <div class="tblwrap rv"><table>
+    <tr><th>Sombrero</th><th>Qué es</th><th>Dedicación</th><th>Da fruto en…</th></tr>
+    <tr><td><b>🔭 Detección</b></td><td>Buscar negocios con el gap: activos en redes sin web, o físicos sin presencia online. Construir la lista de prospectos.</td><td><b>40%</b></td><td>Esta semana</td></tr>
+    <tr><td><b>📋 Auditoría + informe</b></td><td>Investigar al prospecto a fondo y redactar el informe: qué hace bien, qué mal, qué no hace y podría.</td><td><b>25%</b></td><td>Esta semana</td></tr>
+    <tr><td><b>📱 Redes de clientes</b></td><td>Contenido y redes de los clientes ya entregados — el servicio recurrente.</td><td><b>20%</b></td><td>Mes 1-2</td></tr>
+    <tr><td><b>🎨 Marca OpsPilot</b></td><td>Contenido propio: casos de éxito, presencia, que los clientes de apps nos encuentren.</td><td><b>15%</b></td><td>Mes 4-6</td></tr>
+  </table></div>
+
+  <div class="grid g2 rv" style="margin-top:20px">
+    <div class="card topline-g"><h4>✅ Éxito en este rol</h4><p>Prospectos detectados cada semana · auditorías completas y a tiempo · informes que provocan la llamada · clientes recurrentes contentos. <b>Todo medible, todo en NotionPilot.</b></p></div>
+    <div class="card topline-w"><h4>⚠️ La trampa a evitar</h4><p>Dedicar el tiempo a la marca propia antes que a la captación. El contenido de marca es un activo que <b>paga tarde</b>; la detección paga esta semana. Primero los sombreros 1 y 2.</p></div>
+  </div>
+</div></section>
+
+<!-- ====== 05 PIPELINE ====== -->
+<section id="pipeline"><div class="wrap">
+  <div class="rv"><div class="secnum">05 · EL PIPELINE</div>
+  <h2>De desconocido a cliente</h2>
+  <p class="sub">Ocho pasos, probados con un caso real. <b>Cinco de los ocho no llevan ni una línea de código</b> — son de este rol.</p></div>
+
+  <div class="fig rv"><div class="scroll">
+  <svg viewBox="0 0 920 120" width="920" role="img" aria-label="Pipeline en 8 pasos">
+    <defs><marker id="pa" markerWidth="8" markerHeight="8" refX="6" refY="2.8" orient="auto">
+      <path d="M0,0 L6,2.8 L0,5.6 z" fill="#a68a68"/></marker></defs>
+    <g font-family="Jost,sans-serif" font-size="11" text-anchor="middle">
+      <g><circle cx="60" cy="46" r="26" fill="#efe8dc" stroke="#8B7355"/><text x="60" y="52" font-size="17">🔭</text><text x="60" y="98" fill="#5c544a" font-weight="500">Detectar</text></g>
+      <g><circle cx="172" cy="46" r="26" fill="#efe8dc" stroke="#8B7355"/><text x="172" y="52" font-size="17">📋</text><text x="172" y="98" fill="#5c544a" font-weight="500">Auditar</text></g>
+      <g><circle cx="284" cy="46" r="26" fill="#e4ece7" stroke="#4a6b57"/><text x="284" y="52" font-size="17">🖥️</text><text x="284" y="98" fill="#5c544a" font-weight="500">Maqueta</text></g>
+      <g><circle cx="396" cy="46" r="26" fill="#efe8dc" stroke="#8B7355"/><text x="396" y="52" font-size="17">📄</text><text x="396" y="98" fill="#5c544a" font-weight="500">Informe</text></g>
+      <g><circle cx="508" cy="46" r="26" fill="#efe8dc" stroke="#8B7355"/><text x="508" y="52" font-size="17">📨</text><text x="508" y="98" fill="#5c544a" font-weight="500">Enviar</text></g>
+      <g><circle cx="620" cy="46" r="26" fill="#f2e4da" stroke="#a05c3b"/><text x="620" y="52" font-size="17">🚪</text><text x="620" y="98" fill="#5c544a" font-weight="500">Gate sí/no</text></g>
+      <g><circle cx="732" cy="46" r="26" fill="#e4ece7" stroke="#4a6b57"/><text x="732" y="52" font-size="17">🛠️</text><text x="732" y="98" fill="#5c544a" font-weight="500">Construir</text></g>
+      <g><circle cx="852" cy="46" r="26" fill="#efe8dc" stroke="#8B7355"/><text x="852" y="52" font-size="17">🔁</text><text x="852" y="98" fill="#5c544a" font-weight="500">Retener</text></g>
+      <g stroke="#a68a68" stroke-width="1.6" fill="none" marker-end="url(#pa)">
+        <path d="M88,46 L142,46"/><path d="M200,46 L254,46"/><path d="M312,46 L366,46"/>
+        <path d="M424,46 L478,46"/><path d="M536,46 L590,46"/><path d="M648,46 L702,46"/>
+        <path d="M760,46 L822,46"/>
+      </g>
+    </g>
+  </svg>
+  </div>
+  <div class="figcap">Tierra = este rol · Verde = programación · Naranja = decisión de equipo</div>
+  </div>
+
+  <div class="steps rv">
+    <div class="st"><span class="n"></span><div>
+      <h4>Detección del gap <span class="chip c-you">captación</span></h4>
+      <p>ObraFácil era activo en TikTok y no tenía web. <b>Ellos no la querían</b> — la oportunidad la vimos nosotros. La señal siempre es la combinación: presencia en un canal, ausencia en otro.</p>
+    </div></div>
+    <div class="st"><span class="n"></span><div>
+      <h4>Auditoría externa <span class="chip c-you">captación</span></h4>
+      <p>Todo lo que se pueda averiguar del negocio: redes, competencia, búsquedas de sus clientes. Una sola investigación alimenta las dos entregas siguientes.</p>
+    </div></div>
+    <div class="st"><span class="n"></span><div>
+      <h4>Maqueta en enlace fijo <span class="chip c-dev">programación</span></h4>
+      <p>Con lo averiguado se monta una maqueta real y se sube a un enlace estable. Un ejemplo tangible, no una promesa.</p>
+    </div></div>
+    <div class="st"><span class="n"></span><div>
+      <h4>Informe externo <span class="chip c-you">captación</span></h4>
+      <p>Qué hacen bien, qué mal, y qué no hacen y podrían mejorar. <b>Datos reales, tono constructivo</b> — se critica el negocio de alguien sin herir a nadie.</p>
+    </div></div>
+    <div class="st"><span class="n"></span><div>
+      <h4>Envío… y silencio <span class="chip c-you">captación</span></h4>
+      <p>Se manda todo junto: ejemplo + datos. ObraFácil no respondió en horas, ni en días. <b>Y luego llamaron ellos: «¿cómo lo hacemos?».</b> El silencio es parte del proceso — no se persigue, se espera.</p>
+    </div></div>
+    <div class="st"><span class="n"></span><div>
+      <h4>Gate: sí o no <span class="chip c-all">equipo</span></h4>
+      <p>El contacto pasa a decisión: alcance, precio, plazo. Aquí se usa la propuesta de 5 partes del método.</p>
+    </div></div>
+    <div class="st"><span class="n"></span><div>
+      <h4>Construcción desde plantilla <span class="chip c-dev">programación</span></h4>
+      <p>Nunca de cero: se parte de soluciones anteriores y se adapta. En ObraFácil, la maqueta se convirtió casi directa en la tienda final con control de catálogo.</p>
+    </div></div>
+    <div class="st"><span class="n"></span><div>
+      <h4>Entrega y retención <span class="chip c-you">captación</span></h4>
+      <p>Seguimiento, redes, marketing, comisión por venta, ampliaciones. <b>El proyecto termina; la relación empieza.</b></p>
+    </div></div>
+  </div>
+</div></section>
+
+<!-- ====== 06 DÍA A DÍA ====== -->
+<section id="diaadia"><div class="wrap">
+  <div class="rv"><div class="secnum">06 · EL DÍA A DÍA</div>
+  <h2>Cómo es una jornada</h2>
+  <p class="sub">Aquí no se abre un tablero a ver qué hay: <b>se pregunta</b>. Y al terminar, se deja constancia. Así es literalmente una mañana:</p></div>
+
+  <div class="chat rv">
+    <div class="chatbar"><span class="chatdot"></span> NotionPilot · asistente</div>
+    <div class="chatbody">
+      <div class="msg m-user">Buenos días, ¿qué hay para hoy?</div>
+      <div class="msg m-ia">
+        <div class="tt">Hoy · rol captación · 3 tareas</div>
+        <div class="taskline"><span class="pri p-alta">ALTA</span><span><b>Ferretería Hnos. Ruiz</b> — el informe se envió hace 6 días y han visitado la maqueta 2 veces. Toca la llamada de seguimiento.</span></div>
+        <div class="taskline"><span class="pri p-media">MEDIA</span><span><b>ObraFácil</b> — programar los 3 posts de la semana; las fotos nuevas del catálogo ya están en su proyecto.</span></div>
+        <div class="taskline"><span class="pri p-baja">BAJA</span><span><b>Prospección</b> — quedan 2 fichas por completar de la lista de clínicas detectadas el lunes.</span></div>
+      </div>
+      <div class="msg m-user">Dame el contexto de la ferretería antes de llamar</div>
+      <div class="msg m-ia">Auditoría del 19/8: activos en Instagram (4,2k), sin web, sus clientes buscan «ferretería + barrio» y el primer resultado es un competidor a 400&nbsp;m. La maqueta que les enviamos incluye catálogo y pedido por WhatsApp. <b>Argumento clave: cada semana sin web es tráfico que se lleva el de al lado.</b></div>
+    </div>
+  </div>
+  <p class="figcap rv" style="margin-top:-8px">La IA ordena por urgencia y por orden de llegada, y trae el contexto de cada cosa. Nadie repasa tableros.</p>
+
+  <div class="grid g2 rv" style="margin-top:30px">
+    <div class="card"><h4>🌅 Al empezar</h4><p>Preguntar qué toca hoy. Las tareas salen ordenadas: primero lo urgente, después por orden de llegada, con su proyecto y su contexto.</p></div>
+    <div class="card"><h4>📌 Durante</h4><p>Todo hallazgo va a su sitio en el momento: un prospecto → lead nuevo; un dato del cliente → su proyecto; una idea → documento. <b>Nada en la cabeza, nada en WhatsApp.</b></p></div>
+    <div class="card"><h4>🌙 Al terminar</h4><p>Cerrar la sesión dejando registrado <b>qué se hizo, qué quedó pendiente y qué surgió</b>. Dos minutos que valen oro: mañana se retoma sin perder el hilo.</p></div>
+    <div class="card"><h4>🔔 El runner avisa</h4><p>Si algo necesita atención — una revisión, una tarea que espera aprobación, algo roto — el sistema lo dice. No hace falta patrullar: <b>hace falta responder cuando llama.</b></p></div>
+  </div>
+</div></section>
+
+<!-- ====== 07 SUPERPODERES ====== -->
+<section id="poderes"><div class="wrap">
+  <div class="rv"><div class="secnum">07 · SUPERPODERES DE LA MÁQUINA</div>
+  <h2>Lo que ya sabe hacer sola</h2>
+  <p class="sub">Estas capacidades <b>ya están montadas</b> en la plataforma. Conocerlas cambia cuánto rinde una hora de trabajo — casi todas tocan directamente a este rol.</p></div>
+
+  <div class="grid g2 rv">
+    <div class="power"><span class="ic">🕷️</span><div><h4>Rastreo de prospectos <span class="pready">LISTO</span></h4><p>Trabajos de scraping para recopilar la información pública de un negocio: redes, datos, presencia. <b>La materia prima de la auditoría, sin copiar y pegar a mano.</b></p></div></div>
+    <div class="power"><span class="ic">📝</span><div><h4>Auditorías guiadas <span class="pready">LISTO</span></h4><p>Plantillas con secciones y preguntas ya estructuradas; la IA puede <b>analizar la sesión completa</b> y sacar conclusiones cuando se termina de rellenar.</p></div></div>
+    <div class="power"><span class="ic">🎙️</span><div><h4>Transcripción de reuniones <span class="pready">LISTO</span></h4><p>Se graba la llamada con el cliente, se sube el audio, y queda <b>transcrita y guardada en su proyecto</b>. Ninguna condición pactada se pierde ni se recuerda mal.</p></div></div>
+    <div class="power"><span class="ic">🖼️</span><div><h4>Análisis de imágenes <span class="pready">LISTO</span></h4><p>Capturas del Instagram de un prospecto, fotos de su local, su carta de precios: la IA <b>las lee y extrae la información</b> para la auditoría.</p></div></div>
+    <div class="power"><span class="ic">🎨</span><div><h4>Generación de imágenes <span class="pready">LISTO</span></h4><p>Imágenes generadas con IA en nuestro propio servidor — para maquetas, contenido de redes de clientes y pruebas de concepto <b>sin coste por imagen</b>.</p></div></div>
+    <div class="power"><span class="ic">💬</span><div><h4>Mensajes de contacto <span class="pready">LISTO</span></h4><p>La IA redacta el mensaje de outreach para cada prospecto <b>con los datos de su propia auditoría</b> — personalizado de verdad, no plantilla con nombre cambiado.</p></div></div>
+    <div class="power"><span class="ic">🔗</span><div><h4>Enlaces de portal <span class="pready">LISTO</span></h4><p>Enlaces fijos y controlables para compartir la maqueta o el avance con un prospecto: <b>se activan, se desactivan y se ve si los han visitado.</b></p></div></div>
+    <div class="power"><span class="ic">📚</span><div><h4>Biblioteca de recetas <span class="pready">LISTO</span></h4><p>Más de 60 guías internas que la IA sabe seguir: onboarding de cliente, propuesta comercial, cierre de proyecto, lecciones aprendidas… <b>el conocimiento de la casa, ejecutable.</b></p></div></div>
+    <div class="power"><span class="ic">🧠</span><div><h4>Memoria que conecta <span class="psoon">EN MARCHA</span></h4><p>Un grafo que relaciona clientes, proyectos y decisiones, con búsqueda inteligente. El objetivo: preguntar <b>«¿qué funcionó en casos como este?»</b> y que responda con nuestra propia historia.</p></div></div>
+    <div class="power"><span class="ic">📊</span><div><h4>Informes automáticos <span class="psoon">EN MARCHA</span></h4><p>Resúmenes diarios de qué pasó en cada proyecto y mini-informes de resultados para clientes — <b>el seguimiento de la semana 4, sin hacerlo a mano.</b></p></div></div>
+  </div>
+</div></section>
+
+<!-- ====== 08 IA ====== -->
+<section id="kit"><div class="wrap">
+  <div class="rv"><div class="secnum">08 · TRABAJAR CON LA IA</div>
+  <h2>Cómo pedirle bien las cosas</h2>
+  <p class="sub">La fórmula de siempre: <b>contexto + objetivo + restricciones + formato</b>. La diferencia entre una instrucción pobre y una buena es la diferencia entre repetir el trabajo tres veces o acertar a la primera.</p></div>
+
+  <div class="rv">
+  <div class="pbox"><span class="lbl">✗ Instrucción pobre</span>«Hazme un informe de esta tienda.»</div>
+  <div class="pbox"><span class="lbl">✓ Instrucción buena</span>«Analiza <span class="hl">[negocio]</span>, <span class="hl">[sector]</span> en <span class="hl">[ciudad]</span>. Es activo en <span class="hl">[red social]</span> con <span class="hl">[X seguidores]</span> pero no tiene web. Sus clientes buscan <span class="hl">"[término]"</span> en Google. Redacta un informe en 3 bloques: qué hacen bien, qué hacen mal, qué no hacen y podrían. Tono: directo pero constructivo — lo va a leer el dueño. Cierra con la oportunidad concreta que perderían si no actúan. Máximo una página.»</div>
+  </div>
+  <p class="sub rv" style="margin-top:14px">La segunda contiene las decisiones ya tomadas: quién es, qué se busca, qué tono, qué estructura. <b>La IA solo ejecuta el pensamiento que se le entrega.</b></p>
+
+  <h3 class="rv">Las herramientas de cada día</h3>
+  <div class="tblwrap rv"><table>
+    <tr><th>Herramienta</th><th>Para qué</th><th>En este rol</th></tr>
+    <tr><td><b>NotionPilot</b></td><td>El centro: proyectos, tareas, leads, auditorías, documentos, portal.</td><td>Registrar prospectos, auditorías, informes y seguimiento.</td></tr>
+    <tr><td><b>Claude</b></td><td>La IA de trabajo: investiga, redacta, analiza, resume.</td><td>Auditorías, informes, contenido, y el «¿qué hay hoy?».</td></tr>
+    <tr><td><b>Análisis externos</b></td><td>PageSpeed, búsquedas de Google, las redes del prospecto.</td><td>Los datos objetivos del informe.</td></tr>
+  </table></div>
+</div></section>
+
+<!-- ====== 09 REFERENCIA ====== -->
+<section id="ref"><div class="wrap">
+  <div class="rv"><div class="secnum">09 · REFERENCIA RÁPIDA</div>
+  <h2>Chuletas del día a día</h2>
+  <p class="sub">Para tener a mano. El detalle completo está en el Curso Base.</p></div>
+
+  <h3 class="rv">Las 10 preguntas del briefing</h3>
+  <div class="checks rv">
+    <div class="ck"><b>1.</b>&nbsp;¿Qué es exactamente el negocio? (sin suposiciones)</div>
+    <div class="ck"><b>2.</b>&nbsp;¿Quién es su cliente ideal? (edad, zona, poder adquisitivo)</div>
+    <div class="ck"><b>3.</b>&nbsp;¿Cómo consigue clientes hoy?</div>
+    <div class="ck"><b>4.</b>&nbsp;¿Tiene web? ¿Qué problemas tiene?</div>
+    <div class="ck"><b>5.</b>&nbsp;¿Qué tiene que pasar cuando alguien visite la web? (reservar, llamar, comprar)</div>
+    <div class="ck"><b>6.</b>&nbsp;¿Ficha de Google, reseñas, redes activas?</div>
+    <div class="ck"><b>7.</b>&nbsp;¿Competidores directos, con nombres?</div>
+    <div class="ck"><b>8.</b>&nbsp;¿Qué materiales existen? (fotos, logo, textos)</div>
+    <div class="ck"><b>9.</b>&nbsp;¿Hay presupuesto definido?</div>
+    <div class="ck"><b>10.</b>&nbsp;¿Quién toma la decisión?</div>
+  </div>
+
+  <h3 class="rv">La auditoría de 20 minutos</h3>
+  <div class="steps rv" style="counter-reset:st">
+    <div class="st"><span class="n"></span><div><h4>Buscar como buscaría su cliente</h4><p>Google con los términos reales. ¿Quién aparece? ¿Aparece él?</p></div></div>
+    <div class="st"><span class="n"></span><div><h4>Analizar su presencia</h4><p>Web (velocidad, móvil, título/meta/H1, llamadas a la acción), ficha de Google, redes, directorios.</p></div></div>
+    <div class="st"><span class="n"></span><div><h4>Estudiar a los 3 primeros competidores</h4><p>Qué hacen bien, qué les falta. El hueco que dejan es la oportunidad.</p></div></div>
+    <div class="st"><span class="n"></span><div><h4>Escribir el hallazgo en una frase</h4><p>«Busqué lo que buscan tus clientes y nadie está posicionado como especialista.» Eso no vende una web: <b>muestra una oportunidad con datos.</b></p></div></div>
+  </div>
+
+  <h3 class="rv">La propuesta en 5 partes</h3>
+  <div class="checks rv">
+    <div class="ck"><b>Diagnóstico</b> — 2-3 frases sobre su situación actual</div>
+    <div class="ck"><b>Solución y porqué</b> — qué se propone y qué dato lo respalda</div>
+    <div class="ck"><b>Entregables concretos</b> — qué recibe, sin vaguedades</div>
+    <div class="ck"><b>Precio y plazo</b> — cifras, no rangos</div>
+    <div class="ck"><b>Qué necesitamos de él</b> — materiales y tiempos de respuesta</div>
+  </div>
+
+  <h3 class="rv">Seguimiento post-entrega</h3>
+  <div class="tl rv">
+    <div class="tlit"><h4>Semana 1</h4><p>Verificar que todo funciona; primeras métricas.</p></div>
+    <div class="tlit"><h4>Semana 2</h4><p>Contactar al cliente: ¿consultas recibidas? ¿algo roto?</p></div>
+    <div class="tlit"><h4>Semana 4</h4><p>Mini-informe: visitas, orígenes, contactos. <b>Aquí nace el servicio recurrente.</b></p></div>
+    <div class="tlit"><h4>En adelante</h4><p>Reseñas, referidos, mejoras (contenido mensual, campañas, ampliaciones).</p></div>
+  </div>
+</div></section>
+
+<!-- ====== 10 ARRANQUE ====== -->
+<section id="arranque"><div class="wrap">
+  <div class="rv"><div class="secnum">10 · LAS PRIMERAS DOS SEMANAS</div>
+  <h2>Plan de arranque</h2>
+  <p class="sub">Nada de teoría eterna: la primera semana ya se produce.</p></div>
+
+  <div class="tl rv">
+    <div class="tlit"><h4>Días 1-2 · Absorber</h4><p>Leer este manual y el Curso Base completo. Recorrer NotionPilot: los proyectos vivos, el caso ObraFácil, cómo se ve un lead y una auditoría por dentro.</p></div>
+    <div class="tlit"><h4>Días 3-5 · Primer prospecto real</h4><p>Detectar un negocio con el gap, hacerle la auditoría de 20 minutos y redactar el primer informe con Claude. Se revisa en equipo — <b>no se envía todavía</b>.</p></div>
+    <div class="tlit"><h4>Semana 2 · Rodar el pipeline</h4><p>2-3 prospectos más, primer envío real, y arranque del ritual diario completo: preguntar por la mañana, registrar al cerrar.</p></div>
+    <div class="tlit"><h4>Fin de semana 2 · Revisión</h4><p>Qué funcionó, qué no, qué ajustar de cuotas y prioridades. A partir de aquí, ritmo normal con objetivos semanales.</p></div>
+  </div>
+
+  <div class="rule rv" style="margin-top:40px">
+    <div class="t">LO QUE IMPORTA RECORDAR</div>
+    <p>Pensar bien, registrar todo, y dejar que la IA haga el resto.</p>
+    <div class="why">El método está probado, la máquina está montada, y cada semana que pasa el sistema sabe un poco más. Bienvenida al equipo.</div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="m">Tú piensas, la IA construye.</div>
+  OpsPilot · Manual de Onboarding · agosto 2026
+</div></footer>
+
+<script>
+  // reveal on scroll
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}}),{threshold:.12});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+  // before/after tabs
+  function showBA(w){
+    const bad=w==='bad';
+    document.getElementById('paBad').classList.toggle('show',bad);
+    document.getElementById('paGood').classList.toggle('show',!bad);
+    document.getElementById('tbBad').classList.toggle('on-bad',bad);
+    document.getElementById('tbGood').classList.toggle('on-good',!bad);
+  }
+</script>
+
+</body>
+</html>
