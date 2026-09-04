@@ -1,0 +1,914 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body>
+<title>Caso Dígito Rotulación</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,700;0,800;0,900;1,800;1,900&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --y:#FEFE00; --y2:#e6e600; --yPale:#fffbc2; --yInk:#5a5a00;
+    --k:#111111; --k2:#1c1c1c; --k3:#2a2a2a; --kText:#f2f2ec;
+    --g:#788888; --g2:#a5b0b0; --gPale:#e9edec; --gLine:#d5dbdb;
+    --paper:#f6f6f2; --white:#ffffff; --ink:#161616; --ink2:#4a5050; --ink3:#7d8686;
+    --ok:#2f7a4a; --okPale:#e2f1e7; --warn:#c2410c; --warnPale:#fbe6db; --bad:#b42222; --badPale:#f8e0e0;
+    --disp:"Montserrat","Segoe UI",Helvetica,Arial,sans-serif;
+    --sans:"IBM Plex Sans","Segoe UI",Helvetica,Arial,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,Consolas,Menlo,monospace;
+    --shadow:0 2px 12px rgba(17,17,17,.08); --shadow2:0 12px 36px rgba(17,17,17,.16);
+    color-scheme:light;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6}
+  a{color:var(--ink)}
+  button{font-family:inherit}
+  :focus-visible{outline:3px solid var(--y);outline-offset:2px}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  .mark{background:linear-gradient(transparent 55%,var(--y) 55%,var(--y) 92%,transparent 92%);padding:0 2px}
+  .tape{display:inline-block;background:var(--y);color:var(--k);font-family:var(--disp);font-weight:800;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;padding:4px 10px;transform:rotate(-1.5deg)}
+  .hz{height:10px;background:repeating-linear-gradient(135deg,var(--y) 0 18px,var(--k) 18px 36px)}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:60;background:var(--k);color:var(--kText);border-bottom:3px solid var(--y)}
+  .navin{max-width:1080px;margin:0 auto;padding:10px 24px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+  .navlogo{display:flex;align-items:center;gap:10px;font-family:var(--disp);font-weight:800;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#fff;white-space:nowrap}
+  .navlogo svg{height:30px;width:auto}
+  .navlogo em{font-style:normal;color:var(--y)}
+  .navcaps{display:flex;gap:2px;flex-wrap:wrap;margin-left:auto}
+  .navcaps a{color:var(--g2);text-decoration:none;font-family:var(--disp);font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;padding:5px 9px;border-radius:4px;transition:.2s}
+  .navcaps a:hover{color:var(--y)}
+  .navcaps a.lock{opacity:.4}
+  .navprog{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;color:var(--g2)}
+  .bar{width:110px;height:8px;background:#333;border:1px solid #444}
+  .bar i{display:block;height:100%;width:0;background:var(--y);transition:width .4s}
+
+  /* HERO */
+  header{background:var(--k);color:var(--kText);position:relative;overflow:hidden}
+  header .wrap{padding-top:64px;padding-bottom:64px;display:grid;grid-template-columns:1.25fr 1fr;gap:40px;align-items:center}
+  .kicker{font-family:var(--disp);font-weight:700;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--y);margin-bottom:18px}
+  h1{font-family:var(--disp);font-weight:900;font-style:italic;font-size:clamp(40px,6.4vw,74px);line-height:.98;margin:0 0 20px;letter-spacing:-1px;text-wrap:balance;text-transform:uppercase}
+  h1 span{color:var(--y)}
+  .lead{font-size:18px;color:#cfd5d5;font-weight:300;max-width:560px;margin:0}
+  .lead b{color:#fff;font-weight:600}
+  .logobox{justify-self:center;text-align:center}
+  .logobox svg{width:min(360px,80vw);height:auto;filter:drop-shadow(0 18px 40px rgba(254,254,0,.18))}
+  .logobox .cap{margin-top:14px;font-family:var(--mono);font-size:12px;color:var(--g2);letter-spacing:1px}
+  .heroline{display:flex;gap:28px;flex-wrap:wrap;margin-top:30px;padding-top:22px;border-top:1px solid #333}
+  .heroline div{font-family:var(--disp)}
+  .heroline .n{font-size:26px;font-weight:800;color:#fff;line-height:1;font-variant-numeric:tabular-nums}
+  .heroline .l{font-size:10.5px;letter-spacing:2px;text-transform:uppercase;color:var(--g2);margin-top:5px;font-weight:700}
+
+  /* SPINE (mapa de la historia) */
+  .spine{background:var(--white);border-bottom:1px solid var(--gLine)}
+  .spine .wrap{padding:26px 24px}
+  .spine h2{font-size:12px;letter-spacing:3px;text-transform:uppercase;font-family:var(--disp);font-weight:800;color:var(--ink3);margin:0 0 14px}
+  .caps{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:6px}
+  .capbtn{border:1px solid var(--gLine);background:var(--paper);padding:10px 10px 9px;text-align:left;cursor:pointer;border-radius:4px;display:grid;gap:3px;transition:.2s}
+  .capbtn .cn{font-family:var(--disp);font-weight:900;font-style:italic;font-size:20px;line-height:1;color:var(--ink3)}
+  .capbtn .ct{font-family:var(--disp);font-weight:700;font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:var(--ink2);line-height:1.25}
+  .capbtn .cs{font-family:var(--mono);font-size:10.5px;color:var(--ink3);font-variant-numeric:tabular-nums}
+  .capbtn:hover{border-color:var(--k)}
+  .capbtn.on{background:var(--k);border-color:var(--k)}
+  .capbtn.on .cn{color:var(--y)}.capbtn.on .ct{color:#fff}.capbtn.on .cs{color:var(--g2)}
+  .capbtn.done .cn{color:var(--ok)}
+  .capbtn.lock{opacity:.45;cursor:not-allowed}
+
+  /* CHAPTER */
+  .chapter{display:none}
+  .chapter.show{display:block}
+  .chead{background:var(--white);border-bottom:1px solid var(--gLine)}
+  .chead .wrap{padding:56px 24px 40px;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:start}
+  .bignum{font-family:var(--disp);font-weight:900;font-style:italic;font-size:clamp(72px,12vw,140px);line-height:.8;color:var(--y);-webkit-text-stroke:2px var(--k);letter-spacing:-4px;margin-top:-6px}
+  .chead h2{font-family:var(--disp);font-weight:800;font-size:clamp(28px,4.2vw,44px);line-height:1.05;margin:0 0 12px;text-transform:uppercase;letter-spacing:-.5px;text-wrap:balance}
+  .chead .when{font-family:var(--mono);font-size:12px;color:var(--ink3);letter-spacing:1px;margin-bottom:10px}
+  .chead p{font-size:17px;color:var(--ink2);max-width:680px;margin:0}
+  .chead p b{color:var(--ink);font-weight:600}
+  .cbody .wrap{padding:40px 24px 56px}
+
+  /* STORY BLOCKS */
+  .story{display:grid;grid-template-columns:1fr;gap:18px;margin-bottom:34px}
+  .scene{background:var(--white);border:1px solid var(--gLine);border-left:6px solid var(--k);padding:22px 26px;border-radius:0 6px 6px 0}
+  .scene .sl{font-family:var(--disp);font-weight:800;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--ink3);margin-bottom:8px}
+  .scene p{margin:0;font-size:15.5px;color:var(--ink2)}
+  .scene p+p{margin-top:10px}
+  .scene p b{color:var(--ink);font-weight:600}
+  .scene.y{border-left-color:var(--y);background:var(--yPale)}
+  .scene.q{border-left-color:var(--g);font-style:italic}
+  .scene.q p{font-family:var(--disp);font-weight:500;font-style:italic;font-size:19px;color:var(--ink)}
+  .scene.q .who{font-style:normal;font-family:var(--mono);font-size:12px;color:var(--ink3);margin-top:8px}
+
+  .grid{display:grid;gap:14px}
+  .g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+  .g3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+  .card{background:var(--white);border:1px solid var(--gLine);border-radius:6px;padding:18px 20px}
+  .card h4{margin:0 0 6px;font-family:var(--disp);font-weight:800;font-size:14px;text-transform:uppercase;letter-spacing:.6px}
+  .card p{margin:0;font-size:14.2px;color:var(--ink2)}
+  .card p b{color:var(--ink)}
+  .card.k{background:var(--k);color:var(--kText);border-color:var(--k)}
+  .card.k h4{color:var(--y)}.card.k p{color:#cfd5d5}.card.k p b{color:#fff}
+  .card.bad{border-top:4px solid var(--bad)}
+  h3{font-family:var(--disp);font-weight:800;font-size:20px;text-transform:uppercase;letter-spacing:.3px;margin:34px 0 14px}
+  h3 small{font-family:var(--mono);font-weight:400;text-transform:none;letter-spacing:0;font-size:12px;color:var(--ink3);margin-left:10px}
+
+  /* FICHA */
+  .ficha{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));background:var(--white);border:1px solid var(--gLine);border-radius:6px;overflow:hidden}
+  .ficha>div{padding:16px 20px;border-bottom:1px solid var(--gLine);border-right:1px solid var(--gLine)}
+  .ficha .kk{font-family:var(--disp);font-size:10.5px;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);font-weight:800;margin-bottom:4px}
+  .ficha .v{font-size:14.5px}
+  .ficha .v small{color:var(--ink3);font-size:12.5px;display:block;margin-top:2px}
+  .src{display:inline-block;font-family:var(--mono);font-size:10px;padding:1px 6px;border-radius:3px;margin-left:6px;vertical-align:1px;text-transform:uppercase;letter-spacing:.5px}
+  .src-web{background:var(--gPale);color:var(--ink2)}
+  .src-dueno{background:var(--y);color:var(--k)}
+  .src-ver{background:var(--warnPale);color:var(--warn)}
+
+  /* TABLE */
+  table{width:100%;border-collapse:collapse;background:var(--white);border:1px solid var(--gLine);font-size:14px}
+  th{background:var(--k);color:var(--y);text-align:left;padding:10px 14px;font-family:var(--disp);font-weight:800;font-size:11px;letter-spacing:1.5px;text-transform:uppercase}
+  td{padding:11px 14px;border-bottom:1px solid var(--gLine);color:var(--ink2);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td b{color:var(--ink)}
+  .tblwrap{overflow-x:auto;margin:8px 0}
+
+  /* FLOW */
+  .flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0;background:var(--white);border:1px solid var(--gLine);border-radius:6px;overflow:hidden}
+  .fs{padding:16px 16px 14px;border-right:1px solid var(--gLine);position:relative}
+  .fs .n{font-family:var(--disp);font-weight:900;font-style:italic;font-size:22px;color:var(--g2);line-height:1}
+  .fs .t{font-family:var(--disp);font-weight:700;font-size:13px;margin:6px 0 4px;text-transform:uppercase;letter-spacing:.4px}
+  .fs .d{font-size:12.8px;color:var(--ink2)}
+  .fs.leak{background:var(--badPale)}
+  .fs.leak .n{color:var(--bad)}
+  .fs.leak::after{content:"FUGA";position:absolute;top:10px;right:10px;font-family:var(--disp);font-weight:800;font-size:9.5px;letter-spacing:1.5px;color:#fff;background:var(--bad);padding:2px 6px}
+  .fs.fix{background:var(--okPale)}
+  .fs.fix .n{color:var(--ok)}
+  .fs.fix::after{content:"NUEVO";position:absolute;top:10px;right:10px;font-family:var(--disp);font-weight:800;font-size:9.5px;letter-spacing:1.5px;color:#fff;background:var(--ok);padding:2px 6px}
+  .flowcap{font-family:var(--mono);font-size:12px;color:var(--ink3);margin-top:8px}
+
+  /* TASK */
+  .task{background:var(--white);border:1px solid var(--gLine);border-radius:6px;margin-bottom:12px;overflow:hidden}
+  .task.done{border-color:#bfd9c8;background:#f7fbf8}
+  .task summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:36px 1fr auto;gap:14px;padding:16px 20px;align-items:start}
+  .task summary::-webkit-details-marker{display:none}
+  .task summary:hover{background:var(--paper)}
+  .tk{width:28px;height:28px;border:2px solid var(--k);background:var(--white);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;color:var(--k);margin-top:1px}
+  .task.done .tk{background:var(--y);border-color:var(--k)}
+  .tt{display:flex;flex-direction:column;gap:5px}
+  .tt .id{font-family:var(--disp);font-weight:800;font-size:10.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--ink3)}
+  .tt h4{margin:0;font-family:var(--disp);font-weight:700;font-size:16px;line-height:1.3}
+  .task.done .tt h4{color:var(--ink3)}
+  .chips{display:flex;gap:6px;flex-wrap:wrap}
+  .chip{display:inline-block;font-family:var(--disp);font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;padding:3px 8px;border-radius:3px}
+  .c-you{background:var(--y);color:var(--k)}
+  .c-dev{background:var(--k);color:var(--y)}
+  .c-all{background:var(--warnPale);color:var(--warn)}
+  .c-ia{background:var(--gPale);color:var(--ink2)}
+  .c-campo{background:var(--white);color:var(--ink2);border:1px solid var(--gLine)}
+  .ttime{font-family:var(--mono);font-size:12px;color:var(--ink3);white-space:nowrap;margin-top:5px}
+  .tbody{padding:4px 20px 22px 70px;display:grid;gap:16px}
+  .tbody p{margin:0;font-size:14.4px;color:var(--ink2)}
+  .tbody p b{color:var(--ink)}
+  .lbl{font-family:var(--disp);font-size:10.5px;letter-spacing:2.2px;text-transform:uppercase;color:var(--ink3);font-weight:800;margin-bottom:7px}
+  .steps{margin:0;padding:0;list-style:none;display:grid;gap:7px;counter-reset:s}
+  .steps li{position:relative;padding-left:32px;font-size:14.3px;color:var(--ink2);counter-increment:s}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:22px;height:22px;background:var(--k);color:var(--y);font-family:var(--disp);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center}
+  .steps li b{color:var(--ink)}
+  .pwrap{position:relative}
+  .pbox{background:var(--k2);color:#e6e6df;border-left:4px solid var(--y);padding:16px 18px;font-family:var(--mono);font-size:12.6px;line-height:1.7;white-space:pre-wrap;word-break:break-word}
+  .pbox .ph{color:var(--y);font-style:italic}
+  .copy{position:absolute;top:10px;right:10px;background:var(--y);color:var(--k);border:none;font-family:var(--disp);font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;padding:5px 10px;cursor:pointer;font-weight:800}
+  .copy.ok{background:var(--ok);color:#fff}
+  .three{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+  .mini{background:var(--paper);border:1px solid var(--gLine);border-radius:4px;padding:11px 14px;font-size:13.6px;color:var(--ink2)}
+  .mini b{display:block;font-family:var(--disp);font-size:10.5px;letter-spacing:1.8px;text-transform:uppercase;color:var(--ink3);margin-bottom:3px}
+  .mini.g{border-color:#bfd9c8;background:var(--okPale)}
+  .mini.n{border-color:#e2e28a;background:var(--yPale)}
+  .field textarea{width:100%;min-height:86px;border:1px solid var(--g2);border-radius:4px;padding:11px 13px;font-family:var(--sans);font-size:14px;color:var(--ink);background:#fff;resize:vertical;line-height:1.5}
+  .field textarea:focus{border-color:var(--k);outline:none;box-shadow:0 0 0 3px rgba(254,254,0,.6)}
+  .field .hint{font-size:12px;color:var(--ink3);margin-top:5px}
+  .donebtn{justify-self:start;background:var(--k);color:var(--y);border:none;padding:10px 18px;font-family:var(--disp);font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer}
+  .donebtn:hover{background:#000}
+  .task.done .donebtn{background:var(--white);color:var(--ink2);border:1px solid var(--gLine)}
+
+  /* REVEAL (lo que descubrimos) */
+  .reveal{border:2px dashed var(--g2);border-radius:6px;padding:16px 18px;background:var(--paper);display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start}
+  .reveal .ico{width:34px;height:34px;background:var(--gPale);display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:900;color:var(--ink3);font-size:16px}
+  .reveal .rl{font-family:var(--disp);font-size:10.5px;letter-spacing:2px;text-transform:uppercase;font-weight:800;color:var(--ink3);margin-bottom:4px}
+  .reveal p{margin:0;font-size:14.3px;color:var(--ink3)}
+  .reveal.open{border-style:solid;border-color:var(--k);background:var(--white)}
+  .reveal.open .ico{background:var(--y);color:var(--k)}
+  .reveal.open .rl{color:var(--yInk)}
+  .reveal.open p{color:var(--ink)}
+  .reveal.open p b{font-weight:600}
+
+  /* MOCKS */
+  .browser{border:1px solid var(--gLine);border-radius:8px;overflow:hidden;background:#fff;box-shadow:var(--shadow2)}
+  .bbar{background:#e9ebeb;padding:8px 12px;display:flex;gap:6px;align-items:center;border-bottom:1px solid var(--gLine)}
+  .bbar i{width:10px;height:10px;border-radius:50%;background:#c9cfcf;display:inline-block}
+  .bbar span{margin-left:8px;font-family:var(--mono);font-size:11px;color:var(--ink3);background:#fff;padding:2px 10px;border-radius:4px;flex:1}
+  .m-nav{display:flex;justify-content:space-between;align-items:center;padding:10px 18px;background:var(--k);color:#fff}
+  .m-nav svg{height:26px;width:auto}
+  .m-nav .links{display:flex;gap:14px;font-family:var(--disp);font-size:9.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--g2)}
+  .m-nav .cta{background:var(--y);color:var(--k);font-family:var(--disp);font-weight:800;font-size:9.5px;letter-spacing:1px;text-transform:uppercase;padding:6px 10px}
+  .m-hero{padding:26px 22px 22px;background:linear-gradient(120deg,#1a1a1a 0%,#2c2c2c 60%,#3a3a3a 100%);color:#fff;display:grid;grid-template-columns:1.3fr 1fr;gap:18px;align-items:center}
+  .m-hero h5{margin:0 0 8px;font-family:var(--disp);font-weight:900;font-style:italic;text-transform:uppercase;font-size:22px;line-height:1.05}
+  .m-hero h5 span{color:var(--y)}
+  .m-hero p{margin:0 0 12px;font-size:12px;color:#cfd5d5}
+  .m-hero .btns{display:flex;gap:8px}
+  .m-hero .b1{background:var(--y);color:var(--k);font-family:var(--disp);font-weight:800;font-size:9.5px;letter-spacing:1px;text-transform:uppercase;padding:7px 11px}
+  .m-hero .b2{border:1px solid var(--g2);color:#fff;font-family:var(--disp);font-weight:700;font-size:9.5px;letter-spacing:1px;text-transform:uppercase;padding:7px 11px}
+  .m-photo{aspect-ratio:4/3;background:repeating-linear-gradient(135deg,#3a3a3a 0 12px,#444 12px 24px);position:relative;display:flex;align-items:center;justify-content:center;border:1px solid #555}
+  .m-photo span{font-family:var(--disp);font-weight:900;font-style:italic;color:var(--y);font-size:34px;letter-spacing:-1px;text-transform:uppercase}
+  .m-photo small{position:absolute;bottom:6px;right:8px;font-family:var(--mono);font-size:9px;color:#aaa}
+  .m-trust{display:grid;grid-template-columns:repeat(4,1fr);background:var(--y)}
+  .m-trust div{padding:9px 10px;border-right:1px solid rgba(0,0,0,.15);font-family:var(--disp)}
+  .m-trust .n{font-weight:900;font-size:15px;color:var(--k);line-height:1}
+  .m-trust .l{font-size:8.5px;letter-spacing:1.2px;text-transform:uppercase;font-weight:700;color:#444;margin-top:2px}
+  .m-serv{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:16px 18px}
+  .m-serv div{border:1px solid var(--gLine);padding:9px 10px;font-size:10.5px;color:var(--ink2)}
+  .m-serv b{display:block;font-family:var(--disp);font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink);margin-bottom:3px}
+  .m-serv em{display:block;font-style:normal;font-family:var(--mono);font-size:9px;color:var(--ink3);margin-top:4px}
+  .m-obj{padding:14px 18px;background:var(--paper);border-top:1px solid var(--gLine);display:grid;grid-template-columns:1fr 1fr;gap:14px;font-size:10.5px;color:var(--ink2)}
+  .m-obj b{font-family:var(--disp);text-transform:uppercase;font-size:10px;letter-spacing:.6px;color:var(--ink);display:block;margin-bottom:3px}
+  .mockcap{font-family:var(--mono);font-size:12px;color:var(--ink3);margin-top:10px}
+
+  .report{background:var(--white);border:1px solid var(--gLine);box-shadow:var(--shadow2);padding:0;border-radius:4px;overflow:hidden}
+  .report .rh{background:var(--k);color:#fff;padding:20px 26px;display:flex;justify-content:space-between;align-items:flex-end;gap:14px}
+  .report .rh .t{font-family:var(--disp);font-weight:900;font-style:italic;text-transform:uppercase;font-size:20px;line-height:1.05}
+  .report .rh .t span{color:var(--y)}
+  .report .rh .m{font-family:var(--mono);font-size:10.5px;color:var(--g2);text-align:right}
+  .report .rb{padding:20px 26px;display:grid;gap:14px}
+  .report h6{margin:0 0 4px;font-family:var(--disp);font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:800}
+  .report .b1 h6{color:var(--ok)}.report .b2 h6{color:var(--ink3)}.report .b3 h6{color:var(--warn)}
+  .report ul{margin:0;padding-left:18px;font-size:13.2px;color:var(--ink2);display:grid;gap:4px}
+  .report ul b{color:var(--ink)}
+  .report .rf{background:var(--yPale);border-top:3px solid var(--y);padding:14px 26px;font-family:var(--disp);font-weight:700;font-size:13.5px;font-style:italic}
+
+  .brief{background:var(--white);border:1px solid var(--gLine);border-radius:6px;overflow:hidden}
+  .brief .bh{background:var(--k);color:var(--y);padding:12px 20px;font-family:var(--mono);font-size:12px;letter-spacing:1px}
+  .brief .bs{display:grid;grid-template-columns:150px 1fr;border-bottom:1px solid var(--gLine)}
+  .brief .bs:last-child{border-bottom:none}
+  .brief .bs>b{padding:14px 18px;font-family:var(--disp);font-size:10.5px;letter-spacing:2px;text-transform:uppercase;font-weight:800;background:var(--paper);border-right:1px solid var(--gLine);color:var(--ink2)}
+  .brief .bs>div{padding:12px 18px;font-size:13.6px;color:var(--ink2)}
+  .brief .bs>div b{color:var(--ink)}
+  .brief ul{margin:4px 0 0;padding-left:18px;display:grid;gap:3px}
+
+  /* CIERRE + NAV BOTTOM */
+  .cierre{background:var(--k);color:var(--kText);padding:24px 26px;margin-top:34px;border-top:6px solid var(--y)}
+  .cierre h4{margin:0 0 4px;font-family:var(--disp);font-weight:800;font-size:16px;text-transform:uppercase;letter-spacing:1px;color:var(--y)}
+  .cierre p.s{margin:0 0 14px;font-size:13.5px;color:var(--g2)}
+  .cierre .three .lbl{color:var(--g2)}
+  .cierre textarea{min-height:70px;background:#fff}
+  .bottomnav{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:16px}
+  .btn{background:var(--y);color:var(--k);border:none;padding:11px 20px;font-family:var(--disp);font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer}
+  .btn:hover{background:var(--y2)}
+  .btn.ghost{background:transparent;color:var(--kText);border:1px solid var(--g)}
+  .btn.ghost:hover{border-color:var(--y);color:var(--y)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .note{font-size:12.5px;color:var(--g2)}
+  .lockmsg{background:var(--white);border:1px solid var(--gLine);padding:40px 24px;text-align:center;font-family:var(--disp);font-weight:700;color:var(--ink2)}
+  .lockmsg .big{font-size:40px;color:var(--g2);font-weight:900;font-style:italic}
+  .lockmsg a{display:inline-block;margin-top:12px;font-size:12px;color:var(--ink3);font-weight:500}
+
+  .summary{background:var(--k2);color:#e6e6df;padding:18px 20px;font-family:var(--mono);font-size:12.5px;line-height:1.7;white-space:pre-wrap;max-height:420px;overflow:auto;border-left:4px solid var(--y)}
+  footer{background:var(--k);color:var(--g2);padding:40px 0 60px;text-align:center;font-size:13px}
+  footer .m{font-family:var(--disp);font-weight:900;font-style:italic;text-transform:uppercase;font-size:20px;color:var(--y);margin-bottom:8px}
+
+  @media(max-width:760px){
+    header .wrap{grid-template-columns:1fr}
+    .logobox{order:-1}
+    .chead .wrap{grid-template-columns:1fr;gap:6px}
+    .bignum{font-size:64px;letter-spacing:-2px}
+    .tbody{padding-left:20px}
+    .task summary{grid-template-columns:30px 1fr}.ttime{grid-column:2}
+    .m-hero,.m-obj{grid-template-columns:1fr}
+    .m-serv,.m-trust{grid-template-columns:repeat(2,1fr)}
+    .brief .bs{grid-template-columns:1fr}.brief .bs>b{border-right:none;border-bottom:1px solid var(--gLine)}
+    .navprog{display:none}
+  }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo" viewBox="0 0 380 190">
+    <ellipse cx="190" cy="95" rx="182" ry="86" fill="#111"/>
+    <ellipse cx="190" cy="95" rx="172" ry="76" fill="#FEFE00"/>
+    <text x="190" y="102" text-anchor="middle" font-family="Montserrat,Arial,sans-serif" font-weight="900" font-style="italic" font-size="78" fill="#111" letter-spacing="-2">DÍGITO</text>
+    <rect x="70" y="118" width="240" height="30" fill="#111"/>
+    <text x="190" y="140" text-anchor="middle" font-family="Montserrat,Arial,sans-serif" font-weight="700" font-size="17" fill="#FEFE00" letter-spacing="5">ROTULACIÓN</text>
+  </symbol>
+</svg>
+
+<nav><div class="navin">
+  <span class="navlogo"><svg><use href="#logo"/></svg>Caso <em>práctico</em></span>
+  <div class="navcaps" id="navcaps" hidden></div>
+  <a href="#caps" style="margin-left:auto;color:var(--g2);text-decoration:none;font-family:var(--disp);font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase">Índice</a>
+  <div class="navprog"><span id="progTxt">0 %</span><div class="bar"><i id="progBar"></i></div></div>
+</div></nav>
+
+<header>
+  <div class="wrap">
+    <div>
+      <div class="kicker">Una práctica real · rol redes, captación y clientes</div>
+      <h1>El taller que lo hace todo bien <span>y nadie ve</span></h1>
+      <p class="lead">En un polígono de La Carlota hay un taller que lleva <b>desde 1993</b> diseñando, fabricando y montando rótulos. Trabaja para La Carloteña, para Covirán, para medio pueblo. Y cuando alguien busca «rótulos Córdoba», <b>no aparece</b>. Esta es la historia de cómo lo encontramos, qué descubrimos, y qué hicimos con ello.</p>
+      <div class="heroline">
+        <div><div class="n">1993</div><div class="l">Fundación</div></div>
+        <div><div class="n">2018</div><div class="l">Última web</div></div>
+        <div><div class="n">1</div><div class="l">Persona que contesta</div></div>
+        <div><div class="n">0</div><div class="l">Datos medidos</div></div>
+      </div>
+    </div>
+    <div class="logobox"><svg><use href="#logo"/></svg><div class="cap">Identidad real del cliente · amarillo #FEFE00 · negro</div></div>
+  </div>
+  <div class="hz"></div>
+</header>
+
+<div class="spine"><div class="wrap">
+  <h2>La historia, capítulo a capítulo · se desbloquean en orden</h2>
+  <div class="caps" id="caps"></div>
+</div></div>
+
+<div id="chapters"></div>
+
+<section class="cbody" id="final" style="background:var(--white);border-top:1px solid var(--gLine)"><div class="wrap">
+  <div class="kicker" style="color:var(--yInk)">Epílogo</div>
+  <h3 style="margin-top:0;font-size:26px">Tu resumen del caso</h3>
+  <p style="color:var(--ink2);max-width:680px">Todo lo que has escrito en los campos y en los cierres, junto, para pegarlo en NotionPilot o pasárselo al equipo.</p>
+  <div class="bottomnav" style="margin:0 0 14px">
+    <button class="btn" id="btnResumen">Generar resumen</button>
+    <button class="btn" id="btnCopiarResumen" style="background:var(--k);color:var(--y)">Copiar al portapapeles</button>
+    <button class="btn" id="btnReset" style="background:var(--white);color:var(--ink2);border:1px solid var(--gLine)">Reiniciar caso</button>
+    <span class="note" id="resumenNote" style="color:var(--ink3)"></span>
+  </div>
+  <div class="summary" id="resumen">Pulsa «Generar resumen» cuando hayas trabajado el caso.</div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="m">Tú piensas, la IA construye.</div>
+  OpsPilot · Caso práctico · Dígito Rotulación, La Carlota · septiembre 2026
+</div></footer>
+
+<script>
+/* ===================== CONTENIDO ===================== */
+const CH = [
+/* ---------- 1 ---------- */
+{ id:'c1', n:1, short:'El encuentro', title:'Cómo damos con ellos', when:'Lunes · primera hora',
+  intro:'Un caso empieza siempre igual: <b>alguien ve un hueco</b>. A veces nos llama el dueño desbordado; a veces somos nosotros los que, mirando un mapa de Google, vemos que falta alguien que debería estar. Con Dígito pasaron las dos cosas.',
+  story:[
+    {k:'', l:'Versión A · Los encontramos nosotros', t:'<p>Buscando «rótulos Córdoba» para otro cliente, salen tres empresas de la capital. Ninguna de la Campiña. Y en una nave de La Carlota hay un rótulo enorme de La Carloteña que alguien ha fabricado. Preguntamos: <b>Dígito Rotulación, desde 1993</b>. Tienen web: es de 2018 y dice que llevan «más de 15 años». Tienen Instagram: parado. La señal del manual, exacta: <b>presencia en un canal, ausencia en otro.</b></p>'},
+    {k:'', l:'Versión B · Nos contactan ellos', t:'<p>Llama el dueño porque un cliente le ha dicho que «no os encuentro en Google». Está montando un luminoso subido a una plataforma; nos atiende entre tornillo y tornillo. Lo dice sin quejarse: <b>«Es que todo pasa por mí»</b>. En esa frase está el caso entero.</p>'},
+    {k:'y', l:'Lo que decidimos antes de nada', t:'<p>No proponemos nada todavía. El manual es claro: <b>primero entender, después auditar, después proponer</b>. Abrimos un lead en NotionPilot con lo poco que sabemos y marcamos cada dato con su origen.</p>'},
+  ],
+  ficha:true,
+  tasks:[
+  { id:'1.1', t:'Abrir el lead y separar lo que sabemos de lo que suponemos', who:'you', tools:['ia'], time:'40 min',
+    why:'Antes de mirar nada más, la ficha de 10 preguntas del manual. Lo que no sabemos se convierte en pregunta para el dueño. Es lo que evita auditar sobre suposiciones.',
+    steps:['Rellena las 10 preguntas del briefing con la ficha de arriba.','Marca cada respuesta como <b>sabido</b>, <b>supuesto</b> o <b>pendiente</b>.','Pide a la IA que ordene las pendientes para una llamada de 15 minutos.'],
+    prompt:`Estoy preparando la ficha de un negocio para una auditoría. Empresa: Dígito Rotulación, La Carlota (Córdoba). Diseño, fabricación y montaje de rótulos desde 1993. Empresa familiar, factura hasta unos 100.000 €/año. Clientes de referencia: La Carloteña, Covirán y otros. Venden por calidad, rapidez y trato personalizado. Web WordPress de 2018 sin WhatsApp ni reseñas; Instagram y Facebook existentes pero inactivos. Problemas que ellos reconocen: todo el contacto depende del dueño y su agenda; presupuestos y captación sin automatizar; no se mide nada.
+
+Rellena estas 10 preguntas con lo que se deduce de los datos y marca cada respuesta como SABIDO, SUPUESTO o PENDIENTE:
+1. Qué es exactamente el negocio. 2. Cliente ideal (tipo de empresa, zona, ticket). 3. Cómo consigue clientes hoy. 4. Estado de la web. 5. Qué tiene que pasar cuando alguien llegue a la web. 6. Ficha de Google, reseñas, redes. 7. Competidores directos. 8. Materiales existentes (fotos, logo, textos). 9. Presupuesto. 10. Quién decide.
+
+Después, dame las preguntas PENDIENTES ordenadas para una llamada de 15 minutos con el dueño, de la más importante a la menos. Formato: tabla para las 10 preguntas y lista numerada para la llamada.`,
+    field:{label:'Las 3 preguntas que le harías primero al dueño', ph:'1. …\n2. …\n3. …'},
+    deliverable:'Ficha de 10 puntos + guion de llamada', done:'Cada pregunta tiene etiqueta y las pendientes tienen orden.', notion:'Lead «Dígito Rotulación» → documento «Briefing»',
+    reveal:{l:'Lo que ya sabemos sin preguntar', t:'De las 10 preguntas, <b>seis se responden desde fuera</b> (negocio, web, redes, ficha, competidores, materiales visibles). Las cuatro que faltan son las que valen dinero: cliente ideal, cómo llegan los clientes hoy, presupuesto y quién decide. <b>Eso es la llamada.</b>'} },
+]},
+
+/* ---------- 2 ---------- */
+{ id:'c2', n:2, short:'La auditoría', title:'Lo que se ve desde fuera', when:'Lunes · resto del día',
+  intro:'La auditoría de 20 minutos del manual, hecha con calma: <b>buscar como buscaría su cliente, mirar lo que tienen, estudiar a los que sí aparecen</b>. Aquí no se opina. Se apuntan cifras. Cada tarea que termines destapa lo que encontramos nosotros.',
+  story:[
+    {k:'', l:'La escena', t:'<p>Ponte en el pellejo del gerente de un supermercado de Montilla que abre tienda nueva en tres semanas y necesita un luminoso. Coge el móvil. Escribe. <b>¿Quién aparece? ¿Aparece Dígito?</b> Esa pregunta, repetida seis veces, es la auditoría.</p>'},
+  ],
+  tasks:[
+  { id:'2.1', t:'Buscar en Google como buscaría su cliente', who:'you', tools:['campo'], time:'30 min',
+    why:'Paso 1 de la auditoría. No hay IA que valga: hay que verlo con tus ojos.',
+    steps:['Busca en incógnito, mejor desde móvil: <b>rótulos Córdoba</b> · <b>rotulación vehículos Córdoba</b> · <b>rótulos luminosos Córdoba</b> · <b>letras corpóreas Córdoba</b> · <b>vallas publicitarias Córdoba</b> · <b>rotulación La Carlota</b>.','Anota los 3 primeros orgánicos, quién sale en el mapa, y si aparece Dígito.','Captura el mapa de «rótulos Córdoba»: irá en el informe.'],
+    field:{label:'Tu tabla (búsqueda → quién sale → ¿sale Dígito?)', ph:'rótulos Córdoba → Espino, Roturban, 3D Rótulos → Dígito no\n…'},
+    deliverable:'Tabla de 6 búsquedas + captura', done:'Sabes de memoria quiénes son los tres que siempre salen.', notion:'Auditoría → «Búsquedas»',
+    reveal:{l:'Lo que encontramos', t:'En «rótulos Córdoba» aparecen <b>Rótulos Espino, Roturban y 3D Rótulos</b>, todos de la capital. En «rotulación La Carlota» casi no hay competencia: un directorio local, Páginas Amarillas… y Dígito aparece por su nombre, no por lo que hace. <b>La Campiña entera está sin dueño.</b>'} },
+
+  { id:'2.2', t:'Radiografía de lo que tienen', who:'you', tools:['campo','ia'], time:'50 min',
+    why:'Paso 2: web, ficha de Google, redes, directorios. Los datos se recogen a mano; la IA solo ayuda a leer la web con ojos de cliente.',
+    steps:['<b>Web</b>: PageSpeed móvil, título, H1, llamada a la acción, WhatsApp, año de la última actualización.','<b>Ficha de Google</b>: reseñas, nota, fotos, horario, categoría, si responden.','<b>Instagram y Facebook</b>: seguidores, última publicación, bio, enlace.','<b>Directorios</b>: ¿la dirección coincide? (Una fuente dice nº 9, otra nº 38 de la misma calle.)','Pega el texto de la home a la IA con el prompt.'],
+    prompt:`Actúa como consultor de conversión para pymes locales. Te pego el texto de la página de inicio de Dígito Rotulación (rotulación en La Carlota, Córdoba, desde 1993, clientes como La Carloteña y Covirán):
+
+[PEGA AQUÍ EL TEXTO DE LA HOME]
+
+Analízala como si fueras el gerente de un supermercado de Córdoba que necesita un rótulo luminoso nuevo en dos semanas. Responde en 4 bloques cortos:
+1. Qué entiendo en los 5 primeros segundos (y qué NO entiendo).
+2. Qué me haría llamar ahora mismo, y qué me lo impide.
+3. Qué prueba de confianza echo en falta (años reales, clientes, reseñas, plazos, fotos con contexto).
+4. Las 5 correcciones de texto más rentables, ordenadas por impacto, con el texto nuevo propuesto.
+Sé concreto y directo; lo va a leer quien decide qué se cambia.`,
+    field:{label:'Los 3 datos más duros que has encontrado', ph:'Web: PageSpeed móvil …, dice "15 años"…\nGoogle: … reseñas, última hace …\nInstagram: última publicación …'},
+    deliverable:'Ficha de presencia con cifras', done:'Cada canal tiene al menos una cifra.', notion:'Auditoría → «Presencia»',
+    reveal:{l:'Lo que encontramos', t:'La web es WordPress de julio de 2018 y dice <b>«más de 15 años de experiencia»</b> cuando son 33. El portfolio tiene nueve categorías con fotos y <b>ni un nombre de cliente, ni una fecha</b>. No hay WhatsApp, no hay reseñas, no hay casos. La home abre con una foto magnífica de letras corpóreas de tres metros… sin decir para quién ni dónde. <b>Tienen la prueba y no la enseñan.</b>'} },
+
+  { id:'2.3', t:'Los tres que sí aparecen', who:'you', tools:['campo','ia'], time:'45 min',
+    why:'Paso 3. Los que salen en tus búsquedas son la referencia. De uno ya sabemos: Rótulos Espino vende «más de 30 años de experiencia familiar» y tiene testimonios. Justo lo que Dígito podría decir y no dice.',
+    steps:['Toma los tres nombres que más se repiten en 2.1.','De cada uno: servicios destacados, claim, WhatsApp o formulario, reseñas, Instagram, si muestran clientes.','Pásale las tres fichas a la IA para encontrar el hueco.'],
+    prompt:`Comparo tres empresas de rotulación de Córdoba con Dígito Rotulación (La Carlota, desde 1993, clientes La Carloteña y Covirán, calidad y rapidez, trato personal, sin presencia digital activa).
+
+Competidor 1: [nombre] — [servicios destacados] — [claim principal] — [contacto: WhatsApp/formulario] — [reseñas Google: nº y nota] — [Instagram: seguidores y actividad] — [muestra clientes/casos: sí/no]
+Competidor 2: [...]
+Competidor 3: [...]
+
+Dame: (a) una tabla comparativa de 4 columnas con los tres y Dígito; (b) qué hace bien cada competidor que Dígito debería copiar; (c) el hueco que ninguno de los tres ocupa y que Dígito puede reclamar con datos reales (zona Campiña, antigüedad real, clientes de renombre, rapidez, atención directa del taller); (d) el argumento en una frase que usaríamos con el dueño. Nada de inventar datos: si falta un dato, dilo.`,
+    field:{label:'El hueco que nadie ocupa', ph:'Ninguno se presenta como el taller de la Campiña con 33 años y clientes de referencia…'},
+    deliverable:'Tabla comparativa + hueco', done:'Puedes nombrar algo concreto que cada competidor hace mejor que Dígito hoy.', notion:'Auditoría → «Competencia»',
+    reveal:{l:'Lo que encontramos', t:'Espino reclama <b>«30 años familiar»</b> con dos testimonios. Roturban ha hecho una página por servicio y por ciudad. 3D Rótulos vive de los luminosos. Ninguno de los tres <b>enseña clientes con nombre</b>, ninguno cubre la Campiña, y ninguno puede decir «lo diseñamos, lo fabricamos y lo montamos nosotros desde 1993» sin mentir. <b>Ese es el hueco.</b>'} },
+]},
+
+/* ---------- 3 ---------- */
+{ id:'c3', n:3, short:'La conversación', title:'Lo que solo cuenta el dueño', when:'Martes · visita al taller',
+  intro:'Con la auditoría en la mano vamos al taller. No a vender: <b>a preguntar</b>. Las cuatro preguntas que no se responden desde fuera, y una más que no está en el manual y que en este caso lo cambia todo: <b>¿cómo llega hoy un cliente desde «necesito un rótulo» hasta «pedido firmado»?</b>',
+  story:[
+    {k:'q', l:'', t:'<p>«Me llaman al móvil. Si estoy montando no lo cojo, y luego se me olvida. El presupuesto lo hago por la noche en casa, a mano, y se lo mando por WhatsApp. A veces tardo tres o cuatro días. Los que son de toda la vida esperan. Los nuevos… no sé, algunos no vuelven a llamar.»</p><div class="who">El dueño, resumido de la conversación · esto es lo que hay que conseguir que te cuenten</div>'},
+    {k:'', l:'Lo que sale de la visita', t:'<p>Clientes de referencia confirmados y <b>permiso pendiente</b> para citarlos. Materiales: cientos de fotos en el móvil del dueño, sin orden. Presupuesto: «depende de lo que me enseñéis». Decide él. Y el dato clave: <b>no sabe cuántos presupuestos pide la gente al mes ni cuántos se pierden</b>, porque nunca los ha contado.</p>'},
+  ],
+  flow:true,
+  tasks:[
+  { id:'3.1', t:'Dibujar el mapa de fugas', who:'you', tools:['ia'], time:'40 min',
+    why:'Dígito no pierde clientes por su producto: los pierde en el camino, porque el camino entero pasa por la agenda de una persona. Escribir ese camino paso a paso es lo que convierte «todo pasa por mí» en cinco problemas concretos con solución.',
+    steps:['Escribe el flujo actual paso a paso, con lo que te contó el dueño. Donde no lo sepas, ponlo como pregunta.','Pídele a la IA el diagrama y la lista de fugas.','Para cada fuga, quédate con la solución que <b>no</b> sea «que el dueño haga más».'],
+    prompt:`Te describo cómo consigue y atiende clientes hoy una empresa de rotulación familiar (Dígito Rotulación, La Carlota). El dueño es el único punto de contacto; los presupuestos se hacen a mano; no hay formulario ni WhatsApp Business; no se registra de dónde viene cada cliente.
+
+Flujo actual, tal y como lo entiendo: [ESCRIBE EL FLUJO PASO A PASO. Ejemplo: 1) el cliente se entera por recomendación; 2) llama al móvil del dueño; 3) si está en un montaje no contesta; 4) el dueño va a ver el local; 5) hace el presupuesto por la noche; 6) lo manda por WhatsApp; 7) …]
+
+Quiero: (1) el flujo como diagrama de texto (una línea por paso, con quién lo hace y cuánto tarda); (2) marca en cada paso con ⚠️ dónde puede perderse el cliente y por qué; (3) las 5 fugas más caras, ordenadas; (4) para cada fuga, qué solución de bajo coste la tapa (formulario, plantilla, guion, respuesta automática, otra persona) sin quitarle al dueño el trato personal que es su ventaja. Sé concreto; nada de "digitalizar" en abstracto.`,
+    field:{label:'Las 3 fugas más caras, en tus palabras', ph:'1. Llamadas que no se cogen cuando está montando…\n2. Presupuestos que tardan días…\n3. …'},
+    deliverable:'Diagrama del flujo + 5 fugas con solución', done:'Ninguna solución consiste en que el dueño trabaje más.', notion:'Auditoría → «Proceso actual»',
+    reveal:{l:'Lo que descubrimos', t:'Tres fugas concentran el problema: <b>la llamada que no se coge</b> (y nadie devuelve), <b>el presupuesto que tarda días</b> porque empieza con una visita y termina por la noche, y <b>el después</b>: aceptado el presupuesto, hacen falta diez llamadas para conseguir el logo, las medidas y una fecha. Ninguna se arregla con una web. Las tres se arreglan con un formulario, una plantilla y un guion.'} },
+
+  { id:'3.2', t:'El hallazgo en una frase', who:'you', tools:[], time:'15 min',
+    why:'Paso 4 de la auditoría: una frase con datos que muestra una oportunidad. Es la que abrirá el informe y la primera línea de la propuesta.',
+    steps:['Relee lo que han destapado 2.1, 2.2, 2.3 y 3.1.','Escríbela en primera persona, como se la dirías al dueño, con dos datos concretos.','Léela en voz alta. Si dura más de 12 segundos, sobra algo.'],
+    field:{label:'Tu hallazgo en una frase', ph:'«Busqué "rótulos Córdoba" como lo haría un cliente vuestro: salen Espino, Roturban y 3D Rótulos; vosotros, con 33 años y La Carloteña en cartera, no aparecéis, y vuestra web dice que lleváis quince.»'},
+    deliverable:'Una frase', done:'Tiene dos datos verificables y no contiene la palabra «web».', notion:'Auditoría → cabecera «Hallazgo»',
+    reveal:{l:'La nuestra', t:'«Tenéis 33 años, clientes que cualquiera de Córdoba querría enseñar, y un taller que responde a la velocidad de una persona. <b>Lo primero no lo ve nadie y lo segundo os cuesta pedidos cada semana.</b> Lo primero se arregla en un mes. Lo segundo, en una semana.»'} },
+]},
+
+/* ---------- 4 ---------- */
+{ id:'c4', n:4, short:'Las decisiones', title:'Qué hacemos con lo que sabemos', when:'Miércoles',
+  intro:'Un dato sin decisión es un dato perdido. Aquí cada hallazgo se convierte en una decisión de marca: <b>qué es Dígito, para quién, con qué pruebas y con qué voz</b>. Todo lo que se escriba después (web, informe, redes, presupuestos) sale de esta página.',
+  decisions:true,
+  tasks:[
+  { id:'4.1', t:'Posicionamiento en una frase', who:'you', tools:['ia'], time:'35 min',
+    why:'El hueco del capítulo 2 es el punto de partida. Tiene que ser verdad hoy, no dentro de un año.',
+    steps:['Toma el hueco (2.3) y las fugas (3.1).','Genera cinco opciones; elige una.','Anota por qué descartas las otras cuatro: es material para la reunión con el dueño.'],
+    prompt:`Necesito el posicionamiento de Dígito Rotulación. Datos verificados: taller de rotulación en La Carlota (Córdoba) desde 1993, empresa familiar, diseño + fabricación + montaje propios, clientes como La Carloteña y Covirán, fama de calidad y rapidez, trato directo con quien fabrica. Hueco detectado frente a la competencia: [PEGA EL HUECO DE 2.3]. Cliente ideal: [negocios de la Campiña y Córdoba que necesitan rótulo, luminoso, vehículo o valla, con prisa y sin intermediarios].
+
+Dame 5 frases de posicionamiento con la estructura «Para [quién], Dígito es [qué] porque [prueba]». Máximo 25 palabras cada una. Después evalúa cada una en tres criterios (¿es verdad hoy?, ¿la puede decir un competidor?, ¿la entiende un gerente de supermercado en 5 segundos?) y recomienda una. No uses «soluciones», «integral» ni «líder».`,
+    field:{label:'El posicionamiento elegido', ph:'Para negocios de la Campiña que necesitan un rótulo bien hecho y rápido, Dígito es el taller que lo diseña, fabrica y monta desde 1993…'},
+    deliverable:'Frase + 4 descartadas con motivo', done:'Un competidor no podría firmar la frase sin mentir.', notion:'Documento «Marca» → posicionamiento',
+    reveal:{l:'La nuestra', t:'<b>«El taller de rótulos de la Campiña. Desde 1993, lo diseñamos, lo fabricamos y lo montamos nosotros.»</b> Zona que nadie reclama, antigüedad que nadie iguala, y el «nosotros» que separa a un taller de un intermediario.'} },
+
+  { id:'4.2', t:'Inventario de pruebas y lista de materiales', who:'you', tools:['ia'], time:'35 min',
+    why:'La autoridad de Dígito es real pero invisible. Cada afirmación necesita una prueba que se pueda enseñar: cifra, foto, logo, nombre. Y la lista de lo que hay que pedirle al dueño en una sola visita.',
+    steps:['Lista todo lo que Dígito puede afirmar.','Para cada afirmación: qué prueba, quién la tiene.','Genera la lista de materiales para el dueño.'],
+    prompt:`Dígito Rotulación puede afirmar: 33 años (desde 1993); clientes La Carloteña, Covirán y otros; fabrican y montan ellos mismos; rapidez; trabajos en luminosos, corpóreos, vallas, vehículos, monopostes, neón/led, señalización, impresión digital; zona Campiña de Córdoba.
+
+Convierte cada afirmación en un «claim verificable» con esta ficha: claim (redactado para la web, máx. 12 palabras) · prueba que lo respalda · quién la tiene o cómo se consigue · riesgo si no hay prueba (qué no decir). Añade los claims que se podrían construir con datos que el dueño seguramente tiene pero no ha contado (número de rótulos instalados, municipios cubiertos, tiempo medio de entrega, clientes que repiten). Cierra con la lista exacta de materiales que hay que pedirle al dueño en una sola visita: fotos, logos, permisos, cifras.`,
+    field:{label:'Materiales a pedir al dueño', ph:'Permiso para citar a La Carloteña y Covirán · 10 fotos con contexto · cifra de rótulos/año · …'},
+    deliverable:'Tabla de claims + lista de materiales', done:'Ningún claim se queda sin prueba o sin quién la aporta.', notion:'Documento «Marca» → pruebas · Tarea «Pedir materiales»' },
+
+  { id:'4.3', t:'Mini-guía de marca: tono, palabras, colores', who:'you', tools:['ia'], time:'40 min',
+    why:'Todo lo que se escriba tiene que sonar igual. Y el logo se respeta: el óvalo amarillo y negro lleva 33 años en furgonetas y fachadas de la comarca. <b>No venimos a cambiarles la cara, sino a ordenarla.</b>',
+    steps:['Parte del logo real: amarillo #FEFE00, negro, gris #788888; Montserrat en la web actual.','Genera la guía con el prompt.','Añade «lo que nunca decimos» con ejemplos.'],
+    prompt:`Redacta una mini-guía de marca de una página para Dígito Rotulación. Posicionamiento: [PEGA 4.1]. Empresa familiar de La Carlota (Córdoba) desde 1993, taller propio, clientes de referencia, trato directo, rapidez. Público: gerentes y dueños de negocios locales, gente práctica y con prisa. Identidad actual que hay que respetar: logo ovalado amarillo (#FEFE00) con texto negro en cursiva gruesa, gris #788888 de apoyo, tipografía Montserrat.
+
+Incluye: (1) tono de voz en 3 adjetivos con un ejemplo de frase para cada uno; (2) tabla de 6 pares «decimos / no decimos»; (3) 10 palabras del oficio que sí usamos porque dan credibilidad (corpóreo, luminoso, vinilo de corte, chapa, monoposte…) y 5 que evitamos por vacías; (4) firma de marca para redes y presupuestos; (5) cómo usar el amarillo y el negro en web y redes (fondos, botones, qué va en amarillo y qué nunca) y una tipografía secundaria gratuita para texto largo; (6) reglas de foto: qué se muestra (trabajo terminado en su sitio, proceso en taller, montaje) y qué no. Encabezados cortos, sin párrafos largos.`,
+    deliverable:'Guía de marca de 1 página', done:'Alguien que no conozca a Dígito podría escribir un post con su voz.', notion:'Documento «Marca» → guía' },
+
+  { id:'4.4', t:'La plantilla de caso de éxito', who:'you', tools:['ia'], time:'35 min',
+    why:'La foto de la home (unas letras corpóreas enormes sobre fachada verde) es un caso de éxito que nadie ha contado. Reto, solución, plazo, resultado, foto, cita: una página por trabajo. Sirve para la web, para redes y para adjuntar a presupuestos.',
+    steps:['Genera la plantilla.','Rellénala con un trabajo real elegido con el dueño (o con datos marcados como ejemplo).','Deja la lista de 5 trabajos candidatos.'],
+    prompt:`Crea una plantilla de «caso de éxito» de una página para una empresa de rotulación (Dígito Rotulación, La Carlota). Lo leerán gerentes de negocios locales que están decidiendo a quién encargar un rótulo. Bloques con guía de 1-2 líneas para rellenar cada uno: título con cliente y tipo de trabajo · el reto (qué necesitaba el cliente y qué lo complicaba: plazo, ubicación, normativa, tamaño) · lo que hicimos (diseño, material, fabricación, montaje) · plazo real · resultado · foto antes/después · cita corta del cliente · ficha técnica en 4 datos.
+
+Después rellena la plantilla con un ejemplo para un cliente tipo «cadena de supermercados local» con un rótulo luminoso corpóreo, marcando entre corchetes todos los datos que hay que sustituir por los reales. Tono: [PEGA LOS 3 ADJETIVOS DE 4.3].`,
+    field:{label:'5 trabajos candidatos a caso de éxito', ph:'La Carloteña – luminoso fachada · Covirán – rotulación tienda · furgoneta de … · valla A-4 · …'},
+    deliverable:'Plantilla + ejemplo + candidatos', done:'Se rellena en 20 minutos con las fotos y dos frases del dueño.', notion:'Documento «Casos de éxito»' },
+]},
+
+/* ---------- 5 ---------- */
+{ id:'c5', n:5, short:'Informe y ejemplo', title:'Lo que le enseñamos al dueño', when:'Jueves',
+  intro:'El manual lo dice: <b>se manda el ejemplo y los datos, juntos</b>. El ejemplo es una maqueta real de su web nueva, con sus colores y sus trabajos, en un enlace fijo. Los datos son un informe de una página. Aquí tienes cómo quedan los dos; abajo, las tareas para escribirlos.',
+  mock:true,
+  tasks:[
+  { id:'5.1', t:'Mapa de palabras clave: Córdoba y la Campiña', who:'you', tools:['ia'], time:'40 min',
+    why:'La gracia de Dígito es que compite en la capital, pero puede dominar la Campiña (La Carlota, Écija, Palma del Río, Montilla, Fuente Palmera, Posadas…) donde casi nadie está.',
+    steps:['Toma los 9 servicios del portfolio y los municipios a 40 km.','Genera el mapa; comprueba 5 combinaciones de zona en Google.','Elige las 5 palabras de la home y una por servicio.'],
+    prompt:`Haz un mapa de palabras clave para una empresa de rotulación en La Carlota (Córdoba) que cubre Córdoba capital y la Campiña (La Carlota, Écija, Palma del Río, Montilla, Fuente Palmera, Posadas, Almodóvar del Río, Guadalcázar, La Victoria). Servicios: rótulos luminosos, letras corpóreas, vallas publicitarias, rotulación de vehículos, monopostes y tótems, neón y led, señalización, impresión digital, lonas.
+
+Organiza así: (1) palabras clave principales por servicio (cómo lo busca un gerente, no un rotulista: «rótulo para tienda», «letras para fachada», «rotular furgoneta»…); (2) combinaciones servicio + ciudad con más sentido, marcando cuáles son de Córdoba capital (muy competidas) y cuáles de la Campiña (poco competidas); (3) búsquedas de intención de compra directa («presupuesto rótulo luminoso», «precio rotular furgoneta», «rótulos urgentes»); (4) 5 preguntas frecuentes que la gente busca antes de encargar un rótulo (permisos, materiales, duración, precio). Tabla: palabra clave · intención · competencia (alta/media/baja) · página donde debe ir. Después, las 5 palabras clave de la home.`,
+    field:{label:'Las 5 palabras clave de la home', ph:'rótulos Córdoba · rotulación La Carlota · rótulos luminosos Córdoba · …'},
+    deliverable:'Tabla con página asignada', done:'Cada servicio tiene su palabra y cada palabra su página.', notion:'Documento «SEO» → palabras clave' },
+
+  { id:'5.2', t:'Los textos de la home, con el método', who:'you', tools:['ia'], time:'60 min',
+    why:'El caso de la masajista del manual aplicado a un taller: titular con las palabras exactas, servicios con plazo y beneficio, barra de confianza, la objeción respondida y llamada final. La objeción de Dígito: <b>«¿por qué un taller de La Carlota y no una empresa grande de Córdoba o una web que rotula online?»</b>',
+    steps:['Reúne: posicionamiento (4.1), claims (4.2), tono (4.3), palabras clave (5.1).','Genera la home sección a sección.','Revísala con la tabla «decimos / no decimos». Corrige a mano lo que suene a IA.'],
+    prompt:`Escribe los textos completos de la página de inicio de Dígito Rotulación. Contexto: taller de rotulación en La Carlota (Córdoba) desde 1993, empresa familiar, diseña, fabrica y monta, clientes como La Carloteña y Covirán [solo si hay permiso], rapidez y trato directo. Posicionamiento: [PEGA 4.1]. Tono: [PEGA 4.3]. Palabras clave a integrar de forma natural: [PEGA LAS 5 DE 5.1].
+
+Estructura obligatoria, en este orden:
+1. Titular con las palabras exactas que busca el cliente + subtítulo con la prueba (años, taller propio, zona). Botón principal «Pedir presupuesto» y secundario WhatsApp.
+2. Barra de confianza: 4 datos cortos (desde 1993 · [nº] rótulos instalados · Córdoba y Campiña · plazo medio [X] días) — deja entre corchetes lo que hay que confirmar.
+3. Servicios: 7 bloques, cada uno con nombre, para quién es, beneficio concreto y plazo orientativo; cada bloque con su botón «Presupuesto».
+4. «Cómo trabajamos»: 4 pasos de la visita al montaje, con tiempos.
+5. Sección que responde la objeción «¿por qué un taller de La Carlota y no una empresa grande de la capital o una web que rotula online?».
+6. Trabajos: introducción a los casos de éxito y 3 miniaturas con título.
+7. Testimonio (marcador) y llamada final con urgencia real (aperturas, campañas, temporada) y cobertura de la Campiña.
+Restricciones: frases cortas, nada de «soluciones integrales», sin adjetivos vacíos, la primera persona del plural es el taller. Formato: encabezado por sección y texto listo para maquetar.`,
+    deliverable:'Textos de la home listos para maquetar', done:'Titular: qué es, dónde y qué hacer, en 5 segundos.', notion:'Documento «Textos web» → home' },
+
+  { id:'5.3', t:'Ficha de Google Business completa', who:'you', tools:['ia','campo'], time:'40 min',
+    why:'Para un negocio local, la ficha de Google pesa más que la web durante los primeros meses. Y se puede tener lista esta semana, sin esperar a la web.',
+    steps:['Comprueba qué hay hoy: categoría, descripción, servicios, fotos, horario, preguntas.','Genera descripción, servicios y preguntas frecuentes.','Prepara la lista de 10 fotos y la primera publicación.'],
+    prompt:`Optimiza la ficha de Google Business de Dígito Rotulación (La Carlota, Córdoba; rotulación desde 1993; cubre Córdoba y la Campiña; taller propio; teléfono 957 301 773). Posicionamiento: [PEGA 4.1]. Palabras clave: [PEGA LAS PRINCIPALES DE 5.1].
+
+Dame: (1) categoría principal y 3 secundarias de la lista de Google; (2) descripción de máximo 750 caracteres, con palabras clave naturales y el dato de 1993; (3) lista de servicios con descripción de una línea; (4) 6 preguntas y respuestas (plazos, si hacen el montaje, zona, permisos, materiales, presupuesto sin compromiso); (5) 10 fotos a subir, con qué debe verse en cada una y su nombre de archivo (ej. rotulo-luminoso-supermercado-la-carlota.jpg); (6) primera publicación de Google (máx. 300 caracteres) anunciando presupuestos por WhatsApp. Sin emojis.`,
+    deliverable:'Ficha completa + lista de fotos', done:'Con acceso a la ficha, la dejas terminada en 30 minutos.', notion:'Documento «Google Business» · Tarea «Acceso a la ficha»' },
+
+  { id:'5.4', t:'El informe externo en tres bloques', who:'you', tools:['ia'], time:'50 min',
+    why:'Qué hacen bien, qué se ve desde fuera, qué no hacen y podrían. Datos reales, tono constructivo: se critica el negocio de una familia que lleva 33 años haciéndolo bien. Arriba tienes cómo queda el nuestro.',
+    steps:['Reúne: hallazgo (3.2), búsquedas (2.1), radiografía (2.2), competencia (2.3), fugas (3.1), claims (4.2).','Genera el informe y revísalo frase a frase: cada afirmación con su dato.','Añade las capturas: mapa de Google, la web con «15 años», el Instagram parado.'],
+    prompt:`Redacta un informe externo de una página para el dueño de Dígito Rotulación (taller de rotulación en La Carlota desde 1993, empresa familiar, clientes como La Carloteña y Covirán). Lo va a leer él: tono directo pero constructivo, respeto por 33 años de trabajo, cero jerga.
+
+Datos: hallazgo principal: [PEGA 3.2]. Búsquedas: [PEGA LA TABLA DE 2.1]. Presencia actual: [PEGA LAS CIFRAS DE 2.2]. Competencia: [PEGA EL HUECO DE 2.3]. Fugas del proceso: [PEGA LAS 3 FUGAS DE 3.1]. Lo que pueden afirmar y no afirman: [PEGA 3 CLAIMS DE 4.2].
+
+Estructura: título con el hallazgo · «Lo que hacéis bien» (3 puntos con datos: antigüedad, clientes, oficio) · «Lo que se ve desde fuera» (3 puntos con cifras: qué sale en Google, qué dice la web, qué dicen las redes) · «Lo que no hacéis y podríais» (4 puntos concretos, cada uno con el dato que lo justifica y qué se gana) · cierre con la oportunidad concreta que se pierde cada mes si no se actúa (en presupuestos que no llegan, no en «visibilidad»). Máximo una página. Sin listas de más de 4 puntos.`,
+    deliverable:'Informe de 1 página con capturas', done:'No hay una sola afirmación sin dato al lado.', notion:'Documento «Informe externo» (borrador)' },
+]},
+
+/* ---------- 6 ---------- */
+{ id:'c6', n:6, short:'Para programación', title:'El documento que ejecuta tu visión', when:'Jueves · tarde',
+  intro:'Tú no construyes la maqueta ni la web. Pero <b>serán exactamente tan buenas como el documento que entregues</b>. El brief del manual (contexto + objetivo + restricciones + formato) se convierte aquí en algo más completo: la visión, las páginas, lo que tiene que hacer cada una, y cómo sabremos que está bien. Abajo, el ejemplo del nuestro.',
+  brief:true,
+  tasks:[
+  { id:'6.1', t:'Arquitectura de la web: una página por servicio y por zona', who:'you', tools:['ia'], time:'40 min',
+    why:'La web actual tiene una home y una galería. Google posiciona páginas, no galerías.',
+    steps:['Parte del mapa de 5.1.','Genera el sitemap con título SEO, H1 y meta por página.','Marca las 6 páginas de la maqueta; el resto, fase 2.'],
+    prompt:`Diseña la arquitectura de la web nueva de Dígito Rotulación (rotulación en La Carlota y Córdoba desde 1993). Palabras clave por página: [PEGA LA TABLA DE 5.1]. Posicionamiento: [PEGA 4.1].
+
+Para cada página: URL propuesta (corta, en español, sin tildes) · título SEO (máx. 60 caracteres, con palabra clave y ciudad) · H1 · meta description (máx. 155 caracteres, con un motivo para hacer clic) · bloques que lleva · llamada a la acción principal. Páginas: inicio, una por servicio (luminosos, corpóreos, vehículos, vallas, monopostes, señalización, impresión digital), «Rotulación en la Campiña» con los municipios, «Trabajos» (casos de éxito), «Presupuesto» y «Contacto». Marca con ★ las 6 páginas de la primera maqueta. Tabla.`,
+    deliverable:'Sitemap con títulos, H1 y metas', done:'Ningún título supera 60 caracteres y todos llevan ciudad.', notion:'Documento «SEO» → arquitectura' },
+
+  { id:'6.2', t:'Especificar el formulario de presupuesto', who:'you', tools:['ia'], time:'40 min',
+    why:'Es la pieza funcional más importante de la web y tapa la primera fuga. Tiene que recoger en dos minutos lo que hoy requiere una visita, para que el 70% de los presupuestos salgan sin ella.',
+    steps:['Lista lo que el dueño necesita para presupuestar cada tipo de trabajo.','Genera campos, textos y respuesta automática.','Decide la fase 1 (Google Forms o WhatsApp estructurado, esta semana) y la fase 2 (formulario de la web).'],
+    prompt:`Diseña el formulario de «Pedir presupuesto» de Dígito Rotulación (luminosos, corpóreos, vehículos, vallas, monopostes, señalización, impresión digital; La Carlota, Córdoba). Objetivo: que el taller pueda dar un presupuesto orientativo sin visita previa en el 70% de los casos, y que el dueño solo intervenga cuando aporte valor. Fugas actuales: [PEGA LAS 3 FUGAS DE 3.1].
+
+Dame: (1) campos en orden, con etiqueta, tipo (texto, selector, fotos, fecha), obligatorio o no, y ayuda de una línea; incluye tipo de trabajo, medidas aproximadas, dónde va (fachada, interior, vehículo, carretera), si ya tiene diseño o logo, fotos del sitio, para cuándo, municipio, y cómo prefiere que le contactemos; (2) texto de cabecera (máx. 3 líneas) y del botón; (3) mensaje de confirmación y correo/WhatsApp automático que diga qué va a pasar y cuándo (plazo comprometido: [X horas laborables]); (4) versión del formulario como mensaje de WhatsApp con preguntas numeradas; (5) a quién llega cada solicitud y quién responde si el dueño no puede. Tono: [PEGA 4.3].`,
+    field:{label:'Fase 1 del formulario: dónde vive y quién lo atiende', ph:'Fase 1: Google Forms enlazado desde bio y ficha de Google; llega al correo y a un WhatsApp; lo atiende … con el guion; el dueño solo entra en …'},
+    deliverable:'Especificación del formulario + mensajes', done:'Con una solicitud rellena se puede presupuestar sin llamar.', notion:'Documento «Presupuestos» → formulario' },
+
+  { id:'6.3', t:'Escribir el documento para programación', who:'dev', tools:[], time:'45 min',
+    why:'Todo lo anterior, en un solo documento que un compañero pueda ejecutar sin preguntarte nada. Usa la estructura del ejemplo de arriba. Cada apartado, corto. Lo que no esté escrito, no existirá en la web.',
+    steps:['Reúne: posicionamiento, guía de marca, sitemap ★, textos de la home, formulario, casos, lista de fotos.','Escribe el documento con los 8 apartados del ejemplo.','Añade «terminada cuando…» con criterios que se puedan comprobar, no opiniones.'],
+    field:{label:'Tu documento para programación (los 8 apartados)', ph:'1. VISIÓN EN UNA FRASE: …\n2. CONTEXTO: …\n3. OBJETIVO MEDIBLE: …\n4. PÁGINAS Y CONTENIDO: …\n5. FUNCIONALIDADES: …\n6. RESTRICCIONES: …\n7. MATERIALES Y DÓNDE ESTÁN: …\n8. TERMINADA CUANDO: …'},
+    deliverable:'Documento de ejecución', done:'Un compañero podría empezar a construir sin hacerte ninguna pregunta.', notion:'Tarea para programación «Maqueta Dígito» con el documento adjunto',
+    reveal:{l:'Por qué importa tanto', t:'En ObraFácil, la maqueta se convirtió casi directa en la tienda final. Eso solo pasa si la maqueta ya llevaba dentro las decisiones correctas. <b>Las decisiones son tuyas; el documento es cómo viajan.</b>'} },
+]},
+
+/* ---------- 7 ---------- */
+{ id:'c7', n:7, short:'El sistema', title:'Bajar al dueño de la escalera', when:'Viernes',
+  intro:'Aquí está el desenlace de verdad. La web hace que les encuentren; <b>esto hace que la empresa responda aunque el dueño esté montando</b>. Plantillas, guiones, un proceso y una hoja de seis números. Nada de esto necesita programación: se puede tener en una semana.',
+  flow2:true,
+  tasks:[
+  { id:'7.1', t:'La plantilla de presupuesto estándar', who:'you', tools:['ia'], time:'40 min',
+    why:'Hoy cada presupuesto se hace a mano y distinto. Estructura fija, condiciones claras y rangos por tipo de trabajo: 15 minutos en vez de una noche. Los precios los pone el dueño; la estructura, nosotros.',
+    steps:['Genera plantilla y conceptos por tipo.','Deja los rangos como huecos para validar con el dueño.','Añade «incluye / no incluye» y validez: es lo que evita malentendidos.'],
+    prompt:`Crea la plantilla de presupuesto de Dígito Rotulación (taller de rotulación en La Carlota, desde 1993). Debe poder rellenarse en 15 minutos y ser entendida por un gerente que no sabe de rótulos.
+
+Estructura: cabecera (taller, cliente, fecha, número, validez) · resumen en 2 líneas de qué se hace y para cuándo · tabla de conceptos (concepto · descripción entendible · unidades/medidas · precio) · «Incluye» y «No incluye» (diseño, permisos, transporte, montaje, garantía, mantenimiento) · plazo de fabricación y montaje · forma de pago [huecos] · una línea de por qué nosotros (33 años, fabricamos y montamos) · firma y aceptación.
+Después, para cada tipo de trabajo (luminoso, letras corpóreas, rotulación de vehículo, valla, monoposte, señalización, vinilo/impresión), los 4-6 conceptos habituales con rango de precio orientativo [a validar con el dueño] y las 3 preguntas que determinan el precio. Tono: [PEGA 4.3].`,
+    deliverable:'Plantilla + conceptos por tipo + preguntas de precio', done:'Un presupuesto de luminoso se monta en 15 minutos eligiendo conceptos.', notion:'Documento «Presupuestos» → plantilla · Tarea «Validar rangos»' },
+
+  { id:'7.2', t:'Guion de recepción: responder sin el dueño', who:'you', tools:['ia'], time:'35 min',
+    why:'El trato personal es la ventaja; la dependencia de una persona, el límite. El guion permite que otra persona del taller atienda la primera llamada con la misma calidad, y que el dueño entre solo cuando toca.',
+    steps:['Averigua quién más puede coger el teléfono o el WhatsApp.','Genera el guion de 5 preguntas y las reglas de escalado.','Define el compromiso: «te contestamos en X horas laborables», y que se cumpla.'],
+    prompt:`Escribe un guion de recepción para Dígito Rotulación (taller familiar de rotulación en La Carlota). Situación: el dueño es hoy el único que atiende y muchas veces está montando; queremos que otra persona del taller pueda atender la primera llamada o WhatsApp sin perder el trato cercano, y que el dueño solo intervenga en lo técnico o en clientes importantes.
+
+Dame: (1) guion de llamada en 5 preguntas, con la frase exacta y qué anotar; (2) versión WhatsApp (mensajes cortos, numerados); (3) reglas de escalado: en qué 4 casos se pasa al dueño de inmediato, en cuáles se deja nota, en cuáles no hace falta; (4) tres respuestas modelo para «¿cuánto cuesta?», «¿para cuándo?» y «¿podéis venir a verlo?» útiles sin comprometer precio; (5) el mensaje de «te llamamos en [X horas]» y la regla de que se cumpla. Tono: cercano, de taller, sin sonar a centralita.`,
+    field:{label:'Quién atiende cuando el dueño no puede, y los 4 casos de escalado', ph:'Atiende: …\nEscala: 1) obra de más de … 2) cliente de referencia 3) montaje en altura/carretera 4) …'},
+    deliverable:'Guion + reglas de escalado', done:'Otra persona podría atender mañana una llamada nueva leyendo el guion.', notion:'Biblioteca de recetas → «Recepción Dígito»' },
+
+  { id:'7.3', t:'Onboarding de cliente nuevo', who:'you', tools:['ia'], time:'35 min',
+    why:'Aceptado el presupuesto empieza el segundo caos: logo en vectorial, medidas, permisos, fotos, fecha. Un proceso escrito con mensajes plantilla evita las diez llamadas. Y cierra el círculo: el último paso pide la reseña y la foto.',
+    steps:['Lista lo que hace falta entre «acepto» y «montado», por tipo de trabajo.','Genera el proceso con sus mensajes.','Último paso: reseña + permiso para publicar la foto.'],
+    prompt:`Diseña el proceso de onboarding de un cliente nuevo de Dígito Rotulación desde que acepta el presupuesto hasta que el rótulo está montado. Tipos: luminosos, corpóreos, vehículos, vallas, señalización, impresión digital.
+
+Dame: (1) tabla de pasos: paso · qué necesitamos del cliente (logo en vectorial, medidas verificadas, fotos de fachada, permiso de comunidad o ayuntamiento cuando aplica, matrícula y modelo si es vehículo, fecha y hora de montaje) · quién lo hace · plazo · mensaje plantilla (máx. 4 líneas); (2) lista de comprobación previa al montaje; (3) mensaje del día de entrega con petición de reseña [enlace] y permiso para publicar la foto; (4) mensaje de seguimiento a los 30 días. Tono: [PEGA 4.3].`,
+    deliverable:'Proceso con mensajes plantilla', done:'Todo lo que se le pide al cliente está escrito de antemano.', notion:'Biblioteca de recetas → «Onboarding cliente Dígito»' },
+
+  { id:'7.4', t:'WhatsApp Business y kit de reseñas', who:'you', tools:['ia'], time:'40 min',
+    why:'Las dos automatizaciones más baratas que existen. WhatsApp encaja con cómo ya hablan con sus clientes; las reseñas son la prueba que más pesa en el mapa de Google. 33 años de clientes y ninguna reseña reciente es la diferencia entre aparecer y no aparecer.',
+    steps:['Comprueba si el número es el personal del dueño: un número del taller es decisión de equipo.','Genera bienvenida, ausencia, respuestas rápidas, catálogo y etiquetas.','Genera el mensaje de reseña, el cartel con QR y las respuestas modelo.'],
+    prompt:`Configura WhatsApp Business y un kit de reseñas para Dígito Rotulación (taller de rotulación, La Carlota, desde 1993; horario [X]; enlace de reseña [PEGA]). Tono: [PEGA 4.3].
+
+WhatsApp: (1) mensaje de bienvenida (máx. 3 líneas) que pida los datos mínimos para un presupuesto; (2) mensaje de ausencia con plazo de respuesta; (3) 8 respuestas rápidas con atajo (/precio, /plazo, /zona, /visita, /presupuesto, /fotos, /permisos, /gracias); (4) catálogo: 7 servicios con descripción de una línea y qué foto llevaría; (5) 5 etiquetas (nuevo, presupuesto enviado, aceptado, en fabricación, montado).
+Reseñas: (6) mensaje de máximo 4 líneas para el día de la entrega; (7) versión para clientes de toda la vida (La Carloteña, Covirán…) sin sonar a campaña; (8) cartel A5 para el mostrador y pegatina para furgoneta con QR: título de máximo 6 palabras y una línea; (9) tres respuestas modelo a reseñas (positiva, neutra, negativa). Cierra con los pasos para configurarlo todo con el dueño en 20 minutos.`,
+    deliverable:'Configuración WhatsApp + kit de reseñas', done:'Todo se configura con el dueño en una visita.', notion:'Documentos «WhatsApp Business» y «Kit reseñas»' },
+
+  { id:'7.5', t:'Las seis métricas que sí importan', who:'you', tools:['ia'], time:'30 min',
+    why:'«Nada medible» era el diagnóstico. No hace falta un panel: una hoja con seis números que alguien rellena el viernes en cinco minutos. Es lo que alimentará el mini-informe y el servicio recurrente.',
+    steps:['Las seis: solicitudes/semana · origen · tiempo hasta respuesta · presupuestos enviados vs. aceptados · reseñas nuevas · visitas a la ficha.','Genera la hoja y la rutina.','Decide quién la rellena y cuándo.'],
+    prompt:`Diseña una hoja de seguimiento semanal para Dígito Rotulación (taller de rotulación, hoy sin ninguna métrica). Solo 6 métricas: solicitudes de presupuesto recibidas · origen (Google, web, redes, recomendación, cliente antiguo) · tiempo medio hasta la primera respuesta · presupuestos enviados y aceptados · reseñas nuevas · visitas y llamadas desde la ficha de Google.
+
+Dame: (1) estructura de la hoja (columnas, una fila por semana) explicando de dónde sale cada dato y cómo apuntar el origen sin complicarse (una pregunta al cliente: «¿cómo nos has conocido?»); (2) rutina de 5 minutos del viernes; (3) qué número debería preocuparnos y cuál celebrar en los 3 primeros meses (umbrales razonables para una pyme local); (4) cómo se convierte la hoja en el mini-informe mensual en 3 frases. Tabla + lista.`,
+    field:{label:'Quién rellena la hoja y cuándo', ph:'… los viernes a las 13:00, antes de cerrar; el dato de origen se pregunta al cliente al coger la llamada'},
+    deliverable:'Hoja de 6 métricas + rutina', done:'Sabes quién la rellena y con qué dato exacto.', notion:'Documento «Métricas» · Tarea recurrente «Viernes»',
+    reveal:{l:'El desenlace', t:'Con el formulario, el guion, la plantilla y la hoja, <b>la empresa contesta en horas aunque el dueño esté en una plataforma a seis metros</b>. Él sigue siendo quien fabrica, quien monta y quien habla con La Carloteña. Deja de ser quien lo hace todo. Eso es lo que compra.'} },
+]},
+
+/* ---------- 8 ---------- */
+{ id:'c8', n:8, short:'Propuesta y envío', title:'Se lo llevamos al taller', when:'Lunes siguiente',
+  intro:'La propuesta en cinco partes del manual, con los entregables reales de los capítulos anteriores, agrupados en fases. Se revisa en equipo. Y luego, <b>se entrega y se espera</b>: con ObraFácil tardaron días en llamar. El silencio es parte del proceso.',
+  story:[
+    {k:'', l:'La entrega', t:'<p>Para una empresa familiar con 33 años, el envío no es un correo: es <b>una visita al taller con el informe impreso y la maqueta en el móvil</b>. Treinta segundos: el hallazgo, el ejemplo, «miradlo con calma». Y se deja la iniciativa de su lado.</p>'},
+  ],
+  tasks:[
+  { id:'8.1', t:'La propuesta en cinco partes', who:'all', tools:['ia'], time:'45 min',
+    why:'Diagnóstico · solución y porqué · entregables concretos · precio y plazo · qué necesitamos de él. El precio y el plazo los decide el equipo; tú preparas la propuesta para esa reunión.',
+    steps:['Agrupa los entregables en fases: semana 1 (ficha de Google, WhatsApp, reseñas, formulario), mes 1 (web, presupuestos, recepción, onboarding), meses 2-3 (redes, casos, métricas).','Genera la propuesta con precio y plazo como huecos.','Llévala a la reunión: se decide precio, plazo y qué se ofrece como recurrente.'],
+    prompt:`Redacta una propuesta comercial en 5 partes para Dígito Rotulación (taller de rotulación, La Carlota, desde 1993). Debe poder explicarse en 30 segundos.
+
+Diagnóstico: [PEGA 3.2 Y LAS 3 FUGAS DE 3.1, en 2-3 frases]. Solución y porqué: dejar de depender del dueño para el primer contacto y hacer visible lo que ya son, con estos datos: [PEGA 2 DATOS DE 2.1/2.2]. Entregables por fases: Fase 1 (semana 1): ficha de Google completa, WhatsApp Business, kit de reseñas, formulario de presupuesto. Fase 2 (mes 1): web nueva de 6 páginas con textos SEO, plantilla de presupuesto, guion de recepción, onboarding de cliente. Fase 3 (meses 2-3): redes con calendario y plantillas, 3 casos de éxito, hoja de métricas y mini-informe mensual. Precio y plazo: [HUECOS por fase y total]. Qué necesitamos de él: [PEGA LA LISTA DE 4.2 + accesos: ficha de Google, redes, dominio, y 2 horas de su tiempo en una visita].
+
+Añade una opción de servicio recurrente mensual (redes + métricas + reseñas + informe) con entregables y hueco de precio. Formato: 5 encabezados, frases cortas, cifras concretas, sin rangos.`,
+    field:{label:'Lo que el equipo decide en la reunión', ph:'Precio fase 1 / 2 / 3 · plazo · recurrente desde el principio o no · maqueta gratis con el informe o no · …'},
+    deliverable:'Propuesta con huecos de precio', done:'La explicas en 30 segundos sin mirar el papel.', notion:'Documento «Propuesta» · Tarea de equipo «Gate Dígito»' },
+
+  { id:'8.2', t:'El mensaje de entrega y la regla del silencio', who:'you', tools:['ia'], time:'25 min',
+    why:'Corto, personal, sin pedir nada más que mirar. Y un único seguimiento a los 7 días: una línea.',
+    steps:['Decide el canal (visita + WhatsApp de refuerzo).','Genera las tres versiones y elige.','Programa en NotionPilot el seguimiento a 7 días.'],
+    prompt:`Escribe el mensaje con el que entregaremos a Dígito Rotulación (taller familiar de rotulación en La Carlota, 33 años, dueño muy ocupado y de trato muy personal) un informe de una página sobre su presencia digital y el enlace a una maqueta de su web nueva, sin que nos lo hayan pedido. Hallazgo que abre: [PEGA 3.2].
+
+Tres versiones: (1) WhatsApp de máximo 5 líneas; (2) correo de máximo 120 palabras con 3 asuntos; (3) lo que diríamos en persona en 30 segundos al entregar el informe impreso. Reglas: no vender, no pedir reunión, solo pedir que lo mire; nombrar un dato concreto del informe; mencionar que la maqueta ya está hecha con sus trabajos y sus colores; cerrar dejando la iniciativa de su lado. Y el único seguimiento permitido, a los 7 días: una línea.`,
+    deliverable:'Mensaje en 3 versiones + seguimiento', done:'No contiene la palabra «reunión» ni ninguna oferta.', notion:'Lead → outreach · Tarea «+7 días»',
+    reveal:{l:'Lo que pasó con ObraFácil', t:'No respondieron en horas, ni en días. <b>Y luego llamaron ellos: «¿cómo lo hacemos?».</b> No se persigue. Se espera.'} },
+]},
+
+/* ---------- 9 ---------- */
+{ id:'c9', n:9, short:'Mantenimiento', title:'El proyecto termina, la relación empieza', when:'Semanas 1 · 2 · 4 · y cada mes',
+  intro:'Nada de lo anterior vale si en tres meses la ficha vuelve a estar vacía y la hoja de métricas sin rellenar. El mantenimiento es <b>un ciclo</b>: medir, leer, corregir, publicar. Y es también el servicio recurrente que hace que un proyecto puntual se convierta en un cliente que se queda.',
+  cycle:true,
+  tasks:[
+  { id:'9.1', t:'Redes: pilares, calendario y la guía de las 5 fotos', who:'you', tools:['ia'], time:'70 min',
+    why:'Un taller tiene el contenido más fácil de producir que existe: cosas que se fabrican y se montan. Tres pilares, dos publicaciones y un reel por semana, y la pieza que hace autónomo al cliente: <b>la guía de fotos pegada en la pared del taller</b>.',
+    steps:['Genera pilares y calendario de 4 semanas con el prompt 1.','Genera la guía de fotos con el prompt 2 e imprímela.','Crea el grupo de WhatsApp «Fotos Dígito» donde caen las fotos; OpsPilot las recoge cada semana.'],
+    prompt:`PROMPT 1 · Define los pilares y el calendario de contenido para Instagram y Facebook de Dígito Rotulación (taller de rotulación en La Carlota desde 1993, fabrican y montan, clientes de renombre). Público: dueños y gerentes de negocios de Córdoba y la Campiña. Posicionamiento: [PEGA 4.1]. Tono: [PEGA 4.3]. Trabajos disponibles: [PEGA LA LISTA DE 4.4].
+Dame: (a) 3 pilares (oficio / resultado / autoridad) + uno de consejo útil, cada uno con formato y 5 ideas grabables con móvil en el taller; (b) calendario de 4 semanas a 2 publicaciones + 1 reel por semana, con la primera semana incluyendo un post de «vuelta» que presente el taller y sus 33 años sin pedir disculpas por el silencio. Tabla: semana · día · pilar · formato · gancho (máx. 8 palabras) · texto (máx. 80 palabras) · foto o vídeo necesario descrito para que el dueño lo grabe · quién lo hace (taller / OpsPilot) · llamada a la acción. Hashtags aparte: 10 locales y de oficio. (c) 3 guiones de reel de 20 segundos plano a plano: «de la chapa al rótulo», «el momento del montaje», «lo que había y lo que hay».
+
+PROMPT 2 · Escribe una guía de una página, para pegar en la pared de un taller de rotulación, titulada «Las 5 fotos de cada trabajo». La leerá gente con el móvil en el bolsillo: frases muy cortas, cero términos de fotografía. Para cada foto (antes · en el taller · detalle · montando · terminado en su sitio): qué se ve, desde dónde, un error típico a evitar, por qué importa en una frase. 3 reglas generales (horizontal, limpiar el objetivo, una persona trabajando cuando se pueda) y dónde se mandan: [grupo de WhatsApp «Fotos Dígito»]. Última línea: esas 5 fotos son las que después traen clientes.`,
+    deliverable:'Pilares + calendario + 3 reels + guía de fotos', done:'El dueño sabe qué grabar cada semana leyendo una columna.', notion:'Documento «Contenido» · Tareas semanales · Documento «Guía de fotos»' },
+
+  { id:'9.2', t:'Seguimiento S1 · S2 · S4 y el mini-informe', who:'you', tools:['ia'], time:'30 min',
+    why:'El calendario del manual: semana 1 comprobar, semana 2 preguntar, semana 4 mini-informe. Para Dígito, el informe son las seis métricas leídas en tres frases y una recomendación.',
+    steps:['Adapta S1/S2/S4 a las fases de la propuesta.','Define el mini-informe con las seis métricas.','Escribe la oferta recurrente en cinco líneas.'],
+    prompt:`Diseña el plan de seguimiento y retención para Dígito Rotulación después de entregar la fase 1 (ficha de Google, WhatsApp Business, formulario, kit de reseñas). Métricas: solicitudes, origen, tiempo de respuesta, presupuestos aceptados, reseñas nuevas, visitas a la ficha.
+
+Dame: (1) qué se comprueba y qué se le dice al cliente en la semana 1, la 2 y la 4 (mensaje de máximo 4 líneas cada uno); (2) estructura del mini-informe mensual de una cara: 6 números, 3 frases de lectura, 1 recomendación; (3) oferta de servicio recurrente mensual (redes con calendario y plantillas, hoja de métricas, gestión de reseñas, un caso de éxito nuevo al mes) en 5 líneas para el dueño, con hueco de precio; (4) tres señales de que está listo para una ampliación (campaña por zona, catálogo de vehículos, página por servicio nueva). Tono: [PEGA 4.3].`,
+    deliverable:'Calendario S1/S2/S4 + mini-informe + oferta', done:'Sabes qué le dirás al dueño exactamente 7, 14 y 28 días después.', notion:'Proyecto → hitos de seguimiento' },
+
+  { id:'9.3', t:'El ciclo de corrección continua', who:'you', tools:['ia'], time:'30 min',
+    why:'Lo que se mide se corrige. Cada mes, la hoja dice algo: pocas solicitudes desde Google → la ficha o las palabras; muchas solicitudes y pocos aceptados → el presupuesto o el plazo; respuestas lentas → el guion o quién atiende. Aquí se deja escrito qué se toca según qué número falle.',
+    steps:['Toma las seis métricas.','Genera la tabla «si falla X, tocamos Y» con el prompt.','Añade la revisión trimestral: palabras clave, competidores nuevos, textos que ya no son verdad (como los «15 años»).'],
+    prompt:`Crea una guía de corrección continua para Dígito Rotulación basada en 6 métricas semanales: solicitudes de presupuesto · origen · tiempo hasta la primera respuesta · presupuestos enviados vs. aceptados · reseñas nuevas · visitas a la ficha de Google.
+
+Dame: (1) una tabla «si este número baja o no arranca → qué revisamos primero → qué corregimos → cómo comprobamos en 2 semanas que ha funcionado», una fila por métrica, con causas concretas (ficha incompleta, palabras clave mal elegidas, formulario largo, plazo de respuesta incumplido, precio fuera de mercado, nadie pide la reseña); (2) una revisión trimestral en 8 puntos: palabras clave, competidores nuevos, textos desactualizados, fotos, casos de éxito nuevos, reseñas sin responder, velocidad de la web, enlaces rotos; (3) qué se le cuenta al cliente cuando corregimos algo, en 2 líneas, para que vea que se trabaja. Formato: tablas.`,
+    field:{label:'Las 3 correcciones más probables en el primer trimestre, según lo que has visto', ph:'1. Si no entran solicitudes desde Google → …\n2. Si entran y no se aceptan → …\n3. …'},
+    deliverable:'Tabla de correcciones + revisión trimestral', done:'Para cada número que falle hay una acción escrita.', notion:'Biblioteca de recetas → «Corrección continua Dígito»' },
+
+  { id:'9.4', t:'Revisión en equipo y lecciones para el caso siguiente', who:'all', tools:[], time:'45 min',
+    why:'El caso no termina con un envío: termina con una revisión. Y lo que ha enseñado va a la biblioteca para que el siguiente nazca sabiéndolo.',
+    steps:['Presenta en 5 minutos: hallazgo, fugas, propuesta. Sin leer.','El equipo lee informe y mensaje con una sola pregunta: «¿lo mandaríamos hoy tal cual?».','Escribe las lecciones: qué prompt funcionó a la primera, cuál hubo que rehacer, qué dato costó más, qué sobra y qué falta.'],
+    field:{label:'Lecciones aprendidas', ph:'Funcionó: …\nHubo que rehacer: …\nEl dato más difícil: …\nSobra / falta: …\nPara el caso siguiente: …'},
+    deliverable:'Acta + lecciones en la biblioteca', done:'Hay una decisión escrita: se envía / se corrige X / no se envía.', notion:'Biblioteca → «Lecciones caso Dígito» · Proyecto → acta',
+    reveal:{l:'Fin de la historia', t:'Un taller que lo hacía todo bien y nadie veía, ahora aparece, contesta y cuenta. Y nosotros tenemos <b>un sistema que se puede aplicar al siguiente taller de la comarca</b>, porque hay decenas iguales.'} },
+]},
+];
+
+/* ===================== ESTADO ===================== */
+const KEY='opspilot-caso-digito-v2';
+let S={done:{},fields:{},cierres:{},ch:'c1',unlocked:{c1:true}};
+try{const raw=localStorage.getItem(KEY);if(raw)S=Object.assign(S,JSON.parse(raw))}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+const TOTAL=CH.reduce((a,c)=>a+c.tasks.length,0);
+const WHO={you:['captación','c-you'],dev:['programación','c-dev'],all:['equipo','c-all']};
+const TOOL={ia:['con IA','c-ia'],campo:['a mano','c-campo']};
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const fmtPrompt=p=>esc(p).replace(/\[([^\]]+)\]/g,'<span class="ph">[$1]</span>');
+const chDone=c=>c.tasks.every(t=>S.done[t.id]);
+const isUnlocked=(i)=>i===0||S.unlocked[CH[i].id]||chDone(CH[i-1]);
+
+/* ===================== BLOQUES ESPECIALES ===================== */
+const FICHA=`<h3>La ficha del lead <small>cada dato con su origen</small></h3>
+<div class="ficha">
+  <div><div class="kk">Empresa</div><div class="v">Dígito Rotulación <span class="src src-web">web</span><small>digitorotulacion.com · P.I. Gallardo, C/ Ingeniero Juan de la Cierva · 14100 La Carlota (Córdoba)</small></div></div>
+  <div><div class="kk">Actividad</div><div class="v">Diseño, fabricación y montaje de soportes publicitarios <span class="src src-web">web</span><small>Luminosos · corpóreos · vallas · vehículos · monopostes · neón/led · señalización · impresión digital</small></div></div>
+  <div><div class="kk">Antigüedad</div><div class="v">Desde 1993 <span class="src src-web">directorio</span><small>La web dice «más de 15 años». Son 33.</small></div></div>
+  <div><div class="kk">Tamaño</div><div class="v">Familiar · hasta ~100.000 €/año <span class="src src-dueno">dueño</span></div></div>
+  <div><div class="kk">Clientes de referencia</div><div class="v">La Carloteña, Covirán y otros <span class="src src-dueno">dueño</span><small>Ninguno aparece en la web. Permiso pendiente.</small></div></div>
+  <div><div class="kk">Cómo venden</div><div class="v">Calidad, rapidez, trato personal <span class="src src-dueno">dueño</span><small>Su ventaja real y su límite: todo pasa por él.</small></div></div>
+  <div><div class="kk">Web</div><div class="v">WordPress, última reforma 2018 <span class="src src-web">web</span><small>Sin WhatsApp, reseñas, casos ni blog. Portfolio sin nombres ni fechas.</small></div></div>
+  <div><div class="kk">Redes</div><div class="v">Instagram @digito_rotulacion · Facebook <span class="src src-ver">verificar</span><small>Existen. Actividad: comprobar en el capítulo 2.</small></div></div>
+  <div><div class="kk">Contacto</div><div class="v">957 301 773 · 696 915 689 · info@digitorotulacion.com <span class="src src-web">web</span></div></div>
+  <div><div class="kk">Ficha de Google</div><div class="v">Sin comprobar <span class="src src-ver">verificar</span><small>Lo primero que mira un cliente local.</small></div></div>
+</div>`;
+
+const FLOW=`<h3>El camino de un cliente hoy <small>reconstruido de la conversación</small></h3>
+<div class="flow">
+  <div class="fs"><div class="n">1</div><div class="t">Se entera</div><div class="d">Por recomendación o porque ve una furgoneta. Nunca por Google.</div></div>
+  <div class="fs leak"><div class="n">2</div><div class="t">Llama al móvil</div><div class="d">Del dueño. Si está montando, no lo coge. Nadie devuelve la llamada.</div></div>
+  <div class="fs"><div class="n">3</div><div class="t">Visita</div><div class="d">El dueño va a ver el local cuando puede.</div></div>
+  <div class="fs leak"><div class="n">4</div><div class="t">Presupuesto</div><div class="d">A mano, por la noche. Tres o cuatro días después.</div></div>
+  <div class="fs"><div class="n">5</div><div class="t">Acepta</div><div class="d">Por WhatsApp, sin condiciones escritas.</div></div>
+  <div class="fs leak"><div class="n">6</div><div class="t">Materiales</div><div class="d">Diez llamadas para conseguir logo, medidas, permisos y fecha.</div></div>
+  <div class="fs"><div class="n">7</div><div class="t">Fabrica y monta</div><div class="d">Aquí es donde son buenos. Nadie lo fotografía.</div></div>
+</div>
+<div class="flowcap">Tres fugas en siete pasos. Ninguna está en el taller: todas están en el teléfono.</div>`;
+
+const FLOW2=`<h3>El mismo camino, con sistema</h3>
+<div class="flow">
+  <div class="fs fix"><div class="n">1</div><div class="t">Encuentra</div><div class="d">Ficha de Google con reseñas, web por servicio y zona.</div></div>
+  <div class="fs fix"><div class="n">2</div><div class="t">Pide presupuesto</div><div class="d">Formulario o WhatsApp con 8 preguntas. Respuesta automática con plazo.</div></div>
+  <div class="fs fix"><div class="n">3</div><div class="t">Le atienden</div><div class="d">Quien esté, con el guion. El dueño solo si escala.</div></div>
+  <div class="fs fix"><div class="n">4</div><div class="t">Presupuesto</div><div class="d">Plantilla: 15 minutos, condiciones claras, validez.</div></div>
+  <div class="fs fix"><div class="n">5</div><div class="t">Onboarding</div><div class="d">Mensajes plantilla piden logo, medidas, permisos y fecha de una vez.</div></div>
+  <div class="fs"><div class="n">6</div><div class="t">Fabrica y monta</div><div class="d">Igual que siempre. Ahora con las 5 fotos.</div></div>
+  <div class="fs fix"><div class="n">7</div><div class="t">Cierra</div><div class="d">Reseña, foto publicada, fila nueva en la hoja de métricas.</div></div>
+</div>
+<div class="flowcap">Seis pasos nuevos. Cero programación. Una semana.</div>`;
+
+const DECISIONS=`<h3>Del dato a la decisión</h3>
+<div class="tblwrap"><table>
+<tr><th>Lo que descubrimos</th><th>Lo que decidimos</th><th>Dónde se nota</th></tr>
+<tr><td>Nadie reclama la Campiña; los tres competidores son de la capital</td><td><b>Posicionarse como el taller de la Campiña</b>, no competir en «rótulos Córdoba» de frente</td><td>Titular, ficha de Google, página «Rotulación en la Campiña»</td></tr>
+<tr><td>Espino vende «30 años familiar»; Dígito tiene 33 y dice 15</td><td><b>La antigüedad real va en todas partes</b>: barra de confianza, bio, presupuestos</td><td>Web, redes, plantilla de presupuesto</td></tr>
+<tr><td>Clientes de renombre que no aparecen</td><td><b>Pedir permiso y convertirlos en casos de éxito</b>, no en una lista de logos</td><td>Página «Trabajos», adjunto al presupuesto</td></tr>
+<tr><td>El logo amarillo y negro lleva 33 años en la comarca</td><td><b>Se respeta.</b> Se ordena la paleta y se elige la tipografía; no se rediseña</td><td>Guía de marca, maqueta</td></tr>
+<tr><td>Las tres fugas están en el teléfono</td><td><b>Formulario + guion + plantilla antes que web</b></td><td>Fase 1 de la propuesta</td></tr>
+</table></div>`;
+
+const MOCK=`<h3>El ejemplo: la maqueta de la home <small>con su identidad, sus trabajos y las decisiones del capítulo 4</small></h3>
+<div class="browser">
+  <div class="bbar"><i></i><i></i><i></i><span>digitorotulacion.com · maqueta v1 · enlace de portal</span></div>
+  <div class="m-nav"><svg><use href="#logo"/></svg><div class="links"><span>Luminosos</span><span>Corpóreos</span><span>Vehículos</span><span>Vallas</span><span>Trabajos</span><span>Campiña</span></div><span class="cta">Pedir presupuesto</span></div>
+  <div class="m-hero">
+    <div><h5>Rótulos en Córdoba <span>y la Campiña</span>. Desde 1993.</h5><p>Lo diseñamos, lo fabricamos y lo montamos nosotros, en nuestro taller de La Carlota. Luminosos, letras corpóreas, vehículos y vallas, con plazo cerrado.</p><div class="btns"><span class="b1">Pedir presupuesto</span><span class="b2">WhatsApp 696 915 689</span></div></div>
+    <div class="m-photo"><span>econatur</span><small>foto real · corpóreo 3 m · fachada</small></div>
+  </div>
+  <div class="m-trust"><div><div class="n">1993</div><div class="l">En el taller desde</div></div><div><div class="n">[n]</div><div class="l">Rótulos instalados</div></div><div><div class="n">40 km</div><div class="l">Toda la Campiña</div></div><div><div class="n">[x] días</div><div class="l">Plazo medio</div></div></div>
+  <div class="m-serv">
+    <div><b>Rótulos luminosos</b>Para fachadas que se ven de noche. Led, bajo consumo.<em>Plazo orientativo · [x] días</em></div>
+    <div><b>Letras corpóreas</b>Volumen en fachada. Aluminio, PVC, acero.<em>Plazo orientativo · [x] días</em></div>
+    <div><b>Rotulación de vehículos</b>Furgonetas y flotas. Vinilo de corte o impreso.<em>Plazo orientativo · [x] días</em></div>
+    <div><b>Vallas y monopostes</b>Carretera y polígono. Estructura y permiso.<em>Plazo orientativo · [x] días</em></div>
+  </div>
+  <div class="m-obj">
+    <div><b>¿Por qué un taller de La Carlota y no una empresa grande?</b>Porque hablas con quien lo fabrica. Sin intermediarios, sin «lo consulto». Y porque llevamos 33 años montando en tu comarca.</div>
+    <div><b>Trabajos</b>La Carloteña · Covirán · [caso 3] — cada uno con reto, plazo y foto. <span style="font-family:var(--mono);font-size:9px;color:var(--ink3)">(con permiso del cliente)</span></div>
+  </div>
+</div>
+<div class="mockcap">Todo lo que va entre corchetes es un dato que confirma el dueño. La maqueta no inventa cifras: deja el hueco a la vista.</div>
+
+<h3 style="margin-top:38px">Los datos: el informe de una página</h3>
+<div class="report">
+  <div class="rh"><div class="t">Tenéis 33 años y clientes que cualquiera querría enseñar. <span>Nadie lo ve.</span></div><div class="m">Informe externo · Dígito Rotulación<br>OpsPilot · septiembre 2026</div></div>
+  <div class="rb">
+    <div class="b1"><h6>Lo que hacéis bien</h6><ul><li><b>Desde 1993</b>: más antigüedad que ninguno de los tres que salen en Google.</li><li><b>Fabricáis y montáis vosotros</b>: nadie de la competencia puede decirlo con vuestra trayectoria.</li><li>Clientes como <b>La Carloteña y Covirán</b>, que repiten.</li></ul></div>
+    <div class="b2"><h6>Lo que se ve desde fuera</h6><ul><li>En «rótulos Córdoba» salen <b>Espino, Roturban y 3D Rótulos</b>. Vosotros no.</li><li>Vuestra web es de 2018 y dice <b>«más de 15 años»</b>. Son 33.</li><li>Instagram y Facebook: <b>[última publicación]</b>. Ficha de Google: <b>[n] reseñas</b>.</li></ul></div>
+    <div class="b3"><h6>Lo que no hacéis y podríais</h6><ul><li>Reclamar la Campiña: <b>nadie está posicionado</b> en La Carlota, Écija, Palma del Río, Montilla.</li><li>Contestar aunque estés montando: <b>formulario + guion</b>, una semana.</li><li>Presupuestar en 15 minutos con una plantilla, no en tres días.</li><li>Enseñar los trabajos con nombre, plazo y foto.</li></ul></div>
+  </div>
+  <div class="rf">Cada semana sin aparecer y sin contestar son presupuestos que se van a la capital. Hemos hecho una maqueta de vuestra web con vuestros trabajos: [enlace].</div>
+</div>`;
+
+const BRIEF=`<h3>El ejemplo: documento para programación <small>lo que reciben los que construyen</small></h3>
+<div class="brief">
+  <div class="bh">MAQUETA DÍGITO ROTULACIÓN · v1 · para: programación · de: captación · estado: listo para ejecutar</div>
+  <div class="bs"><b>1 · Visión</b><div>Que un gerente de la Campiña que busca «rótulos» en el móvil <b>encuentre a Dígito, entienda en 5 segundos que fabrican y montan desde 1993, y pida presupuesto sin llamar</b>.</div></div>
+  <div class="bs"><b>2 · Contexto</b><div>Taller familiar de La Carlota, 33 años, clientes La Carloteña y Covirán (permiso: pendiente). Web actual WordPress 2018. Identidad: logo ovalado amarillo #FEFE00 / negro, se respeta. Auditoría, posicionamiento y guía de marca en NotionPilot → proyecto Dígito.</div></div>
+  <div class="bs"><b>3 · Objetivo medible</b><div>Fase 1: maqueta navegable en enlace de portal en 5 días. Tras lanzamiento: <b>≥ 4 solicitudes de presupuesto/mes desde web + ficha</b> en el tercer mes; PageSpeed móvil ≥ 85.</div></div>
+  <div class="bs"><b>4 · Páginas</b><div>6 páginas ★ del sitemap (documento «SEO → arquitectura»): inicio · luminosos · corpóreos · vehículos · rotulación en la Campiña · presupuesto. <b>Textos ya escritos</b> en «Textos web»; título/H1/meta por página en el sitemap. Nada de lorem.</div></div>
+  <div class="bs"><b>5 · Funcionalidades</b><div><ul><li>Formulario de presupuesto según especificación 6.2 (campos, fotos adjuntas, respuesta automática, aviso a correo + WhatsApp).</li><li>Botón WhatsApp fijo en móvil con mensaje prellenado.</li><li>Bloque «Trabajos» preparado para casos de éxito (plantilla 4.4), 3 huecos.</li><li>Barra de confianza con cifras entre corchetes: se muestran tal cual hasta que el dueño confirme.</li></ul></div></div>
+  <div class="bs"><b>6 · Restricciones</b><div>Móvil primero. Logo actual sin tocar. Amarillo solo en botones y datos; fondos negro/blanco. Montserrat + tipografía de texto de la guía. Sin fotos de stock: solo las del dueño (carpeta «Fotos Dígito»); si falta una, marcador con texto de qué debe ir. Sin cifras inventadas.</div></div>
+  <div class="bs"><b>7 · Materiales</b><div>Logo (web actual, 190×95, pedir vectorial) · 12 fotos seleccionadas en «Fotos Dígito» · textos en «Textos web» · paleta y tipografías en «Marca → guía» · palabras clave en «SEO».</div></div>
+  <div class="bs"><b>8 · Terminada cuando</b><div>Las 6 páginas cargan en móvil en menos de 2 s · el formulario envía y llega la respuesta automática · cada página tiene su título y meta del sitemap · el titular se lee sin hacer scroll · un compañero que no conoce el caso sabe qué hace Dígito y dónde en 5 segundos · enlace de portal activo y registrado en el lead.</div></div>
+</div>`;
+
+const CYCLE=`<h3>El ciclo que no termina</h3>
+<div class="flow">
+  <div class="fs"><div class="n">▶</div><div class="t">Medir</div><div class="d">Viernes, 5 minutos: seis números en la hoja.</div></div>
+  <div class="fs"><div class="n">▶</div><div class="t">Leer</div><div class="d">Mes: tres frases y una recomendación. Se lo contamos al dueño.</div></div>
+  <div class="fs"><div class="n">▶</div><div class="t">Corregir</div><div class="d">Según qué número falla: ficha, palabras, formulario, guion, precio.</div></div>
+  <div class="fs"><div class="n">▶</div><div class="t">Publicar</div><div class="d">Dos posts y un reel por semana con las 5 fotos del taller.</div></div>
+  <div class="fs"><div class="n">↺</div><div class="t">Revisar</div><div class="d">Trimestre: competidores nuevos, textos que ya no son verdad, casos nuevos.</div></div>
+</div>
+<div class="flowcap">Es el servicio recurrente. Lo que ellos nunca van a hacer solos y lo que hace que el proyecto se quede.</div>`;
+
+/* ===================== RENDER ===================== */
+function render(){
+  const caps=document.getElementById('caps'), navc=document.getElementById('navcaps'), root=document.getElementById('chapters');
+  caps.innerHTML='';navc.innerHTML='';root.innerHTML='';
+  CH.forEach((c,i)=>{
+    const unlocked=isUnlocked(i), doneN=c.tasks.filter(t=>S.done[t.id]).length, all=doneN===c.tasks.length;
+    const b=document.createElement('button');
+    b.className='capbtn'+(S.ch===c.id?' on':'')+(all?' done':'')+(unlocked?'':' lock');
+    b.innerHTML=`<span class="cn">${c.n}</span><span class="ct">${c.short}</span><span class="cs">${unlocked?doneN+'/'+c.tasks.length:'bloqueado'}</span>`;
+    b.onclick=()=>{if(!unlocked)return;S.ch=c.id;save();render();document.getElementById('chapters').scrollIntoView({block:'start'})};
+    caps.appendChild(b);
+    const a=document.createElement('a');a.href='#chapters';a.textContent=c.n+' '+c.short;a.className=unlocked?'':'lock';a.onclick=(e)=>{e.preventDefault();if(!unlocked)return;S.ch=c.id;save();render();document.getElementById('chapters').scrollIntoView({block:'start'})};
+    navc.appendChild(a);
+
+    const sec=document.createElement('div');sec.className='chapter'+(S.ch===c.id?' show':'');
+    if(!unlocked){
+      sec.innerHTML=`<div class="chead"><div class="wrap"><div class="bignum">${c.n}</div><div><div class="when">${c.when}</div><h2>${c.title}</h2></div></div></div><div class="cbody"><div class="wrap"><div class="lockmsg"><div class="big">Todavía no</div>Termina las tareas del capítulo ${c.n-1} para descubrir este.<br><a href="#chapters" data-unlock="${c.id}">Ya lo he trabajado fuera de aquí, desbloquear igualmente</a></div></div></div>`;
+      root.appendChild(sec);return;
+    }
+    let html=`<div class="chead"><div class="wrap"><div class="bignum">${c.n}</div><div><div class="when">${c.when}</div><h2>${c.title}</h2><p>${c.intro}</p></div></div></div><div class="cbody"><div class="wrap">`;
+    if(c.story){html+='<div class="story">'+c.story.map(s=>`<div class="scene ${s.k}">${s.l?`<div class="sl">${s.l}</div>`:''}${s.t}</div>`).join('')+'</div>'}
+    if(c.ficha)html+=FICHA;
+    if(c.flow)html+=FLOW;
+    if(c.decisions)html+=DECISIONS;
+    if(c.mock)html+=MOCK;
+    if(c.brief)html+=BRIEF;
+    if(c.flow2)html+=FLOW2;
+    if(c.cycle)html+=CYCLE;
+    html+=`<h3>Lo que haces tú <small>${c.tasks.length} tareas · ${c.tasks.reduce((a,t)=>a+parseInt(t.time),0)} min</small></h3><div id="tasks-${c.id}"></div>`;
+    html+=`</div></div>`;
+    sec.innerHTML=html;
+    const tl=sec.querySelector('#tasks-'+c.id);
+    c.tasks.forEach(t=>tl.appendChild(taskEl(t)));
+    tl.appendChild(cierreEl(c,i));
+    root.appendChild(sec);
+  });
+  const total=Object.values(S.done).filter(Boolean).length;
+  document.getElementById('progTxt').textContent=Math.round(100*total/TOTAL)+' %';
+  document.getElementById('progBar').style.width=(100*total/TOTAL)+'%';
+}
+
+function taskEl(t){
+  const el=document.createElement('details');el.className='task'+(S.done[t.id]?' done':'');
+  const chips=[WHO[t.who]].concat(t.tools.map(k=>TOOL[k])).map(c=>`<span class="chip ${c[1]}">${c[0]}</span>`).join('');
+  let body=`<p>${t.why}</p>`;
+  body+=`<div><div class="lbl">Qué hacer</div><ol class="steps">${t.steps.map(s=>`<li>${s}</li>`).join('')}</ol></div>`;
+  if(t.prompt) body+=`<div><div class="lbl">Instrucción para la IA · copiar y rellenar los huecos</div><div class="pwrap"><button class="copy" data-copy="${t.id}">Copiar</button><div class="pbox" id="p-${t.id.replace('.','-')}">${fmtPrompt(t.prompt)}</div></div></div>`;
+  if(t.field) body+=`<div class="field"><div class="lbl">${t.field.label}</div><textarea data-field="${t.id}" placeholder="${esc(t.field.ph)}">${esc(S.fields[t.id]||'')}</textarea><div class="hint">Se guarda en este navegador. Lo que cuenta es la copia en NotionPilot.</div></div>`;
+  body+=`<div class="three"><div class="mini"><b>Entregable</b>${t.deliverable}</div><div class="mini g"><b>Está hecha cuando…</b>${t.done}</div><div class="mini n"><b>Dónde va en NotionPilot</b>${t.notion}</div></div>`;
+  if(t.reveal){const o=!!S.done[t.id];body+=`<div class="reveal${o?' open':''}"><div class="ico">${o?'!':'?'}</div><div><div class="rl">${o?t.reveal.l:'Se destapa al marcar la tarea'}</div><p>${o?t.reveal.t:'Aquí aparece lo que encontramos nosotros en este paso. Primero hazlo tú: compara después.'}</p></div></div>`}
+  body+=`<button class="donebtn" data-done="${t.id}">${S.done[t.id]?'Hecha · desmarcar':'Marcar como hecha'}</button>`;
+  el.innerHTML=`<summary><span class="tk">${S.done[t.id]?'✓':''}</span><div class="tt"><span class="id">${t.id}</span><h4>${t.t}</h4><div class="chips">${chips}</div></div><span class="ttime">${t.time}</span></summary><div class="tbody">${body}</div>`;
+  return el;
+}
+
+function cierreEl(c,i){
+  const s=S.cierres[c.id]||{}, next=CH[i+1], all=chDone(c);
+  const el=document.createElement('div');el.className='cierre';
+  el.innerHTML=`<h4>Cierre del capítulo ${c.n}</h4><p class="s">Dos minutos: qué se hizo, qué quedó pendiente, qué surgió. Copia esto en la sesión de NotionPilot.</p>
+  <div class="three">
+    <div class="field"><div class="lbl">Qué se hizo</div><textarea data-cierre="${c.id}:hecho">${esc(s.hecho||'')}</textarea></div>
+    <div class="field"><div class="lbl">Qué quedó pendiente</div><textarea data-cierre="${c.id}:pend">${esc(s.pend||'')}</textarea></div>
+    <div class="field"><div class="lbl">Qué surgió</div><textarea data-cierre="${c.id}:surg">${esc(s.surg||'')}</textarea></div>
+  </div>
+  <div class="bottomnav">${next?`<button class="btn" data-next="${c.id}" ${all?'':'disabled'}>Capítulo ${next.n} · ${next.short}</button><span class="note">${all?'Todo hecho. Adelante.':'Marca todas las tareas para seguir la historia.'}</span>`:`<button class="btn" data-final="1">Ver el epílogo</button>`}</div>`;
+  return el;
+}
+
+/* ===================== EVENTOS ===================== */
+document.addEventListener('click',e=>{
+  const c=e.target.closest('[data-copy]');
+  if(c){copyText(document.getElementById('p-'+c.dataset.copy.replace('.','-')).innerText,c);return}
+  const d=e.target.closest('[data-done]');
+  if(d){S.done[d.dataset.done]=!S.done[d.dataset.done];save();const open=[...document.querySelectorAll('details.task[open]')].map(x=>x.querySelector('.id').textContent);render();document.querySelectorAll('details.task').forEach(x=>{if(open.includes(x.querySelector('.id').textContent))x.open=true});return}
+  const n=e.target.closest('[data-next]');
+  if(n){const i=CH.findIndex(x=>x.id===n.dataset.next);S.ch=CH[i+1].id;save();render();document.getElementById('chapters').scrollIntoView({block:'start'});return}
+  const u=e.target.closest('[data-unlock]');
+  if(u){e.preventDefault();S.unlocked[u.dataset.unlock]=true;S.ch=u.dataset.unlock;save();render();return}
+  if(e.target.closest('[data-final]')){document.getElementById('final').scrollIntoView({block:'start'})}
+});
+document.addEventListener('input',e=>{
+  const f=e.target.dataset.field; if(f){S.fields[f]=e.target.value;save();return}
+  const c=e.target.dataset.cierre; if(c){const [d,k]=c.split(':');S.cierres[d]=S.cierres[d]||{};S.cierres[d][k]=e.target.value;save()}
+});
+function copyText(txt,btn){
+  const ok=()=>{const o=btn.textContent;btn.textContent='Copiado';btn.classList.add('ok');setTimeout(()=>{btn.textContent=o;btn.classList.remove('ok')},1600)};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(ok).catch(()=>fallback(txt,ok))}else fallback(txt,ok);
+}
+function fallback(txt,ok){const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity=0;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok()}catch(e){}document.body.removeChild(ta)}
+
+function buildSummary(){
+  let out=`CASO DÍGITO ROTULACIÓN · resumen de trabajo\nProgreso: ${Object.values(S.done).filter(Boolean).length}/${TOTAL} tareas\n`;
+  CH.forEach(c=>{
+    out+=`\n=== ${c.n} · ${c.title.toUpperCase()} ===\n`;
+    c.tasks.forEach(t=>{out+=`[${S.done[t.id]?'x':' '}] ${t.id} ${t.t}\n`;if(t.field&&S.fields[t.id])out+=`    ${t.field.label}:\n    ${S.fields[t.id].replace(/\n/g,'\n    ')}\n`});
+    const s=S.cierres[c.id];
+    if(s&&(s.hecho||s.pend||s.surg))out+=`-- Cierre --\nHecho: ${s.hecho||'—'}\nPendiente: ${s.pend||'—'}\nSurgió: ${s.surg||'—'}\n`;
+  });
+  return out;
+}
+document.getElementById('btnResumen').onclick=()=>{document.getElementById('resumen').textContent=buildSummary()};
+document.getElementById('btnCopiarResumen').onclick=e=>{document.getElementById('resumen').textContent=buildSummary();copyText(buildSummary(),e.target)};
+document.getElementById('btnReset').onclick=()=>{const n=document.getElementById('resumenNote');if(n.dataset.arm){S={done:{},fields:{},cierres:{},ch:'c1',unlocked:{c1:true}};save();render();n.textContent='Caso reiniciado.';delete n.dataset.arm;setTimeout(()=>n.textContent='',2000)}else{n.dataset.arm='1';n.textContent='Pulsa otra vez para borrar el progreso de este navegador.';setTimeout(()=>{delete n.dataset.arm;n.textContent=''},4000)}};
+
+render();
+</script>
+</body></html>
