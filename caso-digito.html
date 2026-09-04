@@ -188,7 +188,8 @@
   .task.done .donebtn{background:var(--white);color:var(--ink2);border:1px solid var(--gLine)}
 
   /* REVEAL (lo que descubrimos) */
-  .reveal{border:2px dashed var(--g2);border-radius:6px;padding:16px 18px;background:var(--paper);display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start}
+  .reveal{border:2px dashed var(--g2);border-radius:6px;padding:16px 18px;background:var(--paper);display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;cursor:pointer;transition:.2s}
+  .reveal:hover{border-color:var(--k);background:var(--white)}
   .reveal .ico{width:34px;height:34px;background:var(--gPale);display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:900;color:var(--ink3);font-size:16px}
   .reveal .rl{font-family:var(--disp);font-size:10.5px;letter-spacing:2px;text-transform:uppercase;font-weight:800;color:var(--ink3);margin-bottom:4px}
   .reveal p{margin:0;font-size:14.3px;color:var(--ink3)}
@@ -321,7 +322,7 @@
 </header>
 
 <div class="spine"><div class="wrap">
-  <h2>La historia, capítulo a capítulo · se desbloquean en orden</h2>
+  <h2>La historia, capítulo a capítulo · entra por donde quieras</h2>
   <div class="caps" id="caps"></div>
 </div></div>
 
@@ -689,7 +690,7 @@ Dame: (1) una tabla «si este número baja o no arranca → qué revisamos prime
 
 /* ===================== ESTADO ===================== */
 const KEY='opspilot-caso-digito-v2';
-let S={done:{},fields:{},cierres:{},ch:'c1',unlocked:{c1:true}};
+let S={done:{},fields:{},cierres:{},ch:'c1',revealed:{}};
 try{const raw=localStorage.getItem(KEY);if(raw)S=Object.assign(S,JSON.parse(raw))}catch(e){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 const TOTAL=CH.reduce((a,c)=>a+c.tasks.length,0);
@@ -698,7 +699,6 @@ const TOOL={ia:['con IA','c-ia'],campo:['a mano','c-campo']};
 const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const fmtPrompt=p=>esc(p).replace(/\[([^\]]+)\]/g,'<span class="ph">[$1]</span>');
 const chDone=c=>c.tasks.every(t=>S.done[t.id]);
-const isUnlocked=(i)=>i===0||S.unlocked[CH[i].id]||chDone(CH[i-1]);
 
 /* ===================== BLOQUES ESPECIALES ===================== */
 const FICHA=`<h3>La ficha del lead <small>cada dato con su origen</small></h3>
@@ -810,20 +810,16 @@ function render(){
   const caps=document.getElementById('caps'), navc=document.getElementById('navcaps'), root=document.getElementById('chapters');
   caps.innerHTML='';navc.innerHTML='';root.innerHTML='';
   CH.forEach((c,i)=>{
-    const unlocked=isUnlocked(i), doneN=c.tasks.filter(t=>S.done[t.id]).length, all=doneN===c.tasks.length;
+    const doneN=c.tasks.filter(t=>S.done[t.id]).length, all=doneN===c.tasks.length;
     const b=document.createElement('button');
-    b.className='capbtn'+(S.ch===c.id?' on':'')+(all?' done':'')+(unlocked?'':' lock');
-    b.innerHTML=`<span class="cn">${c.n}</span><span class="ct">${c.short}</span><span class="cs">${unlocked?doneN+'/'+c.tasks.length:'bloqueado'}</span>`;
-    b.onclick=()=>{if(!unlocked)return;S.ch=c.id;save();render();document.getElementById('chapters').scrollIntoView({block:'start'})};
+    b.className='capbtn'+(S.ch===c.id?' on':'')+(all?' done':'');
+    b.innerHTML=`<span class="cn">${c.n}</span><span class="ct">${c.short}</span><span class="cs">${doneN}/${c.tasks.length}</span>`;
+    b.onclick=()=>{S.ch=c.id;save();render();document.getElementById('chapters').scrollIntoView({block:'start'})};
     caps.appendChild(b);
-    const a=document.createElement('a');a.href='#chapters';a.textContent=c.n+' '+c.short;a.className=unlocked?'':'lock';a.onclick=(e)=>{e.preventDefault();if(!unlocked)return;S.ch=c.id;save();render();document.getElementById('chapters').scrollIntoView({block:'start'})};
+    const a=document.createElement('a');a.href='#chapters';a.textContent=c.n+' '+c.short;a.onclick=(e)=>{e.preventDefault();S.ch=c.id;save();render();document.getElementById('chapters').scrollIntoView({block:'start'})};
     navc.appendChild(a);
 
     const sec=document.createElement('div');sec.className='chapter'+(S.ch===c.id?' show':'');
-    if(!unlocked){
-      sec.innerHTML=`<div class="chead"><div class="wrap"><div class="bignum">${c.n}</div><div><div class="when">${c.when}</div><h2>${c.title}</h2></div></div></div><div class="cbody"><div class="wrap"><div class="lockmsg"><div class="big">Todavía no</div>Termina las tareas del capítulo ${c.n-1} para descubrir este.<br><a href="#chapters" data-unlock="${c.id}">Ya lo he trabajado fuera de aquí, desbloquear igualmente</a></div></div></div>`;
-      root.appendChild(sec);return;
-    }
     let html=`<div class="chead"><div class="wrap"><div class="bignum">${c.n}</div><div><div class="when">${c.when}</div><h2>${c.title}</h2><p>${c.intro}</p></div></div></div><div class="cbody"><div class="wrap">`;
     if(c.story){html+='<div class="story">'+c.story.map(s=>`<div class="scene ${s.k}">${s.l?`<div class="sl">${s.l}</div>`:''}${s.t}</div>`).join('')+'</div>'}
     if(c.ficha)html+=FICHA;
@@ -854,7 +850,7 @@ function taskEl(t){
   if(t.prompt) body+=`<div><div class="lbl">Instrucción para la IA · copiar y rellenar los huecos</div><div class="pwrap"><button class="copy" data-copy="${t.id}">Copiar</button><div class="pbox" id="p-${t.id.replace('.','-')}">${fmtPrompt(t.prompt)}</div></div></div>`;
   if(t.field) body+=`<div class="field"><div class="lbl">${t.field.label}</div><textarea data-field="${t.id}" placeholder="${esc(t.field.ph)}">${esc(S.fields[t.id]||'')}</textarea><div class="hint">Se guarda en este navegador. Lo que cuenta es la copia en NotionPilot.</div></div>`;
   body+=`<div class="three"><div class="mini"><b>Entregable</b>${t.deliverable}</div><div class="mini g"><b>Está hecha cuando…</b>${t.done}</div><div class="mini n"><b>Dónde va en NotionPilot</b>${t.notion}</div></div>`;
-  if(t.reveal){const o=!!S.done[t.id];body+=`<div class="reveal${o?' open':''}"><div class="ico">${o?'!':'?'}</div><div><div class="rl">${o?t.reveal.l:'Se destapa al marcar la tarea'}</div><p>${o?t.reveal.t:'Aquí aparece lo que encontramos nosotros en este paso. Primero hazlo tú: compara después.'}</p></div></div>`}
+  if(t.reveal){const o=!!(S.revealed[t.id]||S.done[t.id]);body+=`<div class="reveal${o?' open':''}" data-reveal="${t.id}" role="button" tabindex="0"><div class="ico">${o?'!':'?'}</div><div><div class="rl">${o?t.reveal.l:'Lo que encontramos nosotros'}</div><p>${o?t.reveal.t:'Ideal es que lo hagas tú primero y compares. Pulsa aquí para verlo.'}</p></div></div>`}
   body+=`<button class="donebtn" data-done="${t.id}">${S.done[t.id]?'Hecha · desmarcar':'Marcar como hecha'}</button>`;
   el.innerHTML=`<summary><span class="tk">${S.done[t.id]?'✓':''}</span><div class="tt"><span class="id">${t.id}</span><h4>${t.t}</h4><div class="chips">${chips}</div></div><span class="ttime">${t.time}</span></summary><div class="tbody">${body}</div>`;
   return el;
@@ -869,7 +865,7 @@ function cierreEl(c,i){
     <div class="field"><div class="lbl">Qué quedó pendiente</div><textarea data-cierre="${c.id}:pend">${esc(s.pend||'')}</textarea></div>
     <div class="field"><div class="lbl">Qué surgió</div><textarea data-cierre="${c.id}:surg">${esc(s.surg||'')}</textarea></div>
   </div>
-  <div class="bottomnav">${next?`<button class="btn" data-next="${c.id}" ${all?'':'disabled'}>Capítulo ${next.n} · ${next.short}</button><span class="note">${all?'Todo hecho. Adelante.':'Marca todas las tareas para seguir la historia.'}</span>`:`<button class="btn" data-final="1">Ver el epílogo</button>`}</div>`;
+  <div class="bottomnav">${i>0?`<button class="btn ghost" data-prev="${c.id}">← Capítulo ${CH[i-1].n}</button>`:''}${next?`<button class="btn" data-next="${c.id}">Capítulo ${next.n} · ${next.short} →</button>`:`<button class="btn" data-final="1">Ver el epílogo →</button>`}<span class="note">${all?'Capítulo completo.':'Puedes avanzar sin marcar nada; las casillas son solo tu control.'}</span></div>`;
   return el;
 }
 
@@ -881,8 +877,10 @@ document.addEventListener('click',e=>{
   if(d){S.done[d.dataset.done]=!S.done[d.dataset.done];save();const open=[...document.querySelectorAll('details.task[open]')].map(x=>x.querySelector('.id').textContent);render();document.querySelectorAll('details.task').forEach(x=>{if(open.includes(x.querySelector('.id').textContent))x.open=true});return}
   const n=e.target.closest('[data-next]');
   if(n){const i=CH.findIndex(x=>x.id===n.dataset.next);S.ch=CH[i+1].id;save();render();document.getElementById('chapters').scrollIntoView({block:'start'});return}
-  const u=e.target.closest('[data-unlock]');
-  if(u){e.preventDefault();S.unlocked[u.dataset.unlock]=true;S.ch=u.dataset.unlock;save();render();return}
+  const pv=e.target.closest('[data-prev]');
+  if(pv){const i=CH.findIndex(x=>x.id===pv.dataset.prev);S.ch=CH[i-1].id;save();render();document.getElementById('chapters').scrollIntoView({block:'start'});return}
+  const rv=e.target.closest('[data-reveal]');
+  if(rv){const id=rv.dataset.reveal;S.revealed[id]=!(S.revealed[id]||S.done[id]);save();const open=[...document.querySelectorAll('details.task[open]')].map(x=>x.querySelector('.id').textContent);render();document.querySelectorAll('details.task').forEach(x=>{if(open.includes(x.querySelector('.id').textContent))x.open=true});return}
   if(e.target.closest('[data-final]')){document.getElementById('final').scrollIntoView({block:'start'})}
 });
 document.addEventListener('input',e=>{
@@ -907,7 +905,7 @@ function buildSummary(){
 }
 document.getElementById('btnResumen').onclick=()=>{document.getElementById('resumen').textContent=buildSummary()};
 document.getElementById('btnCopiarResumen').onclick=e=>{document.getElementById('resumen').textContent=buildSummary();copyText(buildSummary(),e.target)};
-document.getElementById('btnReset').onclick=()=>{const n=document.getElementById('resumenNote');if(n.dataset.arm){S={done:{},fields:{},cierres:{},ch:'c1',unlocked:{c1:true}};save();render();n.textContent='Caso reiniciado.';delete n.dataset.arm;setTimeout(()=>n.textContent='',2000)}else{n.dataset.arm='1';n.textContent='Pulsa otra vez para borrar el progreso de este navegador.';setTimeout(()=>{delete n.dataset.arm;n.textContent=''},4000)}};
+document.getElementById('btnReset').onclick=()=>{const n=document.getElementById('resumenNote');if(n.dataset.arm){S={done:{},fields:{},cierres:{},ch:'c1',revealed:{}};save();render();n.textContent='Caso reiniciado.';delete n.dataset.arm;setTimeout(()=>n.textContent='',2000)}else{n.dataset.arm='1';n.textContent='Pulsa otra vez para borrar el progreso de este navegador.';setTimeout(()=>{delete n.dataset.arm;n.textContent=''},4000)}};
 
 render();
 </script>
