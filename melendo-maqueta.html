@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Melendo · Materiales de construcción en Córdoba · Azulejos, baños y obra</title>
+<meta name="description" content="Almacén de materiales de construcción en Córdoba con 410 reseñas. Azulejos y pavimentos, baños, materiales de obra y diseño 3D de tu reforma. Dos tiendas, primeras marcas, atención de verdad.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Manrope:wght@300;400;500;600;700;800&family=Josefin+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#130000; --ink2:#3a2e2a; --ink3:#7a6f69; --paper:#f7f4ef; --white:#fff; --beige:#efe9e1; --beige2:#e4dbcf; --line:#ddd5cb;
+    --o:#EC430F; --o2:#c9370b; --oPale:#fde7de; --wa:#25D366; --ok:#2f6f4a;
+    --disp:"Fraunces",Georgia,serif; --sans:"Manrope","Segoe UI",Helvetica,Arial,sans-serif; --logo:"Josefin Sans","Manrope",sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--white);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6}
+  a{color:inherit}
+  img{max-width:100%}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 28px}
+  h1,h2,h3{font-family:var(--disp);font-weight:500;letter-spacing:-.01em;text-wrap:balance;line-height:1.1}
+  h2{font-size:clamp(28px,3.6vw,40px);margin:0 0 12px}
+  h3{font-size:22px;margin:0 0 8px}
+  .kick{font-size:11px;font-weight:800;letter-spacing:2.6px;text-transform:uppercase;color:var(--o);margin-bottom:12px}
+  .sub{color:var(--ink2);font-size:17px;max-width:620px;margin:0 0 26px}
+  .btn{display:inline-flex;align-items:center;gap:8px;background:var(--o);color:#fff;text-decoration:none;font-weight:800;font-size:14px;padding:13px 22px;border-radius:4px;letter-spacing:.2px;transition:.2s;border:none;cursor:pointer;font-family:inherit}
+  .btn:hover{background:var(--o2)}
+  .btn.wa{background:var(--wa)}
+  .btn.wa:hover{background:#1fb457}
+  .btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+  .btn.ghost:hover{background:var(--ink);color:#fff}
+  .btn.light{background:#fff;color:var(--ink)}
+  .ph{background:linear-gradient(var(--beige2) 1.5px,transparent 1.5px) 0 0/48px 48px,linear-gradient(90deg,var(--beige2) 1.5px,transparent 1.5px) 0 0/48px 48px,var(--beige);position:relative;display:flex;align-items:flex-end;justify-content:flex-start;padding:12px;border:1px solid var(--line)}
+  .ph span{font-size:11px;letter-spacing:1.2px;text-transform:uppercase;font-weight:700;color:var(--ink3);background:rgba(255,255,255,.85);padding:4px 8px}
+  .num{font-variant-numeric:tabular-nums}
+
+  /* top */
+  .topbar{background:var(--paper);border-bottom:1px solid var(--line);font-size:12.5px;color:var(--ink2)}
+  .topbar .wrap{display:flex;justify-content:space-between;gap:16px;padding-top:7px;padding-bottom:7px;flex-wrap:wrap}
+  .topbar b{color:var(--ink)}
+  nav{background:var(--ink);color:#fff;position:sticky;top:0;z-index:50}
+  nav .wrap{display:flex;align-items:center;gap:26px;padding-top:14px;padding-bottom:14px}
+  .wm{font-family:var(--logo);font-weight:300;font-size:30px;letter-spacing:-.5px;line-height:1;color:#fff;text-decoration:none}
+  .wm small{display:block;font-family:var(--disp);font-size:8px;letter-spacing:2.4px;text-transform:uppercase;font-weight:500;margin-top:2px;opacity:.9}
+  nav .links{display:flex;gap:18px;margin-left:8px;white-space:nowrap}
+  nav .links a{color:#e8dfd8;text-decoration:none;font-size:12.5px;font-weight:600}
+  nav .links a:hover{color:#fff}
+  nav .cta{margin-left:auto;display:flex;gap:10px}
+  nav .cta .btn{padding:10px 14px;font-size:12.5px;white-space:nowrap}
+
+  /* hero */
+  .hero{background:var(--white)}
+  .hero .wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:44px;align-items:center;padding-top:56px;padding-bottom:56px}
+  .hero h1{font-size:clamp(36px,5vw,58px);margin:0 0 18px;font-weight:400}
+  .hero h1 em{font-style:italic;color:var(--o)}
+  .hero p{font-size:18px;color:var(--ink2);margin:0 0 26px;max-width:520px}
+  .hero .btns{display:flex;gap:10px;flex-wrap:wrap}
+  .hero .note{font-size:12.5px;color:var(--ink3);margin-top:14px}
+  .mosaic{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:200px 160px;gap:10px}
+  .mosaic .ph:first-child{grid-row:1/3}
+
+  /* trust */
+  .trust{background:var(--ink);color:#fff}
+  .trust .wrap{display:grid;grid-template-columns:repeat(5,1fr);gap:0;padding-top:0;padding-bottom:0}
+  .trust div div{padding:18px 16px;border-right:1px solid #2a1a14}
+  .trust div div:last-child{border-right:none}
+  .trust .n{font-family:var(--disp);font-size:28px;line-height:1;font-weight:500}
+  .trust .n span{color:var(--o)}
+  .trust .l{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:#b9aca4;margin-top:6px;font-weight:700}
+  .stars{color:#f5b301;letter-spacing:1px;font-size:14px}
+
+  section{padding:64px 0}
+  section.alt{background:var(--paper)}
+  .cats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .cat{background:var(--white);border:1px solid var(--line);border-radius:6px;overflow:hidden;text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:.2s}
+  .cat:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(19,0,0,.1)}
+  .cat .ph{height:150px}
+  .cat .b{padding:16px 18px 18px;display:grid;gap:6px;flex:1}
+  .cat h3{font-size:20px}
+  .cat p{margin:0;font-size:13.8px;color:var(--ink2)}
+  .cat .go{margin-top:auto;font-size:12.5px;font-weight:800;color:var(--o);letter-spacing:.5px;text-transform:uppercase}
+
+  .d3 .wrap{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+  .steps{display:grid;gap:14px;margin:22px 0 26px}
+  .stp{display:grid;grid-template-columns:40px 1fr;gap:14px;align-items:start}
+  .stp .n{width:34px;height:34px;background:var(--ink);color:#fff;font-family:var(--disp);font-size:18px;display:flex;align-items:center;justify-content:center}
+  .stp h4{margin:0 0 2px;font-size:16px;font-weight:800}
+  .stp p{margin:0;font-size:14px;color:var(--ink2)}
+  .cmp{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .cmp .ph{height:260px}
+
+  .revs{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}
+  .rev{background:var(--white);border:1px solid var(--line);padding:22px 22px 18px;border-radius:6px;display:grid;gap:10px}
+  .rev q{font-family:var(--disp);font-size:19px;line-height:1.35;quotes:"«" "»";font-weight:400}
+  .rev .who{font-size:12.5px;color:var(--ink3)}
+  .rev .who b{color:var(--ink)}
+  .revhead{display:flex;align-items:end;justify-content:space-between;gap:20px;flex-wrap:wrap}
+  .score{display:flex;align-items:center;gap:14px;background:var(--white);border:1px solid var(--line);padding:12px 18px;border-radius:6px}
+  .score .big{font-family:var(--disp);font-size:40px;line-height:1;font-weight:500}
+  .score .t{font-size:12.5px;color:var(--ink2);line-height:1.4}
+  .score .t b{display:block;color:var(--ink)}
+
+  .pro{background:var(--ink);color:#fff}
+  .pro .wrap{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+  .pro h2{color:#fff}
+  .pro p{color:#d9cfc8}
+  .pro ul{margin:0 0 24px;padding-left:0;list-style:none;display:grid;gap:10px}
+  .pro li{padding-left:26px;position:relative;color:#e8dfd8;font-size:15px}
+  .pro li::before{content:"";position:absolute;left:0;top:9px;width:14px;height:3px;background:var(--o)}
+  .pro .ph{height:300px;border-color:#3a2a24;background:linear-gradient(#2a1a14 1.5px,transparent 1.5px) 0 0/48px 48px,linear-gradient(90deg,#2a1a14 1.5px,transparent 1.5px) 0 0/48px 48px,#1e0f0a}
+  .pro .ph span{background:rgba(19,0,0,.8);color:#b9aca4}
+
+  .brands{padding:36px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .brands .row{display:flex;flex-wrap:wrap;gap:10px 28px;justify-content:center;align-items:center}
+  .brands .row span{font-family:var(--disp);font-size:20px;color:var(--ink3);font-weight:500;letter-spacing:.3px}
+  .brands .k{text-align:center;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);font-weight:800;margin-bottom:14px}
+
+  .why .wrap{max-width:860px}
+  .why .box{background:var(--white);border:1px solid var(--line);border-left:6px solid var(--o);padding:28px 32px}
+  .why .box h3{font-size:26px;margin-bottom:12px}
+  .why .box p{margin:0 0 10px;color:var(--ink2);font-size:15.5px}
+
+  .stores{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+  .store{background:var(--white);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+  .store .ph{height:170px}
+  .store .b{padding:20px 22px}
+  .store h3{font-size:22px}
+  .store .tag{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;padding:3px 8px;background:var(--oPale);color:var(--o);margin-bottom:8px}
+  .store p{margin:0 0 6px;font-size:14.5px;color:var(--ink2)}
+  .store p b{color:var(--ink)}
+  .store .acts{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+  .store .acts .btn{padding:9px 14px;font-size:13px}
+
+  .form{background:var(--ink);color:#fff}
+  .form .wrap{display:grid;grid-template-columns:1fr 1.2fr;gap:44px;align-items:start}
+  .form h2{color:#fff}
+  .form p{color:#d9cfc8}
+  .form form{background:#fff;color:var(--ink);padding:26px;border-radius:6px;display:grid;gap:12px}
+  .form label{font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--ink3);display:grid;gap:5px}
+  .form input,.form select,.form textarea{font-family:inherit;font-size:14.5px;padding:11px 12px;border:1px solid var(--line);border-radius:4px;background:var(--paper);color:var(--ink);width:100%}
+  .form .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .form small{font-size:12px;color:var(--ink3);font-weight:500;letter-spacing:0;text-transform:none}
+
+  footer{background:#0c0000;color:#b9aca4;padding:40px 0 100px;font-size:13px}
+  footer .wrap{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:30px}
+  footer h5{color:#fff;font-size:12px;letter-spacing:1.8px;text-transform:uppercase;margin:0 0 10px}
+  footer a{color:#d9cfc8;text-decoration:none;display:block;margin-bottom:6px}
+  footer .soc a{display:inline-block;margin-right:12px}
+  .wafab{position:fixed;right:18px;bottom:18px;z-index:60;background:var(--wa);color:#fff;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:22px;text-decoration:none;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+  .demo{position:fixed;left:14px;bottom:14px;z-index:60;background:var(--o);color:#fff;font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;padding:6px 10px;transform:rotate(-2deg)}
+
+  @media(max-width:900px){
+    nav .links{display:none}
+    .hero .wrap,.d3 .wrap,.pro .wrap,.form .wrap{grid-template-columns:1fr}
+    .trust .wrap{grid-template-columns:repeat(2,1fr)}
+    .cats{grid-template-columns:repeat(2,1fr)}
+    .revs,.stores{grid-template-columns:1fr}
+    footer .wrap{grid-template-columns:1fr 1fr}
+    .mosaic{grid-template-rows:180px 120px}
+  }
+  @media(max-width:560px){
+    .cats,.trust .wrap,.cmp,footer .wrap,.form .two{grid-template-columns:1fr}
+    nav .cta .btn.ghost{display:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="demo">Maqueta · OpsPilot</div>
+
+<div class="topbar"><div class="wrap">
+  <div><b>Almacén</b> 957 255 981 &nbsp;·&nbsp; <b>Tienda Chinales</b> 957 767 603</div>
+  <div>Profesionales: Chinales de <b>7:30 a 14:30</b> &nbsp;·&nbsp; Particulares: <b>[horario a confirmar]</b></div>
+</div></div>
+
+<nav><div class="wrap">
+  <a class="wm" href="#">melendo<small>Materiales de construcción</small></a>
+  <div class="links">
+    <a href="#azulejos">Azulejos y pavimentos</a><a href="#banos">Baños</a><a href="#obra">Materiales de obra</a><a href="#3d">Proyectos 3D</a><a href="#pro">Profesionales</a><a href="#tiendas">Tiendas</a>
+  </div>
+  <div class="cta"><a class="btn ghost" style="color:#fff;border-color:#5a4a44" href="#tiendas">Cómo llegar</a><a class="btn" href="#presupuesto">Pedir presupuesto</a></div>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <div>
+    <div class="kick">Córdoba · Virgen del Mar y Chinales</div>
+    <h1>Materiales de construcción en Córdoba, <em>con quien te asesora de verdad.</em></h1>
+    <p>Azulejos, pavimentos, baños y todo el material de obra, de primeras marcas y en stock. Y antes de comprar una sola pieza, <b>te enseñamos tu reforma en 3D</b> para que la veas terminada.</p>
+    <div class="btns"><a class="btn" href="#presupuesto">Pedir presupuesto</a><a class="btn wa" href="#">WhatsApp · 957 767 603</a></div>
+    <div class="note"><span class="stars">★★★★★</span> &nbsp;4,4 sobre 5 · 410 reseñas en Google entre las dos tiendas</div>
+  </div>
+  <div class="mosaic">
+    <div class="ph"><span>Foto real · tienda de Chinales, exposición</span></div>
+    <div class="ph"><span>Azulejo en mano</span></div>
+    <div class="ph"><span>Reforma terminada</span></div>
+  </div>
+</div></header>
+
+<div class="trust"><div class="wrap">
+  <div><div><div class="n num">4,4 <span>★</span></div><div class="l">410 reseñas en Google</div></div></div>
+  <div><div><div class="n num">2</div><div class="l">Tiendas en Córdoba</div></div></div>
+  <div><div><div class="n num">15</div><div class="l">Primeras marcas</div></div></div>
+  <div><div><div class="n">3D</div><div class="l">Tu reforma antes de hacerla</div></div></div>
+  <div><div><div class="n num">7:30</div><div class="l">Abrimos para profesionales</div></div></div>
+</div></div>
+
+<section id="azulejos"><div class="wrap">
+  <div class="kick">Lo que encuentras en Melendo</div>
+  <h2>Todo lo que necesita una reforma, en dos tiendas</h2>
+  <p class="sub">Vienes con una idea o con un plano. Sales con el material elegido, presupuestado y con fecha de entrega en obra.</p>
+  <div class="cats">
+    <a class="cat" href="#"><div class="ph"><span>Foto · exposición de azulejos</span></div><div class="b"><h3>Azulejos y pavimentos</h3><p>Porcelánico, gres, mosaico e imitación madera y piedra. Para baño, cocina, salón y exterior. Roca, Keraben, Dune, STN, Realonda…</p><span class="go">Ver azulejos y pavimentos →</span></div></a>
+    <a class="cat" href="#banos"><div class="ph"><span>Foto · baño montado en exposición</span></div><div class="b"><h3>Baños y grifería</h3><p>Sanitarios, platos de ducha, mamparas, muebles y grifería. Baños completos que puedes ver montados en tienda.</p><span class="go">Ver baños →</span></div></a>
+    <a class="cat" href="#obra"><div class="ph"><span>Foto · almacén Virgen del Mar</span></div><div class="b"><h3>Materiales de obra</h3><p>Cemento, ladrillo, áridos, aislamiento, yesos y todo lo que pide la obra. Stock en almacén y entrega en obra [zona a confirmar].</p><span class="go">Ver materiales →</span></div></a>
+    <a class="cat" href="#3d"><div class="ph"><span>Infografía 3D de un baño</span></div><div class="b"><h3>Proyectos en 3D</h3><p>Diseñamos tu baño o tu cocina con el material real y te la enseñamos terminada antes de que empiece la obra.</p><span class="go">Cómo funciona →</span></div></a>
+  </div>
+</div></section>
+
+<section class="alt d3" id="3d"><div class="wrap">
+  <div>
+    <div class="kick">Diseño en 3D</div>
+    <h2>Ve tu reforma antes de hacerla</h2>
+    <p class="sub" style="margin-bottom:0">Elegir un azulejo en una muestra de 10 centímetros es adivinar. Nosotros lo ponemos en tu baño, con tu medida y tu luz, y lo ves terminado en pantalla.</p>
+    <div class="steps">
+      <div class="stp"><div class="n">1</div><div><h4>Eliges en tienda</h4><p>Con quien lleva años haciéndolo. Traes medidas o fotos; si no las tienes, te decimos qué tomar.</p></div></div>
+      <div class="stp"><div class="n">2</div><div><h4>Te lo enseñamos en 3D</h4><p>Con el material real que vas a comprar. Cambias una pieza y lo vuelves a ver, las veces que haga falta.</p></div></div>
+      <div class="stp"><div class="n">3</div><div><h4>Compras sabiendo cómo queda</h4><p>Con la cantidad exacta de material calculada y el presupuesto cerrado. Sin sorpresas en la obra.</p></div></div>
+    </div>
+    <a class="btn" href="#presupuesto">Quiero ver mi reforma en 3D</a>
+  </div>
+  <div class="cmp">
+    <div class="ph"><span>Infografía 3D · proyecto real</span></div>
+    <div class="ph"><span>El mismo baño, terminado</span></div>
+  </div>
+</div></section>
+
+<section id="banos"><div class="wrap">
+  <div class="revhead">
+    <div><div class="kick">Lo que dicen quienes ya han reformado</div><h2>410 reseñas. Casi todas hablan de personas.</h2></div>
+    <div class="score"><div class="big num">4,4</div><div class="t"><span class="stars">★★★★★</span><b>410 reseñas en Google</b>Chinales 203 · Virgen del Mar 207</div></div>
+  </div>
+  <div class="revs">
+    <div class="rev"><q>Muy buena atención, personal especializado, te hacen muy fácil la elección gracias a su gran experiencia. He reformado desde cero y me han ayudado muchísimo. Repetiría mil veces con ellos.</q><div class="who"><b>Helena P.</b> · Google · hace 5 meses</div></div>
+    <div class="rev"><q>Te asesoran estupendamente la verdad, y cuando fui a recoger el material al almacén, el trabajador estupendo, muy agradable, me ayudó mucho.</q><div class="who"><b>Fali S.</b> · Local Guide · Google</div></div>
+    <div class="rev"><q>Fui la semana pasada, me atendió Fátima y me encantó.</q><div class="who"><b>Reseña en Google</b> · tienda de Chinales</div></div>
+  </div>
+  <p style="margin-top:18px;font-size:13.5px;color:var(--ink3)">Frases literales de reseñas públicas de Google. <a href="#">Leer las 410 reseñas →</a></p>
+</div></section>
+
+<section class="pro" id="pro"><div class="wrap">
+  <div>
+    <div class="kick">Para profesionales</div>
+    <h2>Abrimos a las 7:30 para que tú abras la obra a las 8</h2>
+    <p>Albañiles, reformistas, fontaneros y constructoras de Córdoba llevan años cargando en Melendo. Sabemos lo que cuesta un día parado.</p>
+    <ul>
+      <li>Tienda de Chinales de <b>7:30 a 14:30</b> para profesionales</li>
+      <li>Stock real en almacén: lo que ves en el presupuesto está en la nave</li>
+      <li>Entrega en obra [plazo y zona a confirmar]</li>
+      <li>Cuenta de profesional con condiciones y pedidos por WhatsApp</li>
+      <li>Presupuestos por partida, para que los pases a tu cliente</li>
+    </ul>
+    <a class="btn" href="#presupuesto">Abrir cuenta de profesional</a>
+  </div>
+  <div class="ph"><span>Foto · carga en el almacén, primera hora</span></div>
+</div></section>
+
+<div class="brands"><div class="wrap">
+  <div class="k">Primeras marcas, en tienda y en stock</div>
+  <div class="row"><span>Roca</span><span>Keraben</span><span>Dune</span><span>Fanal</span><span>STN Cerámica</span><span>Realonda</span><span>Hisbalit</span><span>Alcor</span><span>Mainzu</span><span>Prissmacer</span><span>GME</span><span>Deyban</span><span>Bestile</span><span>Fabresa</span><span>Sanchis</span></div>
+</div></div>
+
+<section class="why"><div class="wrap">
+  <div class="box">
+    <div class="kick">La pregunta que todo el mundo se hace</div>
+    <h3>¿Por qué Melendo y no una gran superficie?</h3>
+    <p>Porque en una gran superficie eliges solo. Aquí te atiende alguien que ha visto cientos de reformas como la tuya, te dice qué pavimento aguanta en un patio de Córdoba en agosto y qué no, y te enseña el resultado en 3D antes de que pagues.</p>
+    <p>Porque el material sale del almacén de al lado, no de un pedido a central. Y porque si algo no cuadra en la obra, hablas con la misma persona que te lo vendió.</p>
+    <p><b>410 personas lo han contado en Google.</b> Más reseñas que ningún otro almacén independiente de Córdoba.</p>
+  </div>
+</div></section>
+
+<section class="alt" id="tiendas"><div class="wrap">
+  <div class="kick">Dónde estamos</div>
+  <h2>Dos tiendas en Córdoba</h2>
+  <p class="sub">La exposición en Chinales, el almacén en Virgen del Mar. Vienes a una y te servimos desde la otra.</p>
+  <div class="stores">
+    <div class="store"><div class="ph"><span>Foto · fachada tienda Chinales</span></div><div class="b"><span class="tag">Tienda y exposición</span><h3>Melendo Chinales</h3><p><b>Avda. de Chinales, calle principal 27</b> · 14007 Córdoba<br>Polígono de Chinales</p><p>Tel. <b>957 767 603</b> · chinales@melendo.es</p><p>Profesionales: 7:30–14:30 · Particulares: [a confirmar]</p><div class="acts"><a class="btn ghost" href="#">Cómo llegar</a><a class="btn wa" href="#">WhatsApp</a></div></div></div>
+    <div class="store"><div class="ph"><span>Foto · almacén Virgen del Mar</span></div><div class="b"><span class="tag">Almacén y central</span><h3>Melendo Virgen del Mar</h3><p><b>Avda. Virgen del Mar, s/n</b> · 14010 Córdoba</p><p>Tel. <b>957 255 981</b> · central@melendo.es</p><p>Horario: [a confirmar] · Carga de material y entrega en obra</p><div class="acts"><a class="btn ghost" href="#">Cómo llegar</a><a class="btn wa" href="#">WhatsApp</a></div></div></div>
+  </div>
+</div></section>
+
+<section class="form" id="presupuesto"><div class="wrap">
+  <div>
+    <div class="kick">Pedir presupuesto</div>
+    <h2>Cuéntanos la reforma. Te contestamos en [24 h laborables].</h2>
+    <p>Con tres datos y un par de fotos podemos darte un presupuesto orientativo sin que tengas que venir. Y si quieres verlo en 3D, te decimos qué medidas tomar.</p>
+    <p style="font-size:13.5px">¿Prefieres hablar? <b style="color:#fff">WhatsApp 957 767 603</b> o llámanos.</p>
+  </div>
+  <form onsubmit="return false">
+    <label>Qué vas a hacer<select><option>Reformar un baño</option><option>Reformar una cocina</option><option>Suelo o pared: azulejos y pavimentos</option><option>Materiales de obra</option><option>Soy profesional: pedido para obra</option></select></label>
+    <div class="two"><label>Metros aproximados<input placeholder="p. ej. 6 m² de baño"></label><label>Para cuándo<select><option>Este mes</option><option>En 1–3 meses</option><option>Más adelante, estoy mirando</option></select></label></div>
+    <label>Fotos o plano <small>(opcional, ayuda mucho)</small><input type="file" multiple></label>
+    <label>Cuéntanos<textarea rows="3" placeholder="Qué tienes, qué quieres, qué estilo te gusta…"></textarea></label>
+    <div class="two"><label>Nombre<input placeholder="Tu nombre"></label><label>Teléfono o WhatsApp<input placeholder="6xx xxx xxx"></label></div>
+    <label>¿Cómo nos has conocido? <small>(nos ayuda a mejorar)</small><select><option>Google</option><option>Instagram / TikTok</option><option>Me lo ha recomendado alguien</option><option>Ya soy cliente</option><option>Pasé por la tienda</option></select></label>
+    <button class="btn" type="submit">Enviar y recibir presupuesto</button>
+    <small>Al enviar recibirás un WhatsApp de confirmación con quién te va a atender. Sin compromiso.</small>
+  </form>
+</div></section>
+
+<footer><div class="wrap">
+  <div><span class="wm">melendo<small>Materiales de construcción</small></span><p style="margin-top:14px;max-width:320px">Almacén de materiales de construcción en Córdoba. Azulejos, baños, obra y diseño 3D. Dos tiendas, primeras marcas, 410 reseñas.</p><div class="soc"><a href="#">Instagram</a><a href="#">TikTok</a><a href="#">Facebook</a><a href="#">Google</a></div></div>
+  <div><h5>Productos</h5><a href="#">Azulejos y pavimentos</a><a href="#">Baños y grifería</a><a href="#">Materiales de obra</a><a href="#">Proyectos 3D</a><a href="#">Marcas</a></div>
+  <div><h5>Melendo</h5><a href="#">Profesionales</a><a href="#">Reformas realizadas</a><a href="#">Tiendas y horarios</a><a href="#">Pedir presupuesto</a></div>
+  <div><h5>Legal</h5><a href="#">Aviso legal</a><a href="#">Privacidad</a><a href="#">Cookies</a><p style="margin-top:14px;font-size:12px">© 2026 Almacenes Melendo S.L. · Córdoba</p></div>
+</div></footer>
+
+<a class="wafab" href="#" aria-label="WhatsApp">✆</a>
+
+</body>
+</html>

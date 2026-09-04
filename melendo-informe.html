@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Melendo · Informe externo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,500&family=Manrope:wght@300;400;500;600;700;800&family=Josefin+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#130000; --ink2:#3a2e2a; --ink3:#7a6f69; --paper:#f7f4ef; --white:#fff; --beige:#efe9e1; --beige2:#e4dbcf; --line:#ddd5cb;
+    --o:#EC430F; --oPale:#fde7de; --ok:#2f6f4a; --okPale:#e3f0e8; --bad:#a53030; --badPale:#f6e1e1;
+    --disp:"Fraunces",Georgia,serif; --sans:"Manrope","Segoe UI",Helvetica,Arial,sans-serif; --mono:ui-monospace,Consolas,Menlo,monospace; --logo:"Josefin Sans","Manrope",sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--beige);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.6}
+  .page{max-width:900px;margin:0 auto;background:var(--white)}
+  .wrap{padding:44px 56px}
+  h1,h2,h3{font-family:var(--disp);font-weight:500;letter-spacing:-.01em;text-wrap:balance}
+  h2{font-size:30px;margin:0 0 8px;line-height:1.15}
+  h3{font-size:20px;margin:26px 0 10px}
+  p{margin:0 0 12px}
+  .kick{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--o);margin-bottom:10px}
+  .lead{font-size:17px;color:var(--ink2);max-width:640px}
+  .lead b,p b,li b{font-weight:700;color:var(--ink)}
+  .wm{font-family:var(--logo);font-weight:300;font-size:34px;letter-spacing:-.5px;line-height:1;color:#fff}
+  .wm small{display:block;font-family:var(--disp);font-size:9px;letter-spacing:2.6px;text-transform:uppercase;font-weight:500;margin-top:3px;opacity:.9}
+  .num{font-variant-numeric:tabular-nums}
+
+  /* cover */
+  .cover{background:var(--ink);color:#fff;padding:52px 56px 46px;position:relative;overflow:hidden}
+  .cover::after{content:"";position:absolute;right:-40px;top:-40px;width:260px;height:260px;background:
+    linear-gradient(#2a1a14 1px,transparent 1px) 0 0/40px 40px,linear-gradient(90deg,#2a1a14 1px,transparent 1px) 0 0/40px 40px;opacity:.9;transform:rotate(8deg)}
+  .cover .top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;position:relative;z-index:1}
+  .cover .meta{text-align:right;font-size:12px;color:#c9bdb5;line-height:1.5}
+  .cover .meta b{color:#fff;font-weight:600}
+  .cover h1{font-size:44px;margin:60px 0 14px;line-height:1.05;position:relative;z-index:1;font-weight:300;max-width:640px}
+  .cover h1 em{font-style:italic;color:var(--o)}
+  .cover .sub{color:#d9cfc8;font-size:16px;max-width:600px;position:relative;z-index:1;margin:0}
+  .cover .stats{display:flex;gap:28px;flex-wrap:wrap;margin-top:44px;padding-top:22px;border-top:1px solid #3a2a24;position:relative;z-index:1}
+  .cover .st .n{font-family:var(--disp);font-size:32px;font-weight:500;line-height:1}
+  .cover .st .n span{color:var(--o)}
+  .cover .st .l{font-size:10.5px;letter-spacing:1.8px;text-transform:uppercase;color:#b9aca4;margin-top:5px;font-weight:600}
+
+  /* hallazgo */
+  .hall{background:var(--paper);border-left:5px solid var(--o);padding:26px 30px;margin:0 0 6px}
+  .hall p{font-family:var(--disp);font-size:24px;line-height:1.35;margin:0;font-weight:400}
+  .hall p b{font-weight:600}
+  .hall .who{font-size:12px;color:var(--ink3);margin-top:10px}
+
+  section{padding:36px 56px;border-top:1px solid var(--line)}
+  section.alt{background:var(--paper)}
+
+  .grid{display:grid;gap:14px}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .card{background:var(--white);border:1px solid var(--line);padding:16px 18px;border-radius:4px}
+  .card.ok{border-top:4px solid var(--ok)}
+  .card.bad{border-top:4px solid var(--bad)}
+  .card.o{border-top:4px solid var(--o)}
+  .card h4{margin:0 0 6px;font-family:var(--sans);font-size:14px;font-weight:800}
+  .card p{font-size:13.6px;color:var(--ink2);margin:0}
+  .card .d{font-family:var(--disp);font-size:30px;font-weight:500;line-height:1;margin-bottom:6px}
+  .card .d.ok{color:var(--ok)}.card .d.bad{color:var(--bad)}.card .d.o{color:var(--o)}
+  .card .src{display:block;font-size:11px;color:var(--ink3);margin-top:8px}
+
+  table{width:100%;border-collapse:collapse;font-size:13.4px;background:var(--white);border:1px solid var(--line)}
+  th{background:var(--ink);color:#fff;text-align:left;padding:9px 12px;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;font-weight:700}
+  td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink2)}
+  tr:last-child td{border-bottom:none}
+  td b{color:var(--ink)}
+  td.si{color:var(--ok);font-weight:800}td.no{color:var(--bad);font-weight:800}
+  .tag{display:inline-block;font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:2px 7px;border-radius:3px;background:var(--beige);color:var(--ink2)}
+  .tag.o{background:var(--oPale);color:var(--o)}.tag.ok{background:var(--okPale);color:var(--ok)}.tag.bad{background:var(--badPale);color:var(--bad)}
+
+  .pts{counter-reset:p;display:grid;gap:12px;margin:0;padding:0;list-style:none}
+  .pts li{counter-increment:p;position:relative;padding-left:44px;font-size:14.4px;color:var(--ink2)}
+  .pts li::before{content:counter(p);position:absolute;left:0;top:0;width:30px;height:30px;background:var(--ink);color:#fff;font-family:var(--disp);font-size:16px;display:flex;align-items:center;justify-content:center}
+  .pts.o li::before{background:var(--o)}
+  .pts li b{color:var(--ink)}
+  .pts li .why{display:block;font-size:12.5px;color:var(--ink3);margin-top:3px}
+
+  /* plan */
+  .area{display:grid;grid-template-columns:170px 1fr;gap:18px;padding:18px 0;border-bottom:1px solid var(--line)}
+  .area:last-child{border-bottom:none}
+  .area h4{margin:0;font-family:var(--disp);font-size:20px;font-weight:500}
+  .area h4 small{display:block;font-family:var(--sans);font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--o);font-weight:700;margin-top:4px}
+  .area p{font-size:13.8px;color:var(--ink2);margin:0 0 8px}
+  .area .row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+  .area .box{background:var(--paper);border:1px solid var(--line);padding:9px 12px;font-size:12.8px;color:var(--ink2)}
+  .area .box b{display:block;font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:var(--ink3);margin-bottom:2px}
+
+  .vs{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);background:var(--white)}
+  .vs>div{padding:18px 20px}
+  .vs>div+div{border-left:1px solid var(--line)}
+  .vs h4{margin:0 0 10px;font-family:var(--disp);font-size:19px;font-weight:500}
+  .vs ul{margin:0;padding-left:18px;font-size:13.4px;color:var(--ink2);display:grid;gap:5px}
+  .vs .dept{background:var(--ink);color:#fff}
+  .vs .dept h4{color:var(--o)}.vs .dept ul{color:#e2d8d1}
+
+  .tl{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);background:var(--white)}
+  .tl>div{padding:14px 16px;border-right:1px solid var(--line)}
+  .tl>div:last-child{border-right:none}
+  .tl .w{font-size:10.5px;letter-spacing:1.6px;text-transform:uppercase;color:var(--o);font-weight:800;margin-bottom:6px}
+  .tl h5{margin:0 0 6px;font-family:var(--disp);font-size:17px;font-weight:500}
+  .tl ul{margin:0;padding-left:16px;font-size:12.6px;color:var(--ink2);display:grid;gap:3px}
+
+  .need{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .need div{background:var(--white);border:1px solid var(--line);padding:11px 14px;font-size:13.4px;color:var(--ink2)}
+  .need div b{color:var(--ink)}
+
+  .close{background:var(--ink);color:#fff;padding:36px 56px}
+  .close p{font-family:var(--disp);font-size:22px;line-height:1.35;margin:0 0 14px;font-weight:300;max-width:680px}
+  .close p b{color:var(--o);font-weight:500}
+  .close .s{font-family:var(--sans);font-size:13px;color:#c9bdb5;max-width:680px}
+  .foot{padding:18px 56px;font-size:11.5px;color:var(--ink3);border-top:1px solid var(--line)}
+  .foot b{color:var(--ink2)}
+
+  @media(max-width:720px){
+    .wrap,section,.cover,.close,.foot{padding-left:22px;padding-right:22px}
+    .g2,.g3,.vs,.need,.tl{grid-template-columns:1fr}
+    .vs>div+div{border-left:none;border-top:1px solid var(--line)}
+    .tl>div{border-right:none;border-bottom:1px solid var(--line)}
+    .area{grid-template-columns:1fr}
+    .cover h1{font-size:34px}
+  }
+  @media print{
+    body{background:#fff}
+    .page{max-width:none}
+    section{break-inside:avoid}
+    .cover,.close{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    a{color:inherit;text-decoration:none}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- PORTADA -->
+<div class="cover">
+  <div class="top">
+    <div class="wm">melendo<small>Materiales de construcción</small></div>
+    <div class="meta"><b>Informe externo de presencia digital</b><br>Preparado por OpsPilot · Córdoba<br>Datos recogidos el 4 de septiembre de 2026</div>
+  </div>
+  <h1>Tenéis <em>410 reseñas</em> y dos puestos en el mapa de Google. Vuestra web tarda 22 segundos en decirlo.</h1>
+  <p class="sub">Hemos mirado Melendo como lo haría un cliente que va a reformar: buscando en Google, leyendo reseñas, entrando en la web desde el móvil, mirando las redes. Esto es lo que se ve desde fuera, con cifras, y lo que haríamos con ello.</p>
+  <div class="stats">
+    <div class="st"><div class="n num">4,4 <span>· 410</span></div><div class="l">Reseñas en Google, dos sedes</div></div>
+    <div class="st"><div class="n num">2<span>/3</span></div><div class="l">Puestos del mapa en «materiales de construcción córdoba»</div></div>
+    <div class="st"><div class="n num">22<span> s</span></div><div class="l">Carga completa de la web</div></div>
+    <div class="st"><div class="n num">2018</div><div class="l">Última publicación en Facebook</div></div>
+  </div>
+</div>
+
+<!-- HALLAZGO -->
+<div class="wrap" style="padding-bottom:20px">
+  <div class="kick">El hallazgo</div>
+  <div class="hall">
+    <p>Sois el almacén independiente con más reseñas de Córdoba, con mejor nota que Obramat. <b>Nadie que no os conozca ya puede enterarse:</b> la web no lo cuenta, las redes llevan años calladas y en «azulejos córdoba», que es lo que la gente busca cuando va a reformar, no aparecéis.</p>
+    <div class="who">Cada afirmación de este informe lleva su dato y su fuente. Nada es opinión.</div>
+  </div>
+</div>
+
+<!-- LO QUE HACÉIS BIEN -->
+<section>
+  <div class="kick">01 · Lo que hacéis bien</div>
+  <h2>Tenéis lo que no se puede comprar</h2>
+  <p class="lead">Lo difícil en este sector es la confianza, y la vuestra ya está construida. Lo que sigue es lo que un competidor pagaría por tener.</p>
+  <div class="grid g3" style="margin-top:18px">
+    <div class="card ok"><div class="d ok num">410</div><h4>Reseñas con 4,4 de media</h4><p>203 en la tienda de Chinales y 207 en el almacén de Virgen del Mar. Obramat tiene más, pero peor nota. Los demás almacenes de Córdoba no llegan a 130.<span class="src">Google Maps · 4 sep 2026</span></p></div>
+    <div class="card ok"><div class="d ok">2 de 3</div><h4>Puestos del mapa de Google</h4><p>En «materiales de construcción córdoba» las dos sedes de Melendo ocupan dos de los tres huecos del mapa, por encima de Obramat y sus 1.200 reseñas.<span class="src">Búsqueda Google, Córdoba · 4 sep 2026</span></p></div>
+    <div class="card ok"><div class="d ok">Personas</div><h4>Las reseñas nombran a quien atiende</h4><p>«Me atendió Fátima y me encantó». «Te asesoran estupendamente». «He reformado desde cero y me han ayudado muchísimo». Eso no lo tiene una gran superficie.<span class="src">Reseñas Google, ficha Chinales</span></p></div>
+    <div class="card ok"><div class="d ok num">3.767</div><h4>Seguidores en TikTok</h4><p>@almacenes.melendo, «Casa de los Azulejos». Hay público que quiere ver material. Es la única red donde alguien os ha encontrado.<span class="src">TikTok · 4 sep 2026</span></p></div>
+    <div class="card ok"><div class="d ok">3D</div><h4>Diseño de interiores con infografías</h4><p>Ver el baño terminado antes de comprar una sola pieza. Es un argumento de venta enorme que hoy está enterrado en un párrafo de la web.<span class="src">melendo.es</span></p></div>
+    <div class="card ok"><div class="d ok">15</div><h4>Primeras marcas</h4><p>Roca, Keraben, Dune, Fanal, STN, Realonda, Hisbalit, Alcor, Mainzu, Prissmacer, GME, Deyban, Bestile, Fabresa, Sanchis. Nombres que el cliente reconoce.<span class="src">melendo.es</span></p></div>
+  </div>
+</section>
+
+<!-- LO QUE SE VE DESDE FUERA -->
+<section class="alt">
+  <div class="kick">02 · Lo que se ve desde fuera</div>
+  <h2>Un cliente que no os conoce, hoy</h2>
+  <p class="lead">Imaginad a alguien de Córdoba que va a reformar el baño y no ha oído hablar de Melendo. Esto es lo que le pasa.</p>
+
+  <h3>Busca en Google</h3>
+  <div style="overflow-x:auto"><table>
+    <tr><th>Lo que escribe</th><th>Quién sale en el mapa</th><th>Quién sale en los resultados</th><th>¿Melendo?</th></tr>
+    <tr><td><b>materiales de construcción córdoba</b></td><td>Melendo (Virgen del Mar) · Melendo (Chinales) · Obramat</td><td>BigMat · Obramat · Unamacor · BigMat Córdoba · Bernier · Diperplac · Leroy Merlin</td><td class="si">Sí, en el mapa. No en resultados.</td></tr>
+    <tr><td><b>azulejos córdoba</b></td><td>Cerámica Cordobesa (53 reseñas) · Jucrimar (60) · Bernier (122)</td><td>Leroy Merlin · Bernier · Azulejos Sola · Interazulejo</td><td class="no">No. Con 410 reseñas.</td></tr>
+    <tr><td><b>almacén construcción córdoba baños azulejos reforma</b></td><td>Porcelanosa (anuncio pagado) · Obramat · Jucrimar</td><td>Obramat · Bernier · Unamacor · BigMat · Jucrimar</td><td class="no">No.</td></tr>
+    <tr><td><b>almacenes melendo córdoba</b></td><td>Las dos sedes</td><td>melendo.es · Facebook · directorios</td><td class="si">Sí (os buscan por nombre)</td></tr>
+  </table></div>
+  <p style="font-size:13px;color:var(--ink3);margin-top:8px">Lectura: os encuentra quien ya os conoce, y quien busca «materiales de construcción» en general. Quien busca <b>azulejos, baños o reforma</b>, que es quien va a gastar, no os ve. La causa está en la ficha de Google: vuestra categoría es «Proveedor de materiales de construcción» y no tenéis los servicios ni las categorías secundarias que sí tienen Bernier o Jucrimar.</p>
+
+  <h3>Entra en la web desde el móvil</h3>
+  <div class="grid g3">
+    <div class="card bad"><div class="d bad num">22 s</div><h4>Hasta que termina de cargar</h4><p>4,5 MB y 103 peticiones, 40 de ellas scripts. El primer contenido aparece a los 1,8 s; el resto de la página sigue cargando durante 20 segundos más.<span class="src">Medido en navegador · 4 sep 2026</span></p></div>
+    <div class="card bad"><div class="d bad">Código a la vista</div><h4>El menú muestra <span style="font-family:var(--mono);font-size:13px">current-item active"&gt;</span></h4><p>Y entre cada opción del menú aparece <span style="font-family:var(--mono)">"&gt;</span>. Es HTML roto visible para cualquier visitante desde hace tiempo.<span class="src">melendo.es, cabecera</span></p></div>
+    <div class="card bad"><div class="d bad">3 faltas</div><h4>En los titulares principales</h4><p>«PORYECTOS para toda una vida», «primeras marcas a tu DISPOSCIÓN», «MATERIARLES de construcción». Son los tres H1 de la página, lo primero que lee Google.<span class="src">melendo.es</span></p></div>
+    <div class="card bad"><div class="d bad">0</div><h4>Reseñas visibles</h4><p>410 reseñas en Google y ninguna en la web. Tampoco hay enlace a las fichas ni a las redes.<span class="src">melendo.es</span></p></div>
+    <div class="card bad"><div class="d bad">Sin WhatsApp</div><h4>Ni catálogo, ni precios, ni horarios</h4><p>El único contacto es un formulario, dos teléfonos y dos números de fax. El botón del formulario dice «Send Message», en inglés.<span class="src">melendo.es</span></p></div>
+    <div class="card bad"><div class="d bad num">1.529</div><h4>Caracteres de texto en toda la home</h4><p>Menos que este informe hasta aquí. Google no tiene de qué posicionaros. Además: Joomla sin actualizar y fotos de catálogo, ninguna de vuestras tiendas.<span class="src">melendo.es</span></p></div>
+  </div>
+
+  <h3>Mira las redes</h3>
+  <div style="overflow-x:auto"><table>
+    <tr><th>Red</th><th>Cuenta</th><th>Seguidores</th><th>Estado</th><th>Lectura</th></tr>
+    <tr><td><b>TikTok</b></td><td>@almacenes.melendo</td><td class="num">3.767</td><td><span class="tag ok">viva</span></td><td>El activo. Pero sigue a 6.977 cuentas: crecimiento a base de seguir para que te sigan, no de contenido. No está enlazada desde ningún sitio.</td></tr>
+    <tr><td><b>Facebook</b></td><td>Melendo</td><td class="num">434</td><td><span class="tag bad">parada</span></td><td>Última publicación: 12 de enero de 2018. Es lo primero que sale al buscaros; parece una empresa cerrada.</td></tr>
+    <tr><td><b>Instagram</b></td><td>@melendochinales1</td><td class="num">60</td><td><span class="tag bad">3 publicaciones</span></td><td>Solo la tienda de Chinales, sin apenas contenido. Es la red donde vive la reforma y la decoración.</td></tr>
+    <tr><td><b>Google</b></td><td>2 fichas + 1 fantasma</td><td class="num">410 reseñas</td><td><span class="tag o">a medias</span></td><td>Actualizada por vosotros hace 12 semanas: bien. Pero hay una tercera ficha «Melendo» con categoría «Tienda de artículos de cristal» (4,6 · 43) que confunde. Y en las respuestas a reseñas hay margen: una respuesta a una crítica negativa discute con el cliente en público.</td></tr>
+  </table></div>
+</section>
+
+<!-- LO QUE NO HACÉIS Y PODRÍAIS -->
+<section>
+  <div class="kick">03 · Lo que no hacéis y podríais</div>
+  <h2>Cinco cosas concretas</h2>
+  <p class="lead">Ordenadas por lo que cuestan y lo que devuelven. Las tres primeras no necesitan web nueva.</p>
+  <ol class="pts o" style="margin-top:18px">
+    <li><b>Ganar el mapa de «azulejos córdoba» con la ficha que ya tenéis.</b> Los tres que salen hoy suman 235 reseñas entre los tres; vosotros tenéis 410. Faltan categorías secundarias (tienda de azulejos, tienda de baños, tienda de sanitarios), la lista de servicios, fotos de las tiendas y las marcas. Y cerrar o fusionar la ficha «artículos de cristal».<span class="why">Qué se gana: aparecer en las búsquedas donde se decide una reforma. Coste: horas, no dinero.</span></li>
+    <li><b>Enseñar las 410 reseñas donde se toma la decisión.</b> En la web, en un cartel en tienda, en las redes. Y un protocolo de respuesta: a todas, en 48 horas, sin discutir nunca en público, con el nombre de quien atendió. Vuestros clientes ya lo hacen por vosotros: «me atendió Fátima».<span class="why">Qué se gana: convertir confianza que ya existe en clientes nuevos.</span></li>
+    <li><b>Despertar las redes con lo que ya grabáis para TikTok.</b> El mismo vídeo de un azulejo o de un baño terminado vale para Instagram y Facebook. Una publicación de 2018 en Facebook cuesta más de lo que parece: es la primera impresión de quien os busca por nombre.<span class="why">Qué se gana: que la reforma de Córdoba, que vive en Instagram, os vea.</span></li>
+    <li><b>Una web que trabaje: rápida, con WhatsApp, con reseñas, con catálogo por categorías y con el 3D como protagonista.</b> La actual tarda 22 segundos, enseña código roto y tiene faltas en los titulares. No es cuestión de estética: es que hoy resta.<span class="why">Qué se gana: una web que reciba a quien viene de Google y del TikTok y lo convierta en visita a tienda o presupuesto.</span></li>
+    <li><b>Medir.</b> Cuántos presupuestos llegan a la semana, de dónde vienen, cuántos se cierran. Hoy no se sabe. Sin eso, ni un comercial ni una campaña se pueden evaluar.<span class="why">Qué se gana: saber qué funciona antes de gastar en lo que no.</span></li>
+  </ol>
+</section>
+
+<!-- LO QUE HARÍAMOS -->
+<section class="alt">
+  <div class="kick">04 · Lo que haríamos y por qué</div>
+  <h2>Un departamento, no un comercial</h2>
+  <p class="lead">Nos habéis dicho que estáis pensando en contratar a un comercial. Lo entendemos: falta que entren clientes nuevos. La pregunta es <b>qué le vais a dar para trabajar</b>. Un comercial con la web actual y las redes paradas sale a vender sin material. Lo que proponemos es montar antes lo que hace que os encuentren, y que cada euro se pueda medir.</p>
+
+  <div class="vs" style="margin:18px 0 26px">
+    <div>
+      <h4>Un comercial</h4>
+      <ul>
+        <li>Una persona, una agenda, ocho horas.</li>
+        <li>Llega a quien visita o llama. Uno a uno.</li>
+        <li>Cuando está de baja o se va, se lleva la cartera.</li>
+        <li>No arregla la web, ni las fichas, ni las redes.</li>
+        <li>Difícil de medir: ¿cuánto vende por él y cuánto por la marca?</li>
+        <li>Coste fijo mensual desde el primer día, con o sin resultados.</li>
+      </ul>
+    </div>
+    <div class="dept">
+      <h4>Un departamento</h4>
+      <ul>
+        <li>Trabaja 24 horas: Google, web, redes, WhatsApp.</li>
+        <li>Llega a todo el que busca en Córdoba «azulejos», «baños», «reforma».</li>
+        <li>Se queda en la empresa: fichas, web, contenido y datos son vuestros.</li>
+        <li>Arregla lo que resta hoy antes de empezar a sumar.</li>
+        <li>Cada solicitud tiene origen: se sabe qué funciona.</li>
+        <li>Por fases, y cada fase se mide antes de pasar a la siguiente.</li>
+      </ul>
+    </div>
+  </div>
+  <p style="font-size:13px;color:var(--ink3)">No son excluyentes: un comercial rinde mucho más cuando llega a un cliente que ya ha visto las reseñas, el 3D y la web. Lo uno prepara lo otro.</p>
+
+  <h3>Las seis áreas del departamento</h3>
+
+  <div class="area">
+    <h4>Google<small>Semana 1</small></h4>
+    <div>
+      <p>Optimizar las dos fichas: categorías secundarias (azulejos, baños, sanitarios, pavimentos), servicios con descripción, horarios reales (el de profesionales incluido), 20 fotos de las tiendas y del material, preguntas frecuentes, publicaciones semanales. Resolver la tercera ficha. Protocolo de respuesta a reseñas.</p>
+      <div class="row"><div class="box"><b>Por qué</b>Con 410 reseñas tenéis que estar en «azulejos córdoba» por delante de quien tiene 53. Es la palanca más barata que existe.</div><div class="box"><b>Cómo se mide</b>Aparecer en el mapa para 5 búsquedas de reforma en 30 días. Llamadas y rutas desde la ficha.</div></div>
+    </div>
+  </div>
+
+  <div class="area">
+    <h4>Web<small>Mes 1</small></h4>
+    <div>
+      <p>Web nueva, rápida (menos de 2 segundos), con WhatsApp, reseñas reales, catálogo por categorías (azulejos y pavimentos, baños, materiales de obra), las marcas, el servicio 3D como protagonista, las dos sedes con horarios, una sección para profesionales y otra para particulares, y un formulario de presupuesto que sirva para presupuestar sin visita. <b>La maqueta ya está hecha:</b> la tenéis en el enlace de abajo, con vuestros colores y vuestros datos.</p>
+      <div class="row"><div class="box"><b>Por qué</b>Quien llega desde Google o TikTok hoy encuentra 22 segundos de carga y código roto. La web es donde se pierde lo que las reseñas ganan.</div><div class="box"><b>Cómo se mide</b>Solicitudes de presupuesto y clics a WhatsApp por semana. Velocidad y posición en Google para 10 palabras clave.</div></div>
+    </div>
+  </div>
+
+  <div class="area">
+    <h4>Reseñas<small>Semana 1 y siempre</small></h4>
+    <div>
+      <p>Cartel con QR en las dos tiendas, mensaje de WhatsApp al entregar, respuesta a todas las reseñas en 48 horas con nombre, y las mejores frases en la web y en redes. Objetivo: 500 reseñas antes de fin de año y una nota que suba.</p>
+      <div class="row"><div class="box"><b>Por qué</b>Es vuestra prueba de autoridad, ya la tenéis, y no la enseñáis. Cada reseña nueva pesa en el mapa.</div><div class="box"><b>Cómo se mide</b>Reseñas nuevas al mes; tiempo de respuesta.</div></div>
+    </div>
+  </div>
+
+  <div class="area">
+    <h4>Contenido y redes<small>Mes 1 a 3</small></h4>
+    <div>
+      <p>Partir del TikTok que ya funciona: mismo vídeo, tres redes. Tres pilares: <b>material</b> (el azulejo en mano, texturas, novedades), <b>resultado</b> (antes/después de reformas de clientes, el 3D frente a la obra terminada), <b>consejo</b> (qué pavimento para qué sitio, cuánto material pedir, errores típicos). Dos publicaciones y un vídeo por semana. Guía de fotos para el personal de tienda. Reactivar Facebook e Instagram con bios, enlaces y horarios correctos.</p>
+      <div class="row"><div class="box"><b>Por qué</b>La reforma en Córdoba se decide viendo fotos. Tenéis el material y el público; falta el ritmo.</div><div class="box"><b>Cómo se mide</b>Seguidores reales (no follow-back), guardados, mensajes recibidos, visitas a la web desde redes.</div></div>
+    </div>
+  </div>
+
+  <div class="area">
+    <h4>Meta Ads<small>A partir del mes 2</small></h4>
+    <div>
+      <p>Campañas locales en Instagram y Facebook a 25 km de Córdoba, con dos mensajes: el 3D («ve tu baño antes de comprarlo») y la promoción de temporada. Solo cuando la web y las fichas estén listas para recibir el tráfico. Presupuesto pequeño y creciente según resultado.</p>
+      <div class="row"><div class="box"><b>Por qué</b>Porcelanosa ya paga por salir en «reforma córdoba». Con contenido propio y reseñas, cada euro rinde más que el suyo.</div><div class="box"><b>Cómo se mide</b>Coste por solicitud de presupuesto. Se corta lo que no funciona en 2 semanas.</div></div>
+    </div>
+  </div>
+
+  <div class="area">
+    <h4>Medición<small>Desde el día 1</small></h4>
+    <div>
+      <p>Una hoja con seis números que se rellena el viernes en cinco minutos: solicitudes, origen («¿cómo nos has conocido?»), tiempo de respuesta, presupuestos aceptados, reseñas nuevas, visitas a la ficha. Un informe de una cara al mes.</p>
+      <div class="row"><div class="box"><b>Por qué</b>Hoy no se sabe cuántos presupuestos entran ni de dónde. Sin eso no se puede decidir nada, ni un comercial ni una campaña.</div><div class="box"><b>Cómo se mide</b>Que la hoja tenga las 4 semanas del mes rellenas.</div></div>
+    </div>
+  </div>
+
+  <h3>Por fases</h3>
+  <div class="tl">
+    <div><div class="w">Semana 1</div><h5>Lo que resta, fuera</h5><ul><li>Fichas de Google completas</li><li>Ficha fantasma resuelta</li><li>Protocolo y kit de reseñas</li><li>WhatsApp Business</li><li>Facebook e Instagram: bios, enlaces, primer post</li></ul></div>
+    <div><div class="w">Mes 1</div><h5>La web nueva</h5><ul><li>Web a partir de la maqueta</li><li>Formulario de presupuesto</li><li>Catálogo por categorías</li><li>Reseñas y 3D en portada</li><li>Hoja de métricas en marcha</li></ul></div>
+    <div><div class="w">Meses 2–3</div><h5>Contenido y anuncios</h5><ul><li>Calendario semanal en 3 redes</li><li>Guía de fotos para tienda</li><li>Primera campaña Meta local</li><li>Casos: 3 reformas con 3D vs. real</li><li>Primer informe mensual</li></ul></div>
+    <div><div class="w">En adelante</div><h5>Mantener y crecer</h5><ul><li>Medir, leer, corregir, publicar</li><li>Revisión trimestral</li><li>Campañas por temporada</li><li>Cuenta de profesionales</li><li>Tienda online, si los datos lo piden</li></ul></div>
+  </div>
+</section>
+
+<!-- LA MAQUETA -->
+<section>
+  <div class="kick">05 · El ejemplo</div>
+  <h2>Vuestra web nueva, ya maquetada</h2>
+  <p class="lead">No os pedimos que imaginéis nada. Hemos hecho la portada con vuestros colores, vuestro logotipo, vuestras dos sedes, vuestras marcas y frases reales de vuestras reseñas. Cada bloque responde a un dato de este informe.</p>
+  <div style="overflow-x:auto;margin-top:14px"><table>
+    <tr><th>Bloque de la maqueta</th><th>Dato que lo justifica</th></tr>
+    <tr><td><b>Titular «Materiales de construcción en Córdoba, con quien te asesora de verdad»</b></td><td>La palabra clave por la que ya estáis en el mapa + lo que dicen las reseñas (asesoramiento, personal).</td></tr>
+    <tr><td><b>Barra de confianza: 4,4 · 410 reseñas · 2 sedes · 15 marcas · diseño 3D</b></td><td>Todo verificable hoy. Nada de esto está en la web actual.</td></tr>
+    <tr><td><b>WhatsApp fijo y «Pedir presupuesto»</b></td><td>Trujillo lo tiene; vosotros solo formulario y fax.</td></tr>
+    <tr><td><b>Categorías: azulejos y pavimentos · baños · materiales de obra · proyectos 3D</b></td><td>Cada una es una página que puede posicionar en «azulejos córdoba», donde hoy no estáis.</td></tr>
+    <tr><td><b>Sección «Ve tu reforma antes de hacerla» (3D)</b></td><td>Vuestro servicio diferencial, hoy enterrado en un párrafo.</td></tr>
+    <tr><td><b>Reseñas reales con nombre</b></td><td>«Me atendió Fátima», «te asesoran estupendamente», «repetiría mil veces».</td></tr>
+    <tr><td><b>Dos sedes con horarios y «para profesionales»</b></td><td>Chinales abre de 7:30 a 14:30 para profesionales (bio de Instagram). Es un argumento para el gremio que nadie más usa.</td></tr>
+    <tr><td><b>Objeción: «¿Por qué Melendo y no una gran superficie?»</b></td><td>Obramat tiene 1.200 reseñas y peor nota. La respuesta son las personas y el 3D.</td></tr>
+  </table></div>
+  <p style="margin-top:14px;font-size:13.5px;color:var(--ink2)">Las fotos de la maqueta son marcadores: irán las vuestras, de vuestras tiendas y de reformas reales. Las cifras entre corchetes son las que confirmaremos con vosotros.</p>
+</section>
+
+<!-- LO QUE NECESITAMOS -->
+<section class="alt">
+  <div class="kick">06 · Qué necesitaríamos de vosotros</div>
+  <h2>Dos horas y unos accesos</h2>
+  <div class="need" style="margin-top:14px">
+    <div><b>Accesos</b>: fichas de Google de las dos sedes, Facebook, Instagram, TikTok y el dominio melendo.es.</div>
+    <div><b>Fotos</b>: 20 de las tiendas, el almacén, el equipo y material en mano. Con el móvil vale; os damos la guía.</div>
+    <div><b>Tres reformas</b> con su infografía 3D y la foto real terminada, con permiso del cliente.</div>
+    <div><b>Datos a confirmar</b>: horarios de cada sede, desde qué año, número de referencias en stock, plazo de entrega en obra, zona de reparto.</div>
+    <div><b>Una persona de contacto</b> en tienda para las fotos y las reseñas (por lo que dicen los clientes, ya sabéis quién).</div>
+    <div><b>Dos horas</b> de reunión para cerrar textos, precios orientativos por categoría y el mensaje de la primera campaña.</div>
+  </div>
+</section>
+
+<div class="close">
+  <p>Cada semana que la web tarda 22 segundos y Facebook dice 2018, alguien que buscó «azulejos córdoba» compra en Bernier o en Obramat <b>sin haber sabido que existía el almacén con más reseñas de la ciudad después de Obramat, y con mejor nota.</b></p>
+  <p class="s">Lo que proponemos no es una web: es que se os encuentre, que se os crea y que se pueda medir. La primera fase se hace en una semana y no necesita programación. Lo demás, por fases, con datos delante en cada paso.</p>
+</div>
+<div class="foot">
+  <b>Método y fuentes.</b> Búsquedas realizadas en Google desde Córdoba el 4 de septiembre de 2026 en ventana sin sesión. Reseñas y fichas: Google Maps. Redes: perfiles públicos de TikTok, Facebook e Instagram. Web: melendo.es medida en navegador (tamaño transferido, peticiones, tiempos de carga, estructura de encabezados). Competencia: obramat.es, bigmatcordoba.es, grupounamacor.com, materialestrujillo.com, hbernier.es, jucrimar.com. Datos societarios: registros públicos (CNAE 4673/4752). Ningún dato de este informe procede de dentro de la empresa.
+  &nbsp;·&nbsp; OpsPilot · Córdoba
+</div>
+
+</div>
+</body>
+</html>
