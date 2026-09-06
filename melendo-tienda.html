@@ -613,7 +613,7 @@
   document.addEventListener('error',e=>{if(e.target&&e.target.tagName==='IMG')fb(e.target)},true);
   function sweep(){document.querySelectorAll('img').forEach(i=>{if(i.complete&&i.naturalWidth===0)fb(i)})}
   window.addEventListener('load',sweep);
-  setTimeout(()=>document.querySelectorAll('img').forEach(i=>{if(!i.complete||i.naturalWidth===0)fb(i)}),4500);
+  setTimeout(()=>document.querySelectorAll('img').forEach(i=>{if(i.complete&&i.naturalWidth===0)fb(i);else if(!i.complete&&i.loading!=='lazy')fb(i)}),8000);
 })();
 </script>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
